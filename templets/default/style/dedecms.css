@@ -1,0 +1,237 @@
+/***
+ *	DedeCMS v5.6 Style (Default Style)
+ *	dedecms.com  Author Networker  2010.02.05
+ **/
+ 
+/*---------- import ---------*/
+@import url("layout.css");
+@import url("page.css");
+
+
+/*---------- base ---------*/
+*{
+	padding:0px;
+	margin:0px;
+}
+html{
+	background:#FFF;
+}
+body{
+	font:12px Verdana,Arial,Tahoma;
+}
+img{
+	border:none;
+}
+
+a{
+	color:#256EB1;
+	text-decoration:none;
+}
+a:hover{
+	color:#ba2636;
+	text-decoration:underline;
+}
+ul{
+	list-style:none;
+}
+input,select,button{
+	font:12px Verdana,Arial,Tahoma;
+	vertical-align:middle;
+}
+/*标题和副标题*/
+* > .title{
+	font-size:20px;
+	padding:20px 0;
+	text-align:center;
+}
+* > .sub-title{
+	font-size:15px;
+	padding-bottom: 20px;
+	font-weight:200;
+	color:rgb(150, 150, 150);
+	text-align:center;
+}
+.content{
+	max-width: 1240px;
+	margin: 0 auto;
+	padding:0 10px;
+}
+
+/* -----------header ---------*/
+.header_top{
+	height:50px!important;
+	line-height:25px;
+	border-bottom:1px solid #DBDBDB;
+	color:#676767;
+	overflow:hidden;
+    background:red;
+	}
+/*顶部导航*/
+.nav{
+	max-width:1240px;
+	margin:0 auto;
+	display:flex;
+	justify-content:space-between;
+}
+.nav a{
+	color:#fff;
+	font-size:16px;
+	line-height:50px;  /*当**单行文字**的 `line-height` 值 = 容器**固定高度**时，文字会自动在容器内上下居中。*/
+	text-decoration:none;
+	padding: 0 30px; /*用padding撑开a标签，这样，hover的时候就能固定宽度*/
+}
+.nav a:hover{
+	background: #bcb7b7;
+}
+/*---------- 轮播图（顶部大图） ----------*/
+.banner{
+	height:500px;
+	position:relative;
+	overflow:hidden;
+}
+/*---------- 轮播图（新闻左侧小图） ----------*/
+.banner-left{
+	width:100%;
+	height:380px;
+	position:relative;
+	overflow:hidden;
+}
+
+/*---- 轮播通用机制（任何带 data-carousel 的容器都生效）----*/
+[data-carousel] .slide-img{
+	width:100%;
+	display:block;
+	opacity:0;
+	transition:opacity .8s ease;
+}
+[data-carousel] .slide-img.active{
+	opacity:1;
+}
+/* 第一张留在文档流撑出高度，其余绝对定位叠加 */
+[data-carousel] .slide-img:not(.active){
+	position:absolute;
+	top:0;
+	left:0;
+}
+[data-carousel] .slide-dots{
+	position:absolute;
+	bottom:10px;
+	left:50%;
+	transform:translateX(-50%);
+	margin:0;
+	padding:0;
+	list-style:none;
+	display:flex;
+	gap:6px;
+	z-index:10;
+}
+[data-carousel] .slide-dots li{
+	width:8px;
+	height:8px;
+	border-radius:50%;
+	background:rgba(255,255,255,.5);
+	cursor:pointer;
+	transition:background .3s;
+}
+[data-carousel] .slide-dots li.active{
+	background:#fff;
+}
+/*---------- 5大核心业务 ----------*/
+.business{
+	margin:0 auto;
+	text-align:center;
+}
+.business-logo{
+	display:flex;
+	gap:15px; /*搭配flex:1使用，留空*/
+}
+.business .item{
+	flex:1; /*平分宽度*/
+	padding:20px;
+	cursor:pointer; /*手掌效果*/
+	border:1px solid #ccc;
+}
+.business .item:hover{
+	background: red;
+}
+.item .text{
+	padding-top:22px;
+	font-size:16px;
+}
+.item .text:hover{
+	color:#fff;
+}
+
+.business img{
+	max-width:50px;
+}
+/*---------- 新闻板块 ----------*/
+.news{
+	display:flex;
+	gap:15px;
+	margin:20px 0;
+}
+.news-left{
+	width:45%;
+}
+.news-right{
+	flex:1;
+}
+.banner-left img{
+	object-fit:contain;
+}
+/*---------- 友情链接 ----------*/
+.img-section{
+	display:flex;
+	gap:40px;
+	flex-wrap:wrap;
+	margin-bottom:30px;
+}
+.img-section img{
+	border:1px solid #ccc;
+	padding:10px;
+	width:180px;
+	height:50px;
+	object-fit:contain;
+	cursor:pointer;
+}
+/*----------  footer ---------*/
+footer{
+	background:rgb(27, 27, 27);
+	color:#CCCCCC;
+	padding: 10px;
+}
+.footer-section{
+	display:flex;
+	justify-content:space-between;
+	max-width:1240px;
+	margin:0 auto;
+}
+.footer-right img{
+	max-width:100px;
+	border:1px solid white;
+	padding:10px;
+	background:white;
+	margin-bottom:10px;
+}
+.footer-right{
+	padding-top:10px;
+}
+.footer-left{
+	font-size:14px;
+}
+.footer-left img{
+	max-width:80px;
+}
+.footer-left .item{
+	display:flex;
+	gap:10px;
+	margin:10px 0;
+}
+#police img{
+	width:30px;
+	object-fit: contain;
+}
+#police .text{
+	padding-top:5px;
+}

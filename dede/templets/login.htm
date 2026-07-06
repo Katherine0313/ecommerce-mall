@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $cfg_soft_lang; ?>">
+<title><?php echo $cfg_softname." ".$cfg_version; ?></title>
+<link href="css/base.css" rel="stylesheet" type="text/css" />
+<link href="css/login.css" rel="stylesheet" type="text/css" />
+<script src="../include/js/jquery/jquery.js" language="javascript" type="text/javascript"></script>
+<script type="text/javascript">
+$ = jQuery;
+function changeAuthCode() {
+	var num = 	new Date().getTime();
+	var rand = Math.round(Math.random() * 10000);
+	num = num + rand;
+	$('#ver_code').css('visibility','visible');
+	if ($("#vdimgck")[0]) {
+		$("#vdimgck")[0].src = "../include/vdimgck.php?tag=" + num;
+	}
+	return false;	
+}
+</script>
+
+<script src="../assets/pkg/jsencrypt/jsencrypt.min.js"></script>
+<script>
+function thisFormSubmit(that) {
+
+// 请替换为你的公钥
+const publicKey = `-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAywX1ptGijWzrQSh0VyZM
+1QE6+STX3ndCNzcS8iw0iY4J6v5OEX+upVKWWgoRAfzeXWOnn+3+xCb1YX9LiIrr
+HdG2xcXTaW7fiiB90j/8kklTw/1K+cf7jqMf0wp3KKgEhYv8Ef1d6qomvKNcrb+k
+JriYs6VCCz9KlD0hMuZQ8OjuAjybxhgim0DMFABv7Wlpokucept4GZMek7fG54mL
+6zLHtJgkJZ8EPLAcjPFw7B9ILWtffk2cyamhPFJUxbyl40xvSZiRL6YuabNgTs5C
+9aWPwloe8LNvE1n+iTvXJLb4jcZw5OMH66UV+OielzrYpT0eQQiAU5rTpsvKXh1k
+0QIDAQAB
+-----END PUBLIC KEY-----`;
+
+const password = document.getElementById('pwd');
+
+const encrypt = new JSEncrypt();
+encrypt.setPublicKey(publicKey);
+const encrypted = encrypt.encrypt(password.value);
+
+password.value = encrypted;
+
+that.form.submit();
+
+}
+</script>
+
+</head>
+<body>
+<div id="login-box">
+   <div class="login-top"><a href="../index.php" target="_blank" title="返回网站主页">返回网站主页</a></div>
+   <?php echo $redmsg; ?>
+   <div class="login-main">
+    <form name="form1" method="post" action="login.php">
+      <input type="hidden" name="gotopage" value="<?php if(!empty($gotopage)) echo dede_htmlspecialchars($gotopage);?>" />
+      <input type="hidden" name="dopost" value="login" />
+      <input name='adminstyle' type='hidden' value='newdedecms' />
+      <dl>
+	   <dt>用户名：</dt>
+	   <dd><input type="text" name="userid"/></dd>
+	   <dt>密&emsp;码：</dt>
+	   <dd><input type="password" class="alltxt" name="pwd" id="pwd"/></dd>
+	   <?php
+        	if(preg_match("/6/",$safe_gdopen))
+        	{
+        ?>
+	   <dt>验证码：</dt>
+	   <dd><input id="vdcode" type="text" name="validate" style="text-transform:uppercase;"/><img id="vdimgck" align="absmiddle" onClick="this.src=this.src+'?'" style="cursor: pointer;" alt="看不清？点击更换" src="../include/vdimgck.php"/>
+           <a href="#" onClick="changeAuthCode();">看不清？ </a></dd>
+		<?php
+       		}
+		?>
+		<dt>&nbsp;</dt>
+		<dd><button type="button" name="sm1" class="login-btn" onclick="thisFormSubmit(this);">登录</button></dd>
+	 </dl>
+	</form>
+   </div>
+   <div class="login-power">Powered by<a href="http://www.dedecms.com" title="DedeCMS官网"><strong>DedeCMS<?php echo $cfg_version; ?></strong></a>&copy; 2004-2024 <a href="http://www.desdev.cn" target="_blank">DesDev</a> Inc.</div>
+</div>
+
+</body>
+</html>
