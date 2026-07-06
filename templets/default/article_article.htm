@@ -27,7 +27,7 @@
     }</script>
     <script language="javascript" type="text/javascript" src="{dede:global.cfg_cmsurl/}/include/dedeajax2.js"></script>
 </head>
-<body class="articleview">
+<body>
 {dede:include filename="head.htm"/}
 <!-- /header -->
 <div class="content">
@@ -46,26 +46,24 @@
                 <h2>{dede:field.title/}</h2>
             </div>
             <!-- /title -->
-            <div class="info"><small>时间:</small>{dede:field.pubdate function="MyDate('Y-m-d
-                H:i',@me)"/}<small>来源:</small>{dede:field.source/} <small>作者:</small>{dede:field.writer/}
-                <small>点击:</small>
+            <div class="info">
+                <span class="item">时间:{dede:field.pubdate function="MyDate('Y-m-d
+                H:i',@me)"/}</span>
+                <span class="item">来源:{dede:field.source/}</span>
+                <span class="item">作者:{dede:field.writer/}</span>
+                <span class="item">点击:
                 <script src="{dede:field name='phpurl'/}/count.php?view=yes&aid={dede:field name='id'/}&mid={dede:field name='mid'/}"
                         type='text/javascript' language="javascript"></script>
-                次
+                次</span>
             </div>
             <!-- /info -->
-            {dede:field.description runphp='yes'}
-            if(@me<>'' )@me = '
-            <div class="intro">'.@me.'</div>
-            ';
-            {/dede:field.description}
-            <div>
+            <div class="intro-text">
                 <table width='100%'>
                     <tr>
                         <td>
                             {dede:field.body/}
                             {dede:field.vote/}
-                            (责任编辑：{dede:adminname/})
+                            <p class="editor">(责任编辑：{dede:adminname/})</p>
                         </td>
                     </tr>
                 </table>
@@ -76,25 +74,7 @@
                     {dede:pagebreak/}
                 </ul>
             </div>
-            <center>{dede:qrcode/}</center>
             <!-- /footer -->
-            <script type="text/javascript">
-                var contentRtPicAD2 = document.getElementById("contentRtPicAD2");
-                var stop = contentRtPicAD2.offsetTop - 60,
-                    docBody = document.documentElement || document.body.parentNode || document.body,
-                    hasOffset = window.pageYOffset !== undefined,
-                    scrollTop;
-                window.onscroll = function (e) {
-                    // cross-browser compatible scrollTop.
-                    scrollTop = hasOffset ? window.pageYOffset : docBody.scrollTop;
-
-                    if (scrollTop >= stop) {
-                        contentRtPicAD2.className = 'stick';
-                    } else {
-                        contentRtPicAD2.className = '';
-                    }
-                }
-            </script>
         </div>
     </div>
 </div>

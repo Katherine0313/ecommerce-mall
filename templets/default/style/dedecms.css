@@ -18,6 +18,9 @@ html{
 }
 body{
 	font:12px Verdana,Arial,Tahoma;
+	display:flex;
+	flex-direction:column;
+	min-height:100vh;
 }
 img{
 	border:none;
@@ -55,7 +58,11 @@ input,select,button{
 	max-width: 1240px;
 	margin: 0 auto;
 	padding:0 10px;
+	width:100%;
+	box-sizing:border-box;
+	flex:1;
 }
+
 
 /* -----------header ---------*/
 .header_top{
@@ -200,6 +207,7 @@ footer{
 	background:rgb(27, 27, 27);
 	color:#CCCCCC;
 	padding: 10px;
+	flex-shrink:0;
 }
 .footer-section{
 	display:flex;

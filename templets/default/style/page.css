@@ -2,52 +2,9 @@
  *	DedeCMS v5.3 Style (grass green)
  *	dedecms.com  Author pigz  2008-11-10 09:32
  **/
-/*---------新闻页样式---------*/
+/*---------新闻模板样式---------*/
 .top-img {
-    width: 1240px;
-    margin-bottom: 20px;
-}
-
-.top-img img {
-    width: 100%;
-}
-
-.intro {
-    display: flex;
-    gap: 25px;
-}
-
-.intro-left {
-    width: 40%;
-    background: url(/templets/default/images/long/side.png);
-    height: 300px;
-    background-size: cover;
-}
-
-.intro-left .item {
-    margin: 10px 0;
-    padding: 10px 0 10px 30px;
-}
-
-.intro-left .item.active{
-box-shadow: 0 0 12px 8px #f6eaea; /* 红色外发光:水平偏移(X) 垂直偏移(Y) 模糊半径 扩散半径 颜色 */
-}
-.intro-left a {
-    text-decoration: none;
-    font-size: 26px;
-}
-
-#lz-news {
-    margin-top: 30px;
-}
-
-/***
- *	DedeCMS v5.3 Style (grass green)
- *	dedecms.com  Author pigz  2008-11-10 09:32
- **/
-/*---------新闻页样式---------*/
-.top-img {
-    width: 1240px;
+    max-width: 1240px;
     margin-bottom: 20px;
 }
 
@@ -65,15 +22,18 @@ box-shadow: 0 0 12px 8px #f6eaea; /* 红色外发光:水平偏移(X) 垂直偏�
     background: url(/templets/default/images/long/side.png);
     height: 300px;
     background-size: cover;
+    margin-top:28px;
 }
-
+.intro-right {
+    flex:1;
+}
 .intro-left .item {
     margin: 10px 0;
     padding: 10px 0 10px 30px;
 }
 
 .intro-left .item.active{
-    box-shadow: 0 0 12px 8px #f6eaea; /* 红色外发光:水平偏移(X) 垂直偏移(Y) 模糊半径 扩散半径 颜色 */
+box-shadow: 0 0 12px 8px #f6eaea; /* 红色外发光:水平偏移(X) 垂直偏移(Y) 模糊半径 扩散半径 颜色 */
 }
 .intro-left a {
     text-decoration: none;
@@ -83,7 +43,43 @@ box-shadow: 0 0 12px 8px #f6eaea; /* 红色外发光:水平偏移(X) 垂直偏�
 #lz-news {
     margin-top: 30px;
 }
-
+/*资讯元信息*/
+.intro-right .info{
+    border-bottom: 1px #bd5656 solid;
+    padding-bottom: 20px;
+    color: #999;
+    font-size: 14px;
+}
+.info .item{
+    margin-right:10px;
+}
+/*正文*/
+.intro-text{
+    padding:8px 0;
+}
+.intro-text p{
+    margin: 15px 0;
+    font-size: 14px;
+    color:rgba(51,51,51,0.8);
+    line-height: 30px;
+    text-indent: 2em; /*首行缩进*/
+}
+/*摘要*/
+.description{
+    margin-top:10px;
+    color: #757171;
+}
+/* 责任编辑 */
+.editor{
+    margin-top:20px;
+    font-size:13px;
+    color:#999;
+    text-align:right;
+}
+/***
+ *	DedeCMS v5.3 Style (grass green)
+ *	dedecms.com  Author pigz  2008-11-10 09:32
+ **/
 
 .pleft {
     width: 712px;
