@@ -43,7 +43,7 @@ input,select,button{
 }
 /*标题和副标题*/
 * > .title{
-	font-size:20px;
+	font-size:24px;
 	padding:20px 0;
 	text-align:center;
 }
@@ -66,12 +66,15 @@ input,select,button{
 
 /* -----------header ---------*/
 .header_top{
-	height:50px!important;
+	height:80px!important;
 	line-height:25px;
 	border-bottom:1px solid #DBDBDB;
 	color:#676767;
 	overflow:hidden;
     background:red;
+	background-image: url("../images/long/head-left.png"),url("../images/long/head-right.png");
+	background-repeat:no-repeat, no-repeat;
+	background-position: left center, right center;
 	}
 /*顶部导航*/
 .nav{
@@ -83,7 +86,7 @@ input,select,button{
 .nav a{
 	color:#fff;
 	font-size:16px;
-	line-height:50px;  /*当**单行文字**的 `line-height` 值 = 容器**固定高度**时，文字会自动在容器内上下居中。*/
+	line-height:80px;  /*当**单行文字**的 `line-height` 值 = 容器**固定高度**时，文字会自动在容器内上下居中。*/
 	text-decoration:none;
 	padding: 0 30px; /*用padding撑开a标签，这样，hover的时候就能固定宽度*/
 }
@@ -145,7 +148,7 @@ input,select,button{
 }
 /*---------- 5大核心业务 ----------*/
 .business{
-	margin:0 auto;
+	margin:10px auto;
 	text-align:center;
 }
 .business-logo{
@@ -154,7 +157,7 @@ input,select,button{
 }
 .business .item{
 	flex:1; /*平分宽度*/
-	padding:20px;
+	padding:30px 20px;
 	cursor:pointer; /*手掌效果*/
 	border:1px solid #ccc;
 }
@@ -170,7 +173,7 @@ input,select,button{
 }
 
 .business img{
-	max-width:50px;
+	max-width:60px;
 }
 /*---------- 新闻板块 ----------*/
 .news{
