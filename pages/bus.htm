@@ -44,54 +44,78 @@
     <div class="top-img">
         <img src="/templets/default/images/long/top/top.png" alt="顶部图片" />
     </div>
-    <div class="place"><strong>当前位置:</strong> <a href="/index.php">首页</a> &gt; 公司业务 &gt; 汽车客运及站务服务</div>
+    <div class="place"><strong>当前位置:</strong> <a href="/index.php">首页</a> &gt; 公司业务 &gt; 汽车客运及站务服务
+    </div>
     <!-- /place -->
     <div class="intro">
-        <div class="intro-left">
-            <div class="item active" id="lz-news"><a>龙洲要闻</a></div>
-            <div class="item"><a>招投标</a></div>
+        <div class="intro-left" style="margin-top:34px;">
+            <div class="item"><a style="font-size:18px;">现代物流</a></div>
+            <div class="item active" id="lz-news"><a style="font-size:18px;">汽车客运及站务服务</a></div>
+            <div class="item"><a style="font-size:18px;">汽车制造及销售与服务</a></div>
+            <div class="item"><a style="font-size:18px;">成品油及天然气销售</a></div>
+            <div class="item"><a style="font-size:18px;">其他产业</a></div>
         </div>
-        <div class="intro-right">
-            <div class="title" id="news-title">汽车客运及站务服务</div>
-            <!-- /title -->
-            <div class="info">
-                <span class="item">时间:<span id="time">加载中...</span></span>
-                <span class="item">来源:本站</span>
-                <span class="item">作者:管理员</span>
-                <span class="item">点击:<span id="clicks">0</span> 次</span>
+        <div class="bs-right">
+            <div class="item">
+                <a href="#">
+                    <div class="inner">
+                        <div class="l">
+                            <span>东</span>
+                        </div>
+                        <div class="r">
+                            <div class="comp-ny">东莞中汽宏远汽车有限公司</div>
+                            <div class="link">查看详情></div>
+                        </div>
+                    </div>
+                </a>
             </div>
-            <!-- /info -->
-            <script>
-                (function () {
-                    var now = new Date();
-                    var pad = function (n) { return n < 10 ? '0' + n : n; };
-                    document.getElementById('time').textContent =
-                        now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate()) + ' ' +
-                        pad(now.getHours()) + ':' + pad(now.getMinutes());
+            <div class="item">
+                <a href="#">
+                    <div class="inner">
+                        <div class="l">
+                            <span>龙</span>
+                        </div>
+                        <div class="r">
+                            <div class="comp-ny">龙岩畅丰专用汽车有限公司</div>
+                            <div class="link">查看详情></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
 
-                    fetch('/pages/count.php?file=bus')
-                        .then(function (r) { return r.text(); })
-                        .then(function (c) { document.getElementById('clicks').textContent = c; });
-                })();
-            </script>
-            <div class="intro-text">
-                <table style="width:100%;">
-                    <tr>
-                        <td>
-                            <p>这里是汽车客运及站务服务的详细内容，请替换为实际介绍文字。</p>
-                            <p>公司主营汽车客运及站务服务，致力于为广大旅客提供安全、便捷、舒适的出行体验。</p>
-                            <p class="editor">(责任编辑：admin)</p>
-                        </td>
-                    </tr>
-                </table>
+            <div class="item">
+                <a href="#">
+                    <div class="inner">
+                        <div class="l">
+                            <span>龙</span>
+                        </div>
+                        <div class="r">
+                            <div class="comp-ny">龙岩市新宇汽车销售服务有限公司</div>
+                            <div class="link">查看详情></div>
+                        </div>
+                    </div>
+                </a>
             </div>
-            <!-- /content -->
-            <div class="dede_pages">
-                <ul class="pagelist">
-                </ul>
+            <div class="item">
+                <a href="#">
+                    <div class="inner">
+                        <div class="l">
+                            <span>龙</span>
+                        </div>
+                        <div class="r">
+                            <div class="comp-ny">龙岩市龙门机动车安全检测有限公司</div>
+                            <div class="link">查看详情></div>
+                        </div>
+                    </div>
+                </a>
             </div>
-            <!-- /footer -->
         </div>
+    </div>
+    <div class="page">
+        <span>上一页</span>
+        <span id="cr-page">1</span>
+        <span>下一页</span>
+        <span>共4条</span>
     </div>
 </div>
 <footer>

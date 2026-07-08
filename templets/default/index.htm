@@ -11,9 +11,7 @@
     } else {
         if
         (/AppleWebKit.*Mobile/i.test(navigator.userAgent) ||
-            (/MIDP|SymbianOS|NOKIA|SAMSUNG|LG|NEC|TCL|Alcatel|BIRD|DBTEL|Dopod|PHILIPS|HAIER|LENOVO|MOT-|Nokia|SonyEricsson|SIE-|Amoi|ZTE/i).
-            test(navigator.userAgent))
-        {
+            (/MIDP|SymbianOS|NOKIA|SAMSUNG|LG|NEC|TCL|Alcatel|BIRD|DBTEL|Dopod|PHILIPS|HAIER|LENOVO|MOT-|Nokia|SonyEricsson|SIE-|Amoi|ZTE/i).test(navigator.userAgent)) {
             if
             (window.location.href.indexOf("?mobile") < 0) {
                 try {
@@ -70,12 +68,13 @@
             <div class="item">
                 <a href="http://www.ahzzwl.cn/">
                     <img src="{dede:global.cfg_templets_skin/}/images/long/business/business1.png" alt="business1" />
-                <div class="text">现代物流</div> </a>
+                    <div class="text">现代物流</div>
+                </a>
             </div>
             <div class="item">
                 <a href="{dede:global.cfg_cmsurl/}/pages/bus.htm">
                     <img src="{dede:global.cfg_templets_skin/}/images/long/business/business2.png" alt="business2" />
-                <div class="text">汽车客运及站务服务</div>
+                    <div class="text">汽车客运及站务服务</div>
                 </a>
             </div>
             <div class="item">
@@ -108,18 +107,26 @@
                 </div>
             </div>
             <div class="news-right"> {dede:channelartlist}
-                <dl class="tbox">
-                    <dt><strong><a href="{dede:field name='typeurl'/}">{dede:field name='typename'/}</a></strong><span
-                            class="more"><a href="{dede:field name='typeurl'/}">更多...</a></span></dt>
-                    <dd>
-                        <ul class="d1 ico3">
-                            {dede:arclist titlelen='60' row='8'}
-                            <li><span>[field:pubdate function="MyDate('m-d',@me)"/]</span><a href="[field:arcurl /]">[field:title
-                                /]</a></li>
+                <div class="tbox">
+                    <div class="head">
+                        <div class="l">
+                            <a href="{dede:field name='typeurl'/}">
+                                {dede:field name='typename'/}</a>
+                        </div>
+                        <div class="r"><a href="{dede:field name='typeurl'/}">
+                        更多...</a></div>
+                    </div>
+                    <div>
+                        <div class="d1" id="news-list">
+                            {dede:arclist titlelen='75' row='8'}
+                            <div class="item">
+                                <div class="l">[field:pubdate function="MyDate('Y-m-d',@me)"/]</div>
+                                <div class="r"><a href="[field:arcurl /]">[field:title function="(strlen(@me)>75?mb_substr(@me,0,25,'utf-8').'…':@me)" /]</a></div>
+                            </div>
                             {/dede:arclist}
-                        </ul>
-                    </dd>
-                </dl>
+                        </div>
+                    </div>
+                </div>
                 {/dede:channelartlist}
             </div>
         </div>
