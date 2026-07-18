@@ -127,13 +127,11 @@ input, select, button {
     border-bottom: 3px solid hsla(0, 0%, 95%, 0.5);
 }
 
+/* ===== 二级下拉菜单 ===== */
+
 .nav .nav-item {
     position: relative;
 }
-
-
-/* ===== 二级下拉菜单 ===== */
-
 
 /* 默认隐藏二级菜单 */
 .nav .has-dropdown .dropdown {
