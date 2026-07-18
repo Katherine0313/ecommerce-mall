@@ -117,6 +117,7 @@ input, select, button {
     text-decoration: none;
     font-family: '思源黑体', 'SourceHanSansCN', sans-serif !important;
 }
+
 .nav .nav-item {
     position: relative;
     cursor: pointer;
@@ -124,7 +125,6 @@ input, select, button {
     height:70px;
     line-height: 70px;
     text-align: center;
-    box-sizing: border-box; /* 加上，避免 hover 的 border 把盒子撑大 */
 }
 /*对item进行hover,这样才能撑满背景色宽度和高度*/
 .nav .nav-item.active ,
@@ -133,15 +133,15 @@ input, select, button {
     box-shadow: 0 2px 10px hsla(0, 0%, 100%, 0.4); /* 白色柔光：横向偏移0，向下偏移2px，模糊8px，半透浅白光 */
     border-top: 3px solid hsla(0, 0%, 95%, 0.5);
     border-bottom: 3px solid hsla(0, 0%, 95%, 0.5);
-
 }
+
 /* ===== 二级下拉菜单 ===== */
 
 /* 默认隐藏二级菜单 */
 .nav .has-drop-down .dropdown {
     display: none;
     position: absolute;
-    top: 72px; /* 紧贴父级下沿 */
+    top: 100%; /* 紧贴父级下沿 */
     min-width: 100%; /* 至少和一级菜单同宽，可按需改 150px 等 */
     background: #fff;
     z-index: 999; /*行业通用习惯，代表「高层浮层」，盖在绝大多数普通内容、弹窗、导航上面*/
@@ -166,6 +166,7 @@ input, select, button {
     background: #f5f5f5;
     color: #db241c;
 }
+
 /*---------- 轮播图（顶部大图） ----------*/
 .banner {
     height: 500px;
