@@ -2,20 +2,24 @@
 $z[0]=Array("global","",40,72);
 $z[0][4]=array();
 $z[0][4]['name']="cfg_templets_skin";
-$z[1]=Array("global","",247,272);
+$z[1]=Array("field","if(@me==''||@me=='0') @me='active';else @me='';",222,321);
 $z[1][4]=array();
-$z[1][4]['name']="cfg_cmsurl";
-$z[2]=Array("global","",370,395);
+$z[1][4]['name']="typeid";
+$z[1][4]['runphp']="yes";
+$z[2]=Array("global","",345,370);
 $z[2][4]=array();
 $z[2][4]['name']="cfg_cmsurl";
-$z[3]=Array("global","",721,746);
+$z[3]=Array("global","",468,493);
 $z[3][4]=array();
 $z[3][4]['name']="cfg_cmsurl";
-$z[4]=Array("global","",823,848);
+$z[4]=Array("global","",798,823);
 $z[4][4]=array();
 $z[4][4]['name']="cfg_cmsurl";
-$z[5]=Array("global","",1109,1141);
+$z[5]=Array("global","",900,925);
 $z[5][4]=array();
-$z[5][4]['name']="cfg_templets_skin";
+$z[5][4]['name']="cfg_cmsurl";
+$z[6]=Array("global","",1837,1869);
+$z[6][4]=array();
+$z[6][4]['name']="cfg_templets_skin";
 
 ?>
