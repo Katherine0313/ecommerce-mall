@@ -82,13 +82,24 @@ input, select, button {
     color: #676767;
     overflow: visible; /* 让二级下拉菜单能溢出显示（不能 hidden） */
     background: #db241c;
-    background-image: url("../images/long/head-left.png"), url("../images/long/head-right.png");
-    background-repeat: no-repeat, no-repeat;
-    background-position: left center, right center;
+    background-image: none; /* logo 改用 <img> 元素，避免 background 覆盖到导航 */
+    display: flex;          /* 左右 logo + 中间 nav 各占各的空间 */
+    align-items: center;
+    padding: 0 20px;
+    box-sizing: border-box;
 }
+
+/* 顶部左右两侧公司 logo：固定高度且不被挤压 */
+.header-logo {
+    height: 56px;
+    flex-shrink: 0;
+}
+.header-logo-left  { margin-right: 30px; }
+.header-logo-right { margin-left:  30px; }
 
 /*顶部导航*/
 .nav {
+    flex: 1;            /* 占满 .header_top 中间剩余空间 */
     max-width: 1240px;
     margin: 0 auto;
     display: flex;
@@ -101,8 +112,8 @@ input, select, button {
     line-height: 80px; /* line-height等于容器高度80px，文字垂直居中 */
     text-decoration: none;
     font-family: '思源黑体', 'SourceHanSansCN', sans-serif !important;
-}
 
+}
 /* ===== 二级下拉菜单 ===== */
 .nav .nav-item {
     position: relative;
