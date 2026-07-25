@@ -140,6 +140,24 @@
     text-align: center;
     background: #db241c;
 }
+/*加入龙洲*/
+/*左侧*/
+.intro-left .employ{
+margin-top:80px;
+}
+.intro .join{
+    display: flex;
+    flex-wrap:wrap;
+    gap:30px;
+margin: 0 0 20px 50px;
+}
+.join .join-item{
+    width:400px;
+    height:250px;
+    background:#ccc;
+    border:1px solid #ddd;
+    padding:20px;
+}
 /***
  *	DedeCMS v5.3 Style (grass green)
  *	dedecms.com  Author pigz  2008-11-10 09:32
