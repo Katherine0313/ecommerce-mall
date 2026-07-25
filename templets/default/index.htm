@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset={dede:global.cfg_soft_lang/}" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>{dede:global.cfg_webname/}</title>
     <meta name="description" content="{dede:global.cfg_description/}" />
     <meta name="keywords" content="{dede:global.cfg_keywords/}" />
-    <link href="{dede:global.cfg_templets_skin/}/style/dedecms.css" rel="stylesheet" media="screen" type="text/css" />
+    <link href="{dede:global.cfg_templets_skin/}/style/dedecms.css?v=20260726" rel="stylesheet" media="screen" type="text/css" />
+    <link href="{dede:global.cfg_templets_skin/}/style/layout.css" rel="stylesheet" media="screen" type="text/css" />
+    <link href="{dede:global.cfg_templets_skin/}/style/page.css" rel="stylesheet" media="screen" type="text/css" />
     <meta http-equiv="mobile-agent" content="format=xhtml;url={dede:global.cfg_mobileurl/}/index.php">
     <script type="text/javascript">if (window.location.toString().indexOf('pref=padindex') != -1) {
     } else {
@@ -66,31 +68,35 @@
         <div class="sub-title"> CORE BUSINESS</div>
         <div class="business-logo">
             <div class="item">
-                <a href="http://www.ahzzwl.cn/">
+                <a href="http://www.ahzzwl.cn/" data-route="biz-logistics">
                     <img src="{dede:global.cfg_templets_skin/}/images/long/business/business1.png" alt="business1" />
                     <div class="text">现代物流</div>
                 </a>
             </div>
             <div class="item">
-                <a href="{dede:global.cfg_cmsurl/}/pages/bus.htm">
+                <a href="{dede:global.cfg_cmsurl/}/pages/bus.htm" data-route="biz-passenger">
                     <img src="{dede:global.cfg_templets_skin/}/images/long/business/business2.png" alt="business2" />
                     <div class="text">汽车客运及站务服务</div>
                 </a>
             </div>
             <div class="item">
-                <a href="{dede:global.cfg_cmsurl/}/pages/bus-sales.htm">
+                <a href="{dede:global.cfg_cmsurl/}/pages/bus-sales.htm" data-route="biz-manufacturing">
                     <img src="{dede:global.cfg_templets_skin/}/images/long/business/business3.png"
                          alt="business3" />
                     <div class="text">汽车制造及销售与服务</div>
                 </a>
             </div>
-            <div class="item"><img src="{dede:global.cfg_templets_skin/}/images/long/business/business4.png"
-                                   alt="business4" />
-                <div class="text">成品油及天然气销售</div>
+            <div class="item">
+                <a href="#" data-route="biz-oil">
+                    <img src="{dede:global.cfg_templets_skin/}/images/long/business/business4.png" alt="business4" />
+                    <div class="text">成品油及天然气销售</div>
+                </a>
             </div>
-            <div class="item"><img src="{dede:global.cfg_templets_skin/}/images/long/business/business5.png"
-                                   alt="business5" />
-                <div class="text">其他产业</div>
+            <div class="item">
+                <a href="#" data-route="biz-other">
+                    <img src="{dede:global.cfg_templets_skin/}/images/long/business/business5.png" alt="business5" />
+                    <div class="text">其他产业</div>
+                </a>
             </div>
         </div>
     </div>

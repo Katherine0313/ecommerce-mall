@@ -3,11 +3,6 @@
  *	dedecms.com  Author Networker  2010.02.05
  **/
 
-/*---------- import ---------*/
-@import url("layout.css");
-@import url("page.css");
-
-
 /*---------- base ---------*/
 * {
     padding: 0px;
@@ -136,15 +131,17 @@ input, select, button {
 }
 
 /* ===== 二级下拉菜单 ===== */
-
 /* 默认隐藏二级菜单 */
 .nav .has-drop-down .dropdown {
     display: none;
     position: absolute;
     top: 100%; /* 紧贴父级下沿 */
     min-width: 100%; /* 至少和一级菜单同宽，可按需改 150px 等 */
-    background: #fff;
     z-index: 999; /*行业通用习惯，代表「高层浮层」，盖在绝大多数普通内容、弹窗、导航上面*/
+    background: #fff;
+    padding: 0;
+    margin: 0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 /* 鼠标悬停在父项、或在已展开的菜单上时显示 ，因为 display: none;前面隐藏了，所以 hover 的时候要靠 block 才能显示*/
@@ -160,11 +157,12 @@ input, select, button {
     line-height: 40px; /**/
     padding: 0 20px;
     text-align: center;
+    white-space: nowrap;
 }
 
 .nav .dropdown li a:hover {
-    background: #f5f5f5;
-    color: #db241c;
+    background: #db241c ;
+    color: #fff ;
 }
 
 /*---------- 轮播图（顶部大图） ----------*/
