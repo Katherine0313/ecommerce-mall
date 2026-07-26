@@ -25,7 +25,7 @@ var ROUTES = {
     '集团荣誉':     '#', // TODO: /a/aboutus/honor/
 
     // =================== 公司业务（待建页面，建好后替换 #）===================
-    'business':   '#', // TODO: /a/business/
+    'business':   '/pages/bus.htm',
     '现代物流':     'http://www.ahzzwl.cn/',
     '汽车客运及站务服务': '/pages/bus.htm',
     '汽车制造及销售与服务': '/pages/bus-sales.htm',
@@ -33,12 +33,12 @@ var ROUTES = {
     '其他产业':     '#', // TODO: /a/business/other/
 
     // =================== 新闻动态 ====================
-    'news':       '#', // TODO: /a/news/
+    'news':       '/a/qiyezixun/',
     '龙洲要闻':     '/a/qiyezixun/',
     '招投标':       '/a/zhaotoubiao/',
 
     // =================== 投资者关系（待建页面，建好后替换 #）===================
-    'investor':   '#', // TODO: /a/investor/
+    'investor':   '/pages/investor.htm',
     '股票信息':     '#', // TODO: /a/investor/stock/
     '公司公告':     '#', // TODO: /a/investor/announcement/
     '公司制度':     '#', // TODO: /a/investor/policy/

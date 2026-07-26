@@ -240,7 +240,29 @@
     margin: 0 auto;
     color: #fff;
 }
-
+/*投资者关系*/
+.intro-right .invest-section{
+    margin-top:34px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color:#db241c;
+    line-height:34px;
+}
+.invest-section .invest-item{
+    margin-bottom: 30px;
+}
+.invest-section img{
+    width: 142px;
+    height: auto;
+}
+.invest-section a{
+    font-size: 20px;
+    color:#db241c;
+    text-decoration: underline;
+    text-underline-offset: 4px; /*下划线往下挪*/
+}
 /***
  *	DedeCMS v5.3 Style (grass green)
  *	dedecms.com  Author pigz  2008-11-10 09:32
