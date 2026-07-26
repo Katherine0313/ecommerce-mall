@@ -23,7 +23,7 @@
     height: 300px;
     background-size: cover;
     margin-top: 18px;
-    padding-top:20px;
+    padding-top: 20px;
 }
 
 .intro-left .item {
@@ -33,6 +33,7 @@
 .intro-left .item.active {
     box-shadow: 0 0 12px 8px #f6eaea; /* 红色外发光:水平偏移(X) 垂直偏移(Y) 模糊半径 扩散半径 颜色 */
 }
+
 /*子页面左侧*/
 .intro-left a {
     text-decoration: none;
@@ -45,9 +46,11 @@
 .intro-right {
     flex: 1;
 }
+
 #news-title {
     color: rgba(51, 51, 51, 0.8);
 }
+
 /*资讯元信息*/
 .intro-right .info {
     border-bottom: 1px #bd5656 solid;
@@ -86,78 +89,158 @@
     color: #999;
     text-align: right;
 }
+
 /*business跳转页面*/
-.bs-right{
-    flex:1;
+.bs-right {
+    flex: 1;
 }
-.bs-right .item a{
+
+.bs-right .item a {
     font-family: '思源黑体', 'SourceHanSansCN', sans-serif !important;
 }
+
 /*设置a标签访问后不变色*/
-.bs-right a:visited{
-    color:#333;
+.bs-right a:visited {
+    color: #333;
 }
-.bs-right .item{
+
+.bs-right .item {
     border-bottom: 1px #ddd solid;
-    padding:35px 0;
+    padding: 35px 0;
 }
-.bs-right .item .inner{
+
+.bs-right .item .inner {
     display: flex;
     gap: 20px;
 }
-.bs-right .item .inner .l{
+
+.bs-right .item .inner .l {
     width: 70px;
-    height:49px;
+    height: 49px;
     line-height: 49px;
-    text-align:center;
+    text-align: center;
     background-color: #db241c;
     font-size: 28px;
     color: #fff;
 }
-.bs-right .item .inner .r .comp-ny{
+
+.bs-right .item .inner .r .comp-ny {
     font-size: 18px;
 }
-.bs-right .item .inner .r .link{
+
+.bs-right .item .inner .r .link {
     margin-top: 10px;
     font-size: 14px;
-    color:#db241c;
+    color: #db241c;
 }
 
 /*business子页面页码*/
-.content .page{
+.content .page {
     display: flex;
-    justify-content:flex-end;
+    justify-content: flex-end;
     margin: 40px 0 20px 0;
-    gap:15px;
-    color:#ccc;
+    gap: 15px;
+    color: #ccc;
     font-size: 13px;
-    align-items: center;  /*垂直方向居中*/
+    align-items: center; /*垂直方向居中*/
 }
-.content .page #cr-page{
-    width:30px;
-    height:30px;
-    line-height:30px;
+
+.content .page #cr-page {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
     text-align: center;
     background: #db241c;
 }
+
 /*加入龙洲*/
 /*左侧*/
-.intro-left .employ{
-margin-top:80px;
+.intro-left .employ {
+    margin-top: 80px;
 }
-.intro .join{
+
+.intro .join {
     display: flex;
-    flex-wrap:wrap;
-    gap:30px;
-margin: 0 0 20px 50px;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin: 0 0 20px 50px;
 }
-.join .join-item{
-    width:400px;
-    height:250px;
-    background:#ccc;
-    border:1px solid #ddd;
-    padding:20px;
+
+.join .join-item {
+    width: 400px;
+    height: 250px;
+    border: 1px solid #ddd;
+    padding: 20px;
+
 }
+
+.join .join-item .join-item-text {
+    margin: 20px auto;
+}
+
+.join .join-item .form {
+    color: rgb(120, 120, 120);
+    font-size: 14px;
+    line-height: 25px;
+}
+
+.join-item a {
+    font-size: 14px;
+    color: #db241c;
+}
+
+.join-item .btn {
+    background: #db241c;
+    width: 200px;
+    height: 50px;
+    line-height: 50px;
+    color: #fff;
+    border-radius: 15px;
+    font-size: 20px;
+    text-align: center;
+    cursor: pointer;
+}
+
+/*联系龙洲*/
+.intro .map {
+    width: 800px;
+    height: 400px;
+    margin-left: 100px;
+}
+
+.intro .contact {
+    width: 800px;
+    margin: 20px 0 30px 100px;
+}
+
+.intro .contact-item {
+    display: flex;
+    gap: 30px;
+    margin-top:15px;
+    margin-left: 150px;
+}
+.intro .contact-item p{
+    line-height: 30px;
+    font-size: 16px;
+    color: rgb(120, 120, 120);
+}
+.contact-item .item-l,
+.contact-item .item-r {
+    width: 300px;
+}
+
+.contact-item .item-r {
+
+}
+
+.intro .contact .title{
+    width:250px;
+    height:30px;
+    background: #db241c;
+    margin: 0 auto;
+    color: #fff;
+}
+
 /***
  *	DedeCMS v5.3 Style (grass green)
  *	dedecms.com  Author pigz  2008-11-10 09:32
@@ -173,6 +256,7 @@ margin: 0 0 20px 50px;
     width: 712px;
     height: 24px;
     line-height: 24px;
+    font-size: 16px;
     background: transparent url(../images/green_skin.png) repeat-x scroll 0 -188px;
     border-top: 1px solid #BADAA1;
     border-bottom: 1px solid #BADAA1;
@@ -209,27 +293,27 @@ margin: 0 0 20px 50px;
 }
 
 .place {
-    height: 24px;
-    line-height: 24px;
-    text-indent: 18px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 16px;
+    text-indent: 20px;
     color: #999;
-    background: transparent url(../images/green_skin.png) repeat-x scroll 0 -188px;
+    background: transparent url(../images/green_skin.png) repeat-x scroll 0 -181px;
     border-top: 1px solid #BADAA1;
     border-bottom: 1px solid #BADAA1;
     overflow: hidden;
-    font-family: '思源黑体', '宋体';
+    font-family: Microsoft YaHei, sans-serif;
     margin-bottom: 6px;
     text-align: left;
 }
 
 .place strong {
-    color: #397CBE;
     font-weight: normal;
     letter-spacing: 1px;
 }
 
 .place a {
-    color: #397CBE;
+    color: black;
     margin: 0px 2px;
 }
 
