@@ -136,9 +136,38 @@
 }
 
 /*新闻列表卡片*/
-.news-card .l {
+.bs-right .item.news-card .inner .l {
     width: 85px;
-    font-size: 16px;
+    height: auto;
+    padding: 10px 5px;
+    line-height: 1.3;
+    font-size: 28px;
+}
+.bs-right .item.news-card .inner .l .day {
+    font-size: 26px;
+    font-weight: bold;
+}
+.bs-right .item.news-card .inner .l .ym {
+    font-size: 12px;
+}
+
+/*首页新闻列表日期块（两行格式）*/
+#news-list .item {
+    height: auto;
+    min-height: 52px;
+}
+#news-list .item .l.news-date {
+    width: 85px;
+    height: auto;
+    padding: 6px 5px;
+    line-height: 1.3;
+}
+#news-list .item .l.news-date .day {
+    font-size: 22px;
+    font-weight: bold;
+}
+#news-list .item .l.news-date .ym {
+    font-size: 11px;
 }
 
 /*business子页面页码*/
