@@ -135,6 +135,12 @@
     color: #db241c;
 }
 
+/*新闻列表卡片*/
+.news-card .l {
+    width: 85px;
+    font-size: 16px;
+}
+
 /*business子页面页码*/
 .content .page {
     display: flex;
