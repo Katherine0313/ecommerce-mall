@@ -39,13 +39,13 @@ $z[11][4]['name']="cfg_cmsurl";
 $z[12]=Array("global","",1835,1860);
 $z[12][4]=array();
 $z[12][4]['name']="cfg_cmsurl";
-$z[13]=Array("global","",2440,2465);
+$z[13]=Array("global","",2565,2590);
 $z[13][4]=array();
 $z[13][4]['name']="cfg_cmsurl";
-$z[14]=Array("global","",2560,2585);
+$z[14]=Array("global","",2685,2710);
 $z[14][4]=array();
 $z[14][4]['name']="cfg_cmsurl";
-$z[15]=Array("global","",3304,3336);
+$z[15]=Array("global","",3429,3461);
 $z[15][4]=array();
 $z[15][4]['name']="cfg_templets_skin";
 
