@@ -97,6 +97,7 @@
 
 .bs-right .item a {
     font-family: '思源黑体', 'SourceHanSansCN', sans-serif !important;
+    color: #333;
 }
 
 /*设置a标签访问后不变色*/
