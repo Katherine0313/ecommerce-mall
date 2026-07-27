@@ -26,6 +26,7 @@
         }
     </script>
     <script language="javascript" type="text/javascript" src="/include/dedeajax2.js"></script>
+    <script language="javascript" type="text/javascript" src="/templets/default/js/nav.js"></script>
 </head>
 <body>
 <div class="header_top">
@@ -49,21 +50,21 @@
     <!-- /place -->
     <div class="intro">
         <div class="intro-left" style="margin-top:34px;">
-            <div class="item"><a style="font-size:18px;">现代物流</a></div>
-            <div class="item active" ><a style="font-size:18px;">汽车客运及站务服务</a></div>
-            <div class="item"><a style="font-size:18px;">汽车制造及销售与服务</a></div>
-            <div class="item"><a style="font-size:18px;">成品油及天然气销售</a></div>
-            <div class="item"><a style="font-size:18px;">其他产业</a></div>
+            <div class="item"><a href="http://www.ahzzwl.cn/" data-route="现代物流" style="font-size:18px;">现代物流</a></div>
+            <div class="item active"><a href="/pages/bus.htm" data-route="汽车客运及站务服务" style="font-size:18px;">汽车客运及站务服务</a></div>
+            <div class="item"><a href="/pages/bus-sales.htm" data-route="汽车制造及销售与服务" style="font-size:18px;">汽车制造及销售与服务</a></div>
+            <div class="item"><a href="#" data-route="成品油及天然气销售" style="font-size:18px;">成品油及天然气销售</a></div>
+            <div class="item"><a href="#" data-route="其他产业" style="font-size:18px;">其他产业</a></div>
         </div>
         <div class="bs-right">
             <div class="item">
                 <a href="#">
                     <div class="inner">
                         <div class="l">
-                            <span>东</span>
+                            <span>福</span>
                         </div>
                         <div class="r">
-                            <div class="comp-ny">东莞中汽宏远汽车有限公司</div>
+                            <div class="comp-ny">福建龙洲运输集团有限公司</div>
                             <div class="link">查看详情></div>
                         </div>
                     </div>
@@ -76,21 +77,7 @@
                             <span>龙</span>
                         </div>
                         <div class="r">
-                            <div class="comp-ny">龙岩畅丰专用汽车有限公司</div>
-                            <div class="link">查看详情></div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="item">
-                <a href="#">
-                    <div class="inner">
-                        <div class="l">
-                            <span>龙</span>
-                        </div>
-                        <div class="r">
-                            <div class="comp-ny">龙岩市新宇汽车销售服务有限公司</div>
+                            <div class="comp-ny">龙岩汽车客运中心站</div>
                             <div class="link">查看详情></div>
                         </div>
                     </div>
@@ -100,22 +87,75 @@
                 <a href="#">
                     <div class="inner">
                         <div class="l">
-                            <span>龙</span>
+                            <span>武</span>
                         </div>
                         <div class="r">
-                            <div class="comp-ny">龙岩市龙门机动车安全检测有限公司</div>
+                            <div class="comp-ny">武平汽车客运中心站</div>
+                            <div class="link">查看详情></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="item">
+                <a href="#">
+                    <div class="inner">
+                        <div class="l">
+                            <span>漳</span>
+                        </div>
+                        <div class="r">
+                            <div class="comp-ny">漳平汽车客运中心站</div>
+                            <div class="link">查看详情></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="item">
+                <a href="#">
+                    <div class="inner">
+                        <div class="l">
+                            <span>永</span>
+                        </div>
+                        <div class="r">
+                            <div class="comp-ny">永定汽车站</div>
+                            <div class="link">查看详情></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="item">
+                <a href="#">
+                    <div class="inner">
+                        <div class="l">
+                            <span>上</span>
+                        </div>
+                        <div class="r">
+                            <div class="comp-ny">上杭汽车站</div>
+                            <div class="link">查看详情></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="item">
+                <a href="#">
+                    <div class="inner">
+                        <div class="l">
+                            <span>长</span>
+                        </div>
+                        <div class="r">
+                            <div class="comp-ny">长汀汽车站</div>
                             <div class="link">查看详情></div>
                         </div>
                     </div>
                 </a>
             </div>
         </div>
+
     </div>
     <div class="page">
         <span>上一页</span>
         <span id="cr-page">1</span>
         <span>下一页</span>
-        <span>共4条</span>
+        <span id="total-count">共0条</span>
     </div>
 </div>
 <footer>
@@ -141,5 +181,6 @@
         </div>
     </div>
 </footer>
+<script src="/include/page-total.js"></script>
 </body>
 </html>
