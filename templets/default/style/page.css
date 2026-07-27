@@ -196,6 +196,7 @@
 }
 
 .intro .join {
+    flex:1;
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
@@ -203,7 +204,7 @@
 }
 
 .join .join-item {
-    width: 400px;
+    width: 350px;
     height: 250px;
     border: 1px solid #ddd;
     padding: 20px;
@@ -300,6 +301,7 @@
     text-decoration: underline;
     text-underline-offset: 4px; /*下划线往下挪*/
 }
+
 /***
  *	DedeCMS v5.3 Style (grass green)
  *	dedecms.com  Author pigz  2008-11-10 09:32
