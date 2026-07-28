@@ -64,7 +64,7 @@ $z[20][4]=array();
 $z[20][4]['name']="cfg_templets_skin";
 $z[21]=Array("channelartlist","\n                <div class=\"tbox\">\n                    <div class=\"head\">\n                        <div class=\"l\">\n                            <a href=\"{dede:field name='typeurl'/}\">{dede:field name='typename'/}</a>\n                        </div>\n                        <div class=\"r\"><a href=\"{dede:field name='typeurl'/}\">更多...</a></div>\n                    </div>\n                    <div>\n                        <div class=\"d1\" id=\"news-list\">\n                            {dede:arclist titlelen='75' row='8'}\n                            <div class=\"item\">\n                                <div class=\"l news-date\">\n                                    <div class=\"day\">[field:pubdate function=\"MyDate('d',@me)\"/]</div>\n                                    <div class=\"ym\">[field:pubdate function=\"MyDate('Y-m',@me)\"/]</div>\n                                </div>\n                                <div class=\"r\"><a href=\"[field:arcurl /]\">[field:title function=\"(strlen(@me)>75?mb_substr(@me,0,25,'utf-8').'…':@me)\" /]</a></div>\n                            </div>\n                            {/dede:arclist}\n                        </div>\n                    </div>\n                </div>\n                ",5080,6335);
 $z[21][4]=array();
-$z[22]=Array("global","",8542,8574);
+$z[22]=Array("global","",8533,8565);
 $z[22][4]=array();
 $z[22][4]['name']="cfg_templets_skin";
 
