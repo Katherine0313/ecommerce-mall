@@ -46,7 +46,19 @@ input, select, button {
 }
 
 /* ============================================================
- *   2. Content Wrapper & Common
+ *   2. Top Banner & Page Header
+ * ============================================================ */
+.top-img{max-width:1240px;margin:0 auto 20px;padding:0}
+
+.top-banner{max-width:1240px;height:260px;background:radial-gradient(ellipse at 20% 50%,rgba(59,130,246,.4) 0%,transparent 60%),radial-gradient(ellipse at 85% 20%,rgba(30,64,175,.5) 0%,transparent 50%),radial-gradient(ellipse at 50% 80%,rgba(96,165,250,.25) 0%,transparent 50%),linear-gradient(135deg,#0f2744 0%,#1a3a6b 25%,#1a56db 55%,#2563eb 80%,#1e40af 100%);border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;margin-bottom:20px;position:relative;overflow:hidden}
+.top-banner::before{content:'';position:absolute;top:-80px;right:-80px;width:280px;height:280px;border:2px solid rgba(255,255,255,.07);border-radius:50%}
+.top-banner::after{content:'';position:absolute;bottom:-50px;left:-50px;width:220px;height:220px;border:2px solid rgba(255,255,255,.05);border-radius:50%}
+.top-banner .tb-title{font-size:44px;font-weight:bold;letter-spacing:8px;position:relative;z-index:1}
+.top-banner .tb-sub{font-size:15px;letter-spacing:5px;opacity:.65;margin-top:14px;text-transform:uppercase;position:relative;z-index:1}
+.top-banner .tb-line{width:80px;height:2px;background:rgba(255,255,255,.45);margin:16px auto 0;position:relative;z-index:1}
+
+/* ============================================================
+ *   3. Content Wrapper & Common
  * ============================================================ */
 .content {
     max-width: 1240px;
@@ -72,73 +84,6 @@ input, select, button {
     text-align: center;
 }
 
-/*所有子页面通用的顶部 Banner */
-.top-banner {
-    max-width: 1240px;
-    height: 260px;
-    background: radial-gradient(ellipse at 20% 50%, rgba(59, 130, 246, 0.4) 0%, transparent 60%),
-    radial-gradient(ellipse at 85% 20%, rgba(30, 64, 175, 0.5) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 80%, rgba(96, 165, 250, 0.25) 0%, transparent 50%),
-    linear-gradient(135deg, #0f2744 0%, #1a3a6b 25%, #1a56db 55%, #2563eb 80%, #1e40af 100%);
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    margin-bottom: 20px;
-    position: relative;
-    overflow: hidden;
-}
-
-.top-banner::before {
-    content: '';
-    position: absolute;
-    top: -80px;
-    right: -80px;
-    width: 280px;
-    height: 280px;
-    border: 2px solid rgba(255, 255, 255, 0.07);
-    border-radius: 50%;
-}
-
-.top-banner::after {
-    content: '';
-    position: absolute;
-    bottom: -50px;
-    left: -50px;
-    width: 220px;
-    height: 220px;
-    border: 2px solid rgba(255, 255, 255, 0.05);
-    border-radius: 50%;
-}
-
-.top-banner .tb-title {
-    font-size: 44px;
-    font-weight: bold;
-    letter-spacing: 8px;
-    position: relative;
-    z-index: 1;
-}
-
-.top-banner .tb-sub {
-    font-size: 15px;
-    letter-spacing: 5px;
-    opacity: 0.65;
-    margin-top: 14px;
-    text-transform: uppercase;
-    position: relative;
-    z-index: 1;
-}
-
-.top-banner .tb-line {
-    width: 80px;
-    height: 2px;
-    background: rgba(255, 255, 255, 0.45);
-    margin: 16px auto 0;
-    position: relative;
-    z-index: 1;
-}
 
 /* ============================================================
  *   3. Header
@@ -664,8 +609,9 @@ footer {
 }
 
 .footer-icon-phone {
-    font-size: 26px;
+    font-size: 40px;
     margin-right: 5px;
+    color: red;
 }
 
 .footer-icon-police {
@@ -675,7 +621,8 @@ footer {
 
 .footer-qrcode {
     width: 100px;
-    height: 100px;
+    height: auto;
+    object-fit:cover;
     border: 4px solid #fff;
     background: #fff;
     display: flex;
@@ -687,25 +634,7 @@ footer {
     position: relative;
     overflow: hidden;
 }
-.footer-qrcode::before {
-    content: '';
-    position: absolute;
-    width: 18px; height: 18px;
-    background: #1a56db;
-    top: 8px; left: 8px;
-    box-shadow:
-        28px 0 0 #1a56db, 56px 0 0 #1a56db,
-        0 28px 0 #1a56db, 28px 28px 0 #1a56db,
-        0 56px 0 #1a56db, 28px 56px 0 #1a56db,
-        56px 28px 0 #1a56db, 56px 56px 0 #1a56db;
-}
-.footer-qrcode::after {
-    content: '';
-    position: absolute;
-    width: 10px; height: 10px;
-    background: #1a56db;
-    top: 45px; left: 45px;
-}
+
 
 #police img {
     width: 30px;
@@ -715,3 +644,47 @@ footer {
 #police .text {
     padding-top: 5px;
 }
+
+/* ============================================================
+ *   10. Sub-page Header (White, matching index)
+ * ============================================================ */
+.sub-header{position:sticky;top:0;z-index:1000;height:72px;background:rgba(255,255,255,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 40px}
+.sub-header .logo{display:flex;align-items:center;gap:12px;margin-right:48px;text-decoration:none;flex-shrink:0}
+.sub-header .logo-mark{width:38px;height:38px;background:linear-gradient(135deg,#2563EB,#60A5FA);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:800}
+.sub-header .logo-cn{font-size:17px;font-weight:700;color:#1E293B;letter-spacing:1.5px;line-height:1.2}
+.sub-header .logo-en{display:block;font-size:10px;font-weight:500;color:#94A3B8;letter-spacing:2px;margin-top:1px}
+.sub-header .nav{display:flex;align-items:center;gap:6px;flex:1}
+.sub-header .nav>a{padding:8px 18px;font-size:14px;font-weight:500;color:#64748B;text-decoration:none;border-radius:10px;transition:all .25s;position:relative}
+.sub-header .nav>a::after{content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:0;height:2px;background:#2563EB;border-radius:1px;transition:width .3s cubic-bezier(.22,.61,.36,1)}
+.sub-header .nav>a:hover,.sub-header .nav>a.active{color:#2563EB}
+.sub-header .nav>a:hover::after,.sub-header .nav>a.active::after{width:calc(100% - 36px)}
+.sub-header .nav-item{position:relative}
+.sub-header .dropdown{display:none;position:absolute;top:100%;left:50%;transform:translateX(-50%);min-width:160px;background:#fff;border-radius:12px;box-shadow:0 16px 48px rgba(0,0,0,.12);padding:8px;z-index:999;border:1px solid #E5E7EB;list-style:none;margin:0}
+.sub-header .nav-item:hover .dropdown{display:block}
+.sub-header .dropdown li{list-style:none}
+.sub-header .dropdown a{display:block!important;padding:10px 16px!important;border-radius:8px!important;color:#64748B!important;font-size:13px!important;font-weight:500!important;text-decoration:none!important;white-space:nowrap}
+.sub-header .dropdown a:hover{background:rgba(37,99,235,.06)!important;color:#2563EB!important}
+.sub-header .dropdown a::after{display:none!important}
+.sub-header .header-right{display:flex;align-items:center;gap:16px;margin-left:auto}
+.sub-header .stock-badge{padding:6px 14px;background:rgba(37,99,235,.06);color:#2563EB;border-radius:8px;font-size:13px;font-weight:700;letter-spacing:1px}
+.sub-header .btn-sub{padding:10px 20px;font-size:13px;font-weight:600;border-radius:100px;border:none;cursor:pointer;background:#2563EB;color:#fff;text-decoration:none;transition:all .3s;display:inline-flex;align-items:center}
+.sub-header .btn-sub:hover{background:#1d4ed8;box-shadow:0 4px 16px rgba(37,99,235,.3)}
+
+/* Sub-page Footer (dark, matching index) */
+.sub-footer{background:#0F172A;color:rgba(255,255,255,.7);padding:60px 0 30px;margin-top:80px}
+.sub-footer .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px;max-width:1280px;margin-left:auto;margin-right:auto;padding:0 40px}
+.sub-footer .footer-brand .logo{display:flex;align-items:center;gap:12px;margin-bottom:20px;text-decoration:none}
+.sub-footer .footer-brand .logo-mark{width:38px;height:38px;background:linear-gradient(135deg,#2563EB,#60A5FA);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:800}
+.sub-footer .footer-brand .logo-cn{font-size:17px;font-weight:700;color:#fff;letter-spacing:1.5px;line-height:1.2}
+.sub-footer .footer-brand .logo-en{display:block;font-size:10px;font-weight:500;color:rgba(255,255,255,.4);letter-spacing:2px;margin-top:1px}
+.sub-footer .footer-about{font-size:14px;line-height:1.8;color:rgba(255,255,255,.5);margin-bottom:20px;max-width:320px}
+.sub-footer .footer-social{display:flex;gap:12px}
+.sub-footer .footer-social a{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;transition:all .3s;color:rgba(255,255,255,.5)}
+.sub-footer .footer-social a:hover{background:#2563EB;color:#fff}
+.sub-footer .footer-col-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:24px;letter-spacing:1px}
+.sub-footer .footer-col a,.sub-footer .footer-col p{display:block;font-size:13px;color:rgba(255,255,255,.5);margin-bottom:12px;transition:color .2s;line-height:1.6;text-decoration:none}
+.sub-footer .footer-col a:hover{color:#60A5FA}
+.sub-footer .footer-qrcode-img{width:100px;height:100px;background:#fff;border-radius:12px;padding:8px}
+.sub-footer .footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:rgba(255,255,255,.35);max-width:1280px;margin:0 auto;padding-left:40px;padding-right:40px;flex-wrap:wrap;gap:12px}
+.sub-footer .footer-bottom a{color:rgba(255,255,255,.35);text-decoration:none;transition:color .2s}
+.sub-footer .footer-bottom a:hover{color:rgba(255,255,255,.7)}
