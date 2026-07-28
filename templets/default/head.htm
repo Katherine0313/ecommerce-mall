@@ -1,6 +1,10 @@
 <div class="header_top">
-    <img src="{dede:global.cfg_templets_skin/}/images/long/head-left.png" alt="龙洲股份"
-         class="header-logo header-logo-left" />
+    <div class="header-logo header-logo-left">
+        <a href="{dede:global.cfg_cmsurl/}/">
+            <span class="header-logo-txt">小杰集团</span>
+            <span class="header-logo-sub">XIAO JIE</span>
+        </a>
+    </div>
     <div class="nav">
         <div class="nav-item {dede:field.typeid runphp='yes'}if(@me==''||@me=='0') @me='active';else @me='';{/dede:field.typeid}">
             <a href="{dede:global.cfg_cmsurl/}/">首页</a>
@@ -15,36 +19,34 @@
         </div>
         <div class="nav-item has-drop-down"><a href="{dede:global.cfg_cmsurl/}/a/business/">公司业务</a>
             <ul class="dropdown">
-                <li><a href="http://www.ahzzwl.cn/">现代物流</a></li>
-                <li><a href="{dede:global.cfg_cmsurl/}/pages/bus.htm">汽车客运及站务服务</a></li>
-                <li><a href="{dede:global.cfg_cmsurl/}/pages/bus-sales.htm">汽车制造及销售与服务</a></li>
-                <li><a href="{dede:global.cfg_cmsurl/}/pages/gas.htm">成品油及天然气销售</a></li>
-                <li><a href="{dede:global.cfg_cmsurl/}/pages/otherIndustries.htm">其他产业</a></li>
+                <li><a href="/pages/bus.htm">科技研发</a></li>
+                <li><a href="{dede:global.cfg_cmsurl/}/pages/bus.htm">工程建设</a></li>
+                <li><a href="{dede:global.cfg_cmsurl/}/pages/bus-sales.htm">商贸服务</a></li>
+                <li><a href="{dede:global.cfg_cmsurl/}/pages/gas.htm">绿色能源</a></li>
+                <li><a href="{dede:global.cfg_cmsurl/}/pages/otherIndustries.htm">综合投资</a></li>
             </ul>
         </div>
         <div class="nav-item has-drop-down"><a href="/a/qiyezixun/">新闻动态</a>
             <ul class="dropdown">
-                <li><a href="{dede:global.cfg_cmsurl/}/a/qiyezixun/">龙洲要闻</a></li>
+                <li><a href="{dede:global.cfg_cmsurl/}/a/qiyezixun/">集团要闻</a></li>
                 <li><a href="{dede:global.cfg_cmsurl/}/a/zhaotoubiao/">招投标</a></li>
             </ul>
         </div>
         <div class="nav-item has-drop-down"><a href="{dede:global.cfg_cmsurl/}/pages/invest/stock.htm">投资者关系</a>
             <ul class="dropdown">
                 <li><a href="/pages/invest/stock.htm">股票信息</a></li>
-                <li><a href="https://www.szse.cn/disclosure/listed/notice/index.html?name=%E9%BE%99%E6%B4%B2%E8%82%A1%E4%BB%BD&stock=002682&r=1592295365241">公司公告</a></li>
                 <li><a href="/pages/invest/system.htm">公司制度</a></li>
                 <li><a href="/pages/invest/investor.htm">独立董事交流专栏</a></li>
-                <li><a href="https://ir.p5w.net/c/002682">投资者互动</a></li>
                 <li><a href="/pages/invest/education.htm">投资者宣传教育</a></li>
             </ul></div>
-        <div class="nav-item has-drop-down"><a href="{dede:global.cfg_cmsurl/}/pages/joinus.htm">加入龙洲</a>
+        <div class="nav-item has-drop-down"><a href="{dede:global.cfg_cmsurl/}/pages/joinus.htm">加入我们</a>
             <ul class="dropdown">
                 <li><a href="/pages/joinus.htm">人才招聘</a></li>
             </ul>
         </div>
-        <div class="nav-item has-drop-down"><a href="{dede:global.cfg_cmsurl/}/pages/contact.htm">联系龙洲</a>
+        <div class="nav-item has-drop-down"><a href="{dede:global.cfg_cmsurl/}/pages/contact.htm">联系我们</a>
             <ul class="dropdown">
-                <li><a href="/pages/contact.htm">联系我们</a></li>
+                <li><a href="/pages/contact.htm">联系方式</a></li>
             </ul>
         </div>
     </div>
@@ -65,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-    <img src="{dede:global.cfg_templets_skin/}/images/long/head-right.png" alt=""
-         class="header-logo header-logo-right" />
-
+    <div class="header-logo header-logo-right">
+        <span class="header-stock">股票代码<br><strong>000000</strong></span>
+    </div>
 </div>

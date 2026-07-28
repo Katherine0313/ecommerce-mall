@@ -1,5 +1,5 @@
 /**
- * 龙洲集团 - 全局路由管理
+ * 鑫远集团 - 全局路由管理
  * ============================
  * 项目中所有页面跳转统一在这里维护。
  *
@@ -18,47 +18,45 @@ var ROUTES = {
     // =================== 首页 ===================
     'home':       '/',
 
-    // =================== 关于我们（待建页面，建好后替换 #）===================
-    'about':      '#', // TODO: /a/aboutus/
-    '公司简介':     '#', // TODO: /a/aboutus/profile/
-    '企业文化':     '#', // TODO: /a/aboutus/culture/
-    '集团荣誉':     '#', // TODO: /a/aboutus/honor/
+    // =================== 关于我们 ===================
+    'about':      '/pages/about/index.htm',
+    '公司简介':     '/pages/about/index.htm',
+    '企业文化':     '/pages/about/culture.htm',
+    '集团荣誉':     '/pages/about/honor.htm',
 
-    // =================== 公司业务（待建页面，建好后替换 #）===================
+    // =================== 公司业务 ===================
     'business':   '/pages/bus.htm',
-    '现代物流':     'http://www.ahzzwl.cn/',
-    '汽车客运及站务服务': '/pages/bus.htm',
-    '汽车制造及销售与服务': '/pages/bus-sales.htm',
-    '成品油及天然气销售': '#', // TODO: /a/business/oil/
-    '其他产业':     '#', // TODO: /a/business/other/
+    '科技研发':     '/pages/bus.htm',
+    '工程建设':     '/pages/bus.htm',
+    '商贸服务':     '/pages/bus-sales.htm',
+    '绿色能源':     '/pages/gas.htm',
+    '综合投资':     '/pages/otherIndustries.htm',
 
-    // =================== 新闻动态 ====================
+    // =================== 新闻动态 ===================
     'news':       '/a/qiyezixun/',
-    '龙洲要闻':     '/a/qiyezixun/',
+    '集团要闻':     '/a/qiyezixun/',
     '招投标':       '/a/zhaotoubiao/',
 
-    // =================== 投资者关系（待建页面，建好后替换 #）===================
-    'investor':   '/pages/investor.htm',
-    '股票信息':     '#', // TODO: /a/investor/stock/
-    '公司公告':     '#', // TODO: /a/investor/announcement/
-    '公司制度':     '#', // TODO: /a/investor/policy/
-    '独立董事交流专栏': '#', // TODO: /a/investor/director/
-    '投资者互动':   '#', // TODO: /a/investor/interaction/
-    '投资者宣传教育': '#', // TODO: /a/investor/education/
-    '联系我们':     '#', // TODO: /a/investor/contact/
+    // =================== 投资者关系 ===================
+    'investor':   '/pages/invest/stock.htm',
+    '股票信息':     '/pages/invest/stock.htm',
+    '公司制度':     '/pages/invest/system.htm',
+    '独立董事交流专栏': '/pages/invest/investor.htm',
+    '投资者宣传教育': '/pages/invest/education.htm',
 
-    // =================== 加入龙洲 ===================
+    // =================== 加入我们 ===================
     'join':       '/pages/joinus.htm',
 
-    // =================== 联系龙洲 ===================
+    // =================== 联系我们 ===================
     'contact':    '/pages/contact.htm',
+    '联系方式':     '/pages/contact.htm',
 
     // =================== 首页核心业务 ===================
-    'biz-logistics':      'http://www.ahzzwl.cn/',
-    'biz-passenger':      '/pages/bus.htm',
-    'biz-manufacturing':  '/pages/bus-sales.htm',
-    'biz-oil':            '#',
-    'biz-other':          '#',
+    'biz-tech':       '/pages/bus.htm',
+    'biz-construction': '/pages/bus.htm',
+    'biz-trade':      '/pages/bus-sales.htm',
+    'biz-energy':     '/pages/gas.htm',
+    'biz-invest':     '/pages/otherIndustries.htm',
 
     // =================== 搜索 ===================
     'search':     '/plus/search.php'

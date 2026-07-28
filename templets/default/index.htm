@@ -5,7 +5,7 @@
     <title>{dede:global.cfg_webname/}</title>
     <meta name="description" content="{dede:global.cfg_description/}" />
     <meta name="keywords" content="{dede:global.cfg_keywords/}" />
-    <link href="{dede:global.cfg_templets_skin/}/style/dedecms.css?v=20260726" rel="stylesheet" media="screen" type="text/css" />
+    <link href="{dede:global.cfg_templets_skin/}/style/dedecms.css?v=20260728" rel="stylesheet" media="screen" type="text/css" />
     <link href="{dede:global.cfg_templets_skin/}/style/layout.css" rel="stylesheet" media="screen" type="text/css" />
     <link href="{dede:global.cfg_templets_skin/}/style/page.css" rel="stylesheet" media="screen" type="text/css" />
     <meta http-equiv="mobile-agent" content="format=xhtml;url={dede:global.cfg_mobileurl/}/index.php">
@@ -32,7 +32,6 @@
     <script language="javascript" type="text/javascript"
             src="{dede:global.cfg_templets_skin/}/js/pic_scroll.js"></script>
     <script language="javascript" type="text/javascript">
-        <!--
         $(function () {
             $("a[_for]").mouseover(function () {
                 $(this).parents().children("a[_for]").removeClass("thisclass").parents().children("dd").hide();
@@ -42,74 +41,81 @@
             $("a[_for=uc_member]").mouseover();
             $("a[_for=flink_1]").mouseover();
         });
-
         function CheckLogin() {
             var taget_obj = document.getElementById('_userlogin');
             myajax = new DedeAjax(taget_obj, false, false, '', '', '');
             myajax.SendGet2("{dede:global.cfg_cmspath/}/member/ajax_loginsta.php");
             DedeXHTTP = null;
         }
-
-        -->
     </script>
 </head>
 <body class="index">
 {dede:include filename="head.htm"/}
-<!-- 轮播图 -->
+<!-- 轮播图（CSS 渐变代替 Longzhou 品牌图片） -->
 <div class="content">
     <div class="banner" data-carousel>
-        <img src="{dede:global.cfg_templets_skin/}/images/long/banner/banner1.jpg" alt="banner1" />
-        <img src="{dede:global.cfg_templets_skin/}/images/long/banner/banner2.jpg" alt="banner2" />
-        <img src="{dede:global.cfg_templets_skin/}/images/long/banner/banner3.png" alt="banner3" />
-        <img src="{dede:global.cfg_templets_skin/}/images/long/banner/banner4.png" alt="banner4" />
+        <div class="slide-banner bg-1">
+            <h1>小杰集团</h1>
+            <p>创新驱动 · 多元发展 · 价值引领</p>
+        </div>
+        <div class="slide-banner bg-2">
+            <h1>科技研发</h1>
+            <p>以科技创新驱动产业升级</p>
+        </div>
+        <div class="slide-banner bg-3">
+            <h1>绿色发展</h1>
+            <p>践行碳中和使命，构建可持续未来</p>
+        </div>
+        <div class="slide-banner bg-4">
+            <h1>合作共赢</h1>
+            <p>携手全球伙伴，共创美好未来</p>
+        </div>
     </div>
     <div class="business">
         <div class="title"> 核心业务</div>
         <div class="sub-title"> CORE BUSINESS</div>
         <div class="business-logo">
             <div class="item">
-                <a href="http://www.ahzzwl.cn/">
-                    <img src="{dede:global.cfg_templets_skin/}/images/long/business/business1.png" alt="business1" />
-                    <div class="text">现代物流</div>
+                <a href="/pages/bus.htm">
+                    <div class="biz-icon" class="biz-icon">&#x1F52C;</div>
+                    <div class="text">科技研发</div>
                 </a>
             </div>
             <div class="item">
-                <a href="{dede:global.cfg_cmsurl/}/pages/bus.htm">
-                    <img src="{dede:global.cfg_templets_skin/}/images/long/business/business2.png" alt="business2" />
-                    <div class="text">汽车客运及站务服务</div>
+                <a href="/pages/bus.htm">
+                    <div class="biz-icon" class="biz-icon">&#x1F3D7;</div>
+                    <div class="text">工程建设</div>
                 </a>
             </div>
             <div class="item">
-                <a href="{dede:global.cfg_cmsurl/}/pages/bus-sales.htm">
-                    <img src="{dede:global.cfg_templets_skin/}/images/long/business/business3.png"
-                         alt="business3" />
-                    <div class="text">汽车制造及销售与服务</div>
+                <a href="/pages/bus-sales.htm">
+                    <div class="biz-icon" class="biz-icon">&#x1F4E6;</div>
+                    <div class="text">商贸服务</div>
                 </a>
             </div>
             <div class="item">
-                <a href="{dede:global.cfg_cmsurl/}/pages/gas.htm">
-                    <img src="{dede:global.cfg_templets_skin/}/images/long/business/business4.png" alt="business4" />
-                    <div class="text">成品油及天然气销售</div>
+                <a href="/pages/gas.htm">
+                    <div class="biz-icon" class="biz-icon">&#x26A1;</div>
+                    <div class="text">绿色能源</div>
                 </a>
             </div>
             <div class="item">
-                <a href="{dede:global.cfg_cmsurl/}/pages/otherIndustries.htm">
-                    <img src="{dede:global.cfg_templets_skin/}/images/long/business/business5.png" alt="business5" />
-                    <div class="text">其他产业</div>
+                <a href="/pages/otherIndustries.htm">
+                    <div class="biz-icon" class="biz-icon">&#x1F4C8;</div>
+                    <div class="text">综合投资</div>
                 </a>
             </div>
         </div>
     </div>
     <div class="news-section">
-        <div class="title"> 龙洲要闻</div>
-        <div class="sub-title"> LONGZHOU NEWS</div>
+        <div class="title"> 集团要闻</div>
+        <div class="sub-title"> XINYUAN NEWS</div>
         <div class="news">
             <div class="news-left">
-                <div class='banner-left' data-carousel>
-                    <img src="{dede:global.cfg_templets_skin/}/images/long/news/news1.png" alt="news1" />
-                    <img src="{dede:global.cfg_templets_skin/}/images/long/news/news2.png" alt="news2" />
-                    <img src="{dede:global.cfg_templets_skin/}/images/long/news/news3.png" alt="news3" />
-                    <img src="{dede:global.cfg_templets_skin/}/images/long/news/news4.png" alt="news4" />
+                <div class='banner-left news-card'>
+                    <div class="nc-icon">&#x1F4F0;</div>
+                    <h2>集团新闻中心</h2>
+                    <p>了解小杰集团最新动态与重要资讯</p>
                 </div>
             </div>
             <div class="news-right"> {dede:channelartlist}
@@ -143,13 +149,11 @@
     <div class="link">
         <div class="title"> 友情链接</div>
         <div class="sub-title"> FRIENDSHIP LINKS</div>
-        <div class="img-section">
-            <a href="http://www.zhaohuagroup.com" target="_blank"><img src="{dede:global.cfg_templets_skin/}/images/long/link/link1.png" alt="兆华供应链管理集团有限公司" /></a>
-            <a href="http://www.ahzzwl.cn" target="_blank"><img src="{dede:global.cfg_templets_skin/}/images/long/link/link2.png" alt="中桩物流" /></a>
-            <a href="http://www.fjwyjy.com" target="_blank"><img src="{dede:global.cfg_templets_skin/}/images/long/link/link3.png" alt="福建武夷交通运输股份有限公司" /></a>
-            <a href="http://www.winnerwaymotors.com" target="_blank"><img src="{dede:global.cfg_templets_skin/}/images/long/link/link4.png" alt="宏远汽车" /></a>
-            <a href="http://www.fjcfzq.com" target="_blank"><img src="{dede:global.cfg_templets_skin/}/images/long/link/link5.png" alt="畅丰汽车" /></a>
-            <a href="http://www.mailiqing.com" target="_blank"><img src="{dede:global.cfg_templets_skin/}/images/long/link/link6.png" alt="迈沥青" /></a>
+        <div class="img-section centered">
+            <a href="#" class="friend-link">合作伙伴一</a>
+            <a href="#" class="friend-link">合作伙伴二</a>
+            <a href="#" class="friend-link">合作伙伴三</a>
+            <a href="#" class="friend-link">合作伙伴四</a>
         </div>
     </div>
 </div>
@@ -157,22 +161,22 @@
     <div class="footer-section">
         <div class="footer-left">
             <div class="item">
-                <img src="{dede:global.cfg_templets_skin/}/images/long/footer/phone.png" alt="phone" />
-                <div class="text"> 服务热线<h2>968866</h2></div>
+                <span class="footer-icon-phone">&#x260E;</span>
+                <div class="text"> 服务热线<h2>400-888-9999</h2></div>
             </div>
             <div class="item">
-                <div class="text"> COPYRIGHT 2004 WWW.LZGF.CN ALL RIGHTS RESERVED.龙洲集团股份有限公司 版权所有<br>
-                    网页维护:系统信息部 ICP备案号：闽ICP备17004275号
+                <div class="text"> COPYRIGHT 2004 WWW.XINYUANGROUP.COM ALL RIGHTS RESERVED.小杰集团有限公司 版权所有<br>
+                    网页维护:信息技术部 ICP备案号：京ICP备20240001号
                 </div>
             </div>
             <div class="item" id="police">
-                <img src="{dede:global.cfg_templets_skin/}/images/long/footer/police.png" alt="police" />
-                <div class="text">闽公网安备 35080202350841号</div>
+                <span class="footer-icon-police">&#x1F6E1;</span>
+                <div class="text">京公网安备 11010502000001号</div>
             </div>
         </div>
         <div class="footer-right">
-            <img src="{dede:global.cfg_templets_skin/}/images/long/footer/code.jpg" alt="code" />
-            <div class="text">扫码网上订票</div>
+            <div class="footer-qrcode">二维码</div>
+            <div class="text">扫码关注我们</div>
         </div>
     </div>
 </footer>
