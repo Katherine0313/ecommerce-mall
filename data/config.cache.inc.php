@@ -6,7 +6,7 @@ $cfg_indexurl = '/';
 $cfg_backup_dir = 'backupdata';
 $cfg_indexname = '主页';
 
-$cfg_webname = '鑫远集团有限公司';
+$cfg_webname = '小杰';
 $cfg_adminemail = 'admin@xinyuangroup.com';
 $cfg_html_editor = 'wangEditor';
 $cfg_arcdir = '/a';

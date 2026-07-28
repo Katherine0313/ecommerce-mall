@@ -3,7 +3,9 @@
  *	dedecms.com  Author Networker  2010.02.05
  **/
 
-/*---------- base ---------*/
+/* ============================================================
+ *   1. Base / Reset
+ * ============================================================ */
 * {
     padding: 0px;
     margin: 0px;
@@ -43,7 +45,19 @@ input, select, button {
     vertical-align: middle;
 }
 
-/*标题和副标题*/
+/* ============================================================
+ *   2. Content Wrapper & Common
+ * ============================================================ */
+.content {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 10px;
+    width: 100%;
+    box-sizing: border-box;
+    flex: 1;
+    font-family: '思源黑体', 'SourceHanSansCN', sans-serif !important;
+}
+
 * > .title {
     font-size: 24px;
     padding: 15px 0 15px 0;
@@ -58,52 +72,79 @@ input, select, button {
     text-align: center;
 }
 
-.content {
+/* 页面顶部 Banner（子页面通用） */
+.top-banner {
     max-width: 1240px;
-    margin: 0 auto;
-    padding: 0 10px;
-    width: 100%;
-    box-sizing: border-box;
-    flex: 1;
-    font-family: '思源黑体', 'SourceHanSansCN', sans-serif !important;
+    height: 200px;
+    background: linear-gradient(135deg, #1a56db, #1e40af);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 28px;
+    letter-spacing: 4px;
 }
 
-
-/* -----------header ---------*/
+/* ============================================================
+ *   3. Header
+ * ============================================================ */
 .header_top {
     height: 80px !important;
     line-height: 25px;
     border-bottom: 1px solid #DBDBDB;
     color: #676767;
     background: #1a56db;
-    background-image: none; /* logo 改用 <img> 元素，避免 background 覆盖到导航 */
-    display: flex; /* 左右 logo + 中间 nav 各占各的空间 */
+    background-image: none;
+    display: flex;
     align-items: center;
     padding: 0 20px;
     box-sizing: border-box;
 }
 
-/* 顶部左右两侧公司 logo：固定高度且不被挤压 */
+/* Logo */
 .header-logo {
     height: 56px;
     flex-shrink: 0;
 }
-
+.header-logo a {
+    text-decoration: none;
+    color: #fff;
+}
 .header-logo-left {
     margin-right: 30px;
 }
-
-.header-logo a { text-decoration: none; color: #fff; }
 .header-logo-right {
     margin-left: 30px;
     display: flex;
     align-items: center;
     gap: 6px;
 }
+.header-logo-txt {
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 4px;
+}
+.header-logo-sub {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 2px;
+    opacity: 0.8;
+}
+.header-stock {
+    color: #fff;
+    font-size: 13px;
+    white-space: nowrap;
+}
+.header-stock strong {
+    font-size: 18px;
+}
 
-/*顶部导航*/
+/* ============================================================
+ *   4. Navigation
+ * ============================================================ */
 .nav {
-    flex: 1; /* 占满 .header_top 中间剩余空间 */
+    flex: 1;
     max-width: 1240px;
     margin: 0 auto;
     display: flex;
@@ -120,89 +161,102 @@ input, select, button {
 .nav .nav-item {
     position: relative;
     cursor: pointer;
-    width:120px;
-    height:70px;
+    width: 120px;
+    height: 70px;
     line-height: 70px;
     text-align: center;
 }
-/*对item进行hover,这样才能撑满背景色宽度和高度*/
-.nav .nav-item.active ,
+
+.nav .nav-item.active,
 .nav .nav-item:hover {
     background: hsla(0, 0%, 100%, 0.22);
-    box-shadow: 0 2px 10px hsla(0, 0%, 100%, 0.4); /* 白色柔光：横向偏移0，向下偏移2px，模糊8px，半透浅白光 */
+    box-shadow: 0 2px 10px hsla(0, 0%, 100%, 0.4);
     border-top: 3px solid hsla(0, 0%, 95%, 0.5);
     border-bottom: 3px solid hsla(0, 0%, 95%, 0.5);
 }
 
-/* ===== 二级下拉菜单 ===== */
-/* 默认隐藏二级菜单 */
+/* 二级下拉菜单 */
 .nav .has-drop-down .dropdown {
     display: none;
     position: absolute;
-    top: 100%; /* 紧贴父级下沿 */
-    min-width: 100%; /* 至少和一级菜单同宽，可按需改 150px 等 */
-    z-index: 999; /*行业通用习惯，代表「高层浮层」，盖在绝大多数普通内容、弹窗、导航上面*/
+    top: 100%;
+    min-width: 100%;
+    z-index: 999;
     background: #fff;
     padding: 0;
     margin: 0;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-/* 鼠标悬停在父项、或在已展开的菜单上时显示 ，因为 display: none;前面隐藏了，所以 hover 的时候要靠 block 才能显示*/
 .nav .has-drop-down:hover .dropdown,
 .nav .has-drop-down .dropdown:hover {
     display: block;
 }
 
-/* 二级菜单里的链接重新设置行高，避免继承一级 80px */
 .nav .dropdown li a {
-    display: block; /*让a标签独占一行，这样背景色才能占满一行*/
+    display: block;
     color: #333;
-    line-height: 40px; /**/
+    line-height: 40px;
     padding: 0 20px;
     text-align: center;
     white-space: nowrap;
 }
 
 .nav .dropdown li a:hover {
-    background: #1a56db ;
-    color: #fff ;
+    background: #1a56db;
+    color: #fff;
 }
 
-/*---------- 轮播图（顶部大图） ----------*/
+/* ============================================================
+ *   5. Banner / Carousel（首页轮播）
+ * ============================================================ */
 .banner {
     height: 500px;
     position: relative;
     overflow: hidden;
 }
 
-/*---------- 轮播图（新闻左侧小图） ----------*/
-.banner-left {
-    width: 100%;
-    height: 380px;
-    position: relative;
-    overflow: hidden;
+/* 首页轮播图 slide */
+.slide-banner {
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: #fff;
 }
+.slide-banner h1 {
+    font-size: 48px;
+    font-weight: bold;
+    letter-spacing: 6px;
+    margin: 0;
+}
+.slide-banner p {
+    font-size: 20px;
+    margin-top: 20px;
+    letter-spacing: 4px;
+    opacity: 0.9;
+}
+.slide-banner.bg-1 { background: linear-gradient(135deg, #1a56db 0%, #3b82f6 50%, #60a5fa 100%); }
+.slide-banner.bg-2 { background: linear-gradient(135deg, #1e40af 0%, #2563eb 50%, #1d4ed8 100%); }
+.slide-banner.bg-3 { background: linear-gradient(135deg, #1e3a5f 0%, #1a56db 50%, #2563eb 100%); }
+.slide-banner.bg-4 { background: linear-gradient(135deg, #1a56db 0%, #1e40af 50%, #1e3a5f 100%); }
 
-/*---- 轮播通用机制（任何带 data-carousel 的容器都生效）----*/
+/* 轮播通用机制 */
 [data-carousel] .slide-img {
     width: 100%;
     display: block;
     opacity: 0;
     transition: opacity .8s ease;
 }
-
 [data-carousel] .slide-img.active {
     opacity: 1;
 }
-
-/* 第一张留在文档流撑出高度，其余绝对定位叠加 */
 [data-carousel] .slide-img:not(.active) {
     position: absolute;
     top: 0;
     left: 0;
 }
-
 [data-carousel] .slide-dots {
     position: absolute;
     bottom: 10px;
@@ -215,7 +269,6 @@ input, select, button {
     gap: 6px;
     z-index: 10;
 }
-
 [data-carousel] .slide-dots li {
     width: 8px;
     height: 8px;
@@ -224,12 +277,24 @@ input, select, button {
     cursor: pointer;
     transition: background .3s;
 }
-
 [data-carousel] .slide-dots li.active {
     background: #fff;
 }
 
-/*---------- 5大核心业务 ----------*/
+/* 新闻左侧小轮播 */
+.banner-left {
+    width: 100%;
+    height: 380px;
+    position: relative;
+    overflow: hidden;
+}
+.banner-left img {
+    object-fit: contain;
+}
+
+/* ============================================================
+ *   6. Business（五大核心业务）
+ * ============================================================ */
 .business {
     margin: 10px auto;
     text-align: center;
@@ -237,18 +302,30 @@ input, select, button {
 
 .business-logo {
     display: flex;
-    gap: 15px; /*搭配flex:1使用，留空*/
+    gap: 15px;
 }
 
 .business .item {
-    flex: 1; /*平分宽度*/
+    flex: 1;
     padding: 30px 20px;
-    cursor: pointer; /*手掌效果*/
+    cursor: pointer;
     border: 1px solid #ccc;
 }
 
 .business .item:hover {
     background: #1a56db;
+}
+
+.business img {
+    max-width: 60px;
+}
+
+.business a:visited {
+    color: #333;
+}
+
+.biz-icon {
+    font-size: 50px;
 }
 
 .item .text {
@@ -260,83 +337,9 @@ input, select, button {
     color: #fff;
 }
 
-.business img {
-    max-width: 60px;
-}
-
-/*设置a标签访问后不变色*/
-.business a:visited {
-    color: #333;
-}
-
-/*---------- 友情链接 ----------*/
-.img-section {
-    display: flex;
-    gap: 40px;
-    flex-wrap: wrap;
-    margin-bottom: 30px;
-}
-
-.img-section img {
-    border: 1px solid #ccc;
-    padding: 10px;
-    width: 180px;
-    height: 50px;
-    object-fit: contain;
-    cursor: pointer;
-}
-
-/*----------  footer ---------*/
-footer {
-    background: rgb(27, 27, 27);
-    color: #CCCCCC;
-    padding: 10px;
-    flex-shrink: 0;
-}
-
-.footer-section {
-    display: flex;
-    justify-content: space-between;
-    max-width: 1240px;
-    margin: 0 auto;
-}
-
-.footer-right img {
-    max-width: 100px;
-    border: 1px solid white;
-    padding: 10px;
-    background: white;
-    margin-bottom: 10px;
-}
-
-.footer-right {
-    padding-top: 10px;
-}
-
-.footer-left {
-    font-size: 14px;
-}
-
-.footer-left img {
-    max-width: 80px;
-}
-
-.footer-left .item {
-    display: flex;
-    gap: 10px;
-    margin: 10px 0;
-}
-
-#police img {
-    width: 30px;
-    object-fit: contain;
-}
-
-#police .text {
-    padding-top: 5px;
-}
-
-/*----------首页 新闻板块 ----------*/
+/* ============================================================
+ *   7. News（首页新闻板块）
+ * ============================================================ */
 .news {
     display: flex;
     gap: 15px;
@@ -352,16 +355,39 @@ footer {
     flex: 1;
 }
 
-.banner-left img {
-    object-fit: contain;
+.news-right a:visited {
+    color: #333;
 }
 
-/*新闻板块，右边部分*/
+/* 新闻卡片 */
+.news-card {
+    background: linear-gradient(135deg, #1a56db, #1e40af);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    flex-direction: column;
+    text-align: center;
+}
+.news-card .nc-icon {
+    font-size: 60px;
+    margin-bottom: 15px;
+}
+.news-card h2 {
+    font-size: 24px;
+}
+.news-card p {
+    font-size: 14px;
+    margin-top: 10px;
+    opacity: 0.85;
+}
+
+/* 新闻列表 tbox */
 .tbox {
     margin: 0 0 8px 0;
     overflow: hidden;
 }
-
 
 .tbox .head {
     height: 34px;
@@ -376,7 +402,6 @@ footer {
     width: 130px;
     height: 34px;
     line-height: 34px !important;
-    padding-left: 17px;
     letter-spacing: 1px;
     background: #1a56db;
     border-radius: 4px;
@@ -409,10 +434,6 @@ footer {
     font-size: 20px;
 }
 
-.news-right a:visited {
-    color: #333;
-}
-
 #news-list .item {
     display: flex;
     gap: 15px;
@@ -433,51 +454,29 @@ footer {
     flex: 1;
 }
 
-/*---------- 轮播图 slide-banner ----------*/
-.slide-banner {
-    height: 500px;
+/* ============================================================
+ *   8. Friend Links（友情链接）
+ * ============================================================ */
+.img-section {
     display: flex;
-    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+.img-section.centered {
     justify-content: center;
-    flex-direction: column;
-    color: #fff;
+    gap: 30px;
 }
-.slide-banner h1 {
-    font-size: 48px;
-    font-weight: bold;
-    letter-spacing: 6px;
-    margin: 0;
-}
-.slide-banner p {
-    font-size: 20px;
-    margin-top: 20px;
-    letter-spacing: 4px;
-    opacity: 0.9;
-}
-.slide-banner.bg-1 { background: linear-gradient(135deg, #1a56db 0%, #3b82f6 50%, #60a5fa 100%); }
-.slide-banner.bg-2 { background: linear-gradient(135deg, #1e40af 0%, #2563eb 50%, #1d4ed8 100%); }
-.slide-banner.bg-3 { background: linear-gradient(135deg, #1e3a5f 0%, #1a56db 50%, #2563eb 100%); }
-.slide-banner.bg-4 { background: linear-gradient(135deg, #1a56db 0%, #1e40af 50%, #1e3a5f 100%); }
 
-/*---------- 业务图标 ----------*/
-.biz-icon { font-size: 50px; }
-
-/*---------- 新闻卡片（首页新闻左侧） ----------*/
-.news-card {
-    background: linear-gradient(135deg, #1a56db, #1e40af);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    flex-direction: column;
-    text-align: center;
+.img-section img {
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 180px;
+    height: 50px;
+    object-fit: contain;
+    cursor: pointer;
 }
-.news-card .nc-icon { font-size: 60px; margin-bottom: 15px; }
-.news-card h2 { font-size: 24px; }
-.news-card p { font-size: 14px; margin-top: 10px; opacity: 0.85; }
 
-/*---------- 友情链接文字型 ----------*/
 .friend-link {
     display: inline-block;
     padding: 15px 30px;
@@ -487,45 +486,59 @@ footer {
     text-decoration: none;
     font-size: 14px;
 }
-.friend-link:hover { color: #1a56db; border-color: #1a56db; }
-.img-section.centered { justify-content: center; gap: 30px; }
+.friend-link:hover {
+    color: #1a56db;
+    border-color: #1a56db;
+}
 
-/*---------- Header logo 文字 ----------*/
-.header-logo-txt {
-    font-size: 28px;
-    font-weight: bold;
-    letter-spacing: 4px;
+/* ============================================================
+ *   9. Footer
+ * ============================================================ */
+footer {
+    background: rgb(27, 27, 27);
+    color: #CCCCCC;
+    padding: 10px;
+    flex-shrink: 0;
 }
-.header-logo-sub {
-    display: block;
-    font-size: 11px;
-    letter-spacing: 2px;
-    opacity: 0.8;
-}
-.header-stock {
-    color: #fff;
-    font-size: 13px;
-    white-space: nowrap;
-}
-.header-stock strong { font-size: 18px; }
 
-/*---------- 页面顶部 Banner ----------*/
-.top-banner {
-    max-width: 1240px;
-    height: 200px;
-    background: linear-gradient(135deg, #1a56db, #1e40af);
-    border-radius: 8px;
+.footer-section {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-size: 28px;
-    letter-spacing: 4px;
+    justify-content: space-between;
+    max-width: 1240px;
+    margin: 0 auto;
 }
 
-/*---------- Footer 图标 ----------*/
-.footer-icon-phone { font-size: 40px; margin-right: 5px; }
-.footer-icon-police { font-size: 20px; margin-right: 5px; }
+.footer-left {
+    font-size: 14px;
+}
+.footer-left img {
+    max-width: 80px;
+}
+.footer-left .item {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.footer-right {
+    padding-top: 10px;
+}
+.footer-right img {
+    max-width: 100px;
+    border: 1px solid white;
+    padding: 10px;
+    background: white;
+    margin-bottom: 10px;
+}
+
+.footer-icon-phone {
+    font-size: 40px;
+    margin-right: 5px;
+}
+.footer-icon-police {
+    font-size: 20px;
+    margin-right: 5px;
+}
 .footer-qrcode {
     width: 100px;
     height: 100px;
@@ -539,3 +552,10 @@ footer {
     margin-bottom: 10px;
 }
 
+#police img {
+    width: 30px;
+    object-fit: contain;
+}
+#police .text {
+    padding-top: 5px;
+}
