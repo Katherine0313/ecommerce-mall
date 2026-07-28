@@ -296,9 +296,9 @@
 .more-link a {
     display: inline-block;
     padding: 10px 35px;
-    background: #c41230;
-    color: #fff;
+    color: #c41230;
     border-radius: 20px;
     font-size: 14px;
     letter-spacing: 2px;
+    border: 1px solid #ccc;
 }
