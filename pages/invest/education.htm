@@ -8,7 +8,6 @@
     <link href="/templets/default/style/dedecms.css" rel="stylesheet" media="screen" type="text/css" />
     <link href="/templets/default/style/layout.css" rel="stylesheet" media="screen" type="text/css" />
     <link href="/templets/default/style/page.css" rel="stylesheet" media="screen" type="text/css" />
-    <meta http-equiv="mobile-agent" content="format=xhtml;url=/m/index.php">
     <script type="text/javascript">
         if (window.location.toString().indexOf('pref=padindex') !== -1) {
         } else {
@@ -16,7 +15,7 @@
                 if (window.location.href.indexOf("?mobile") < 0) {
                     try {
                         if (/Android|Windows Phone|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
-                            window.location.href = "/m/index.php";
+                            // mobile redirect disabled
                         } else if (/iPad/i.test(navigator.userAgent)) {
                         } else {
                         }

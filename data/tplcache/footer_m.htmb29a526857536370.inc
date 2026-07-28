@@ -1,12 +1,9 @@
 <?php
-$z[0]=Array("global","",223,249);
+$z[0]=Array("global","",182,214);
 $z[0][4]=array();
-$z[0][4]['name']="cfg_version";
-$z[1]=Array("global","",354,380);
+$z[0][4]['name']="cfg_templets_skin";
+$z[1]=Array("global","",602,634);
 $z[1][4]=array();
-$z[1][4]['name']="cfg_powerby";
-$z[2]=Array("global","",392,416);
-$z[2][4]=array();
-$z[2][4]['name']="cfg_beian";
+$z[1][4]['name']="cfg_templets_skin";
 
 ?>
