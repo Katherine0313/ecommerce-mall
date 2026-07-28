@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>公司简介_龙洲集团股份有限公司</title>
+<style>
+* { margin:0;padding:0;box-sizing:border-box; }
+body { font-family:'Microsoft YaHei','PingFang SC',sans-serif; background:#f5f5f5; color:#333; -webkit-text-size-adjust:100%; }
+a { text-decoration:none; color:#333; }
+.header { background:#c41230; position:sticky; top:0; z-index:98; }
+.header-inner { display:flex; align-items:center; justify-content:space-between; padding:10px 15px; }
+.header .logo { display:flex; align-items:center; gap:10px; }
+.header .logo img { height:36px; width:auto; }
+.header .logo span { color:#fff; font-size:17px; font-weight:bold; }
+.header .menu-btn { color:#fff; font-size:26px; cursor:pointer; }
+.nav-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:99; }
+.nav-overlay.show { display:block; }
+.nav-panel { position:fixed; top:0; right:0; width:75%; max-width:300px; height:100%; background:#fff; z-index:100; transform:translateX(100%); transition:transform 0.3s; overflow-y:auto; }
+.nav-panel.show { transform:translateX(0); }
+.nav-panel .nav-close { text-align:right; padding:15px; font-size:26px; color:#999; cursor:pointer; border-bottom:1px solid #eee; }
+.nav-panel a { display:block; padding:13px 20px; border-bottom:1px solid #f0f0f0; font-size:15px; color:#333; }
+.nav-panel a.sub { padding-left:35px; font-size:14px; color:#666; }
+.page { padding:0 15px 30px; }
+.breadcrumb { padding:12px 0; font-size:13px; color:#999; }
+.breadcrumb a { color:#c41230; }
+.tabs { display:flex; background:#fff; border-radius:8px; overflow:hidden; margin-bottom:15px; box-shadow:0 2px 6px rgba(0,0,0,0.05); }
+.tabs a { flex:1; text-align:center; padding:12px 8px; font-size:14px; border-right:1px solid #f0f0f0; }
+.tabs a:last-child { border-right:none; }
+.tabs a.active { color:#c41230; font-weight:bold; }
+.card { background:#fff; border-radius:8px; padding:20px 15px; box-shadow:0 2px 6px rgba(0,0,0,0.05); }
+.card h1 { text-align:center; font-size:22px; color:#c41230; margin-bottom:20px; }
+.card p { font-size:15px; color:#444; line-height:2; text-indent:2em; margin-bottom:14px; }
+.card .info-line { font-size:14px; color:#555; line-height:2.2; margin-top:20px; padding-top:15px; border-top:1px solid #f0f0f0; }
+.footer { background:#333; color:#ccc; text-align:center; padding:25px 15px; }
+.footer .hotline { font-size:14px; margin-bottom:8px; }
+.footer .hotline strong { color:#fff; font-size:28px; font-weight:200; display:block; margin-top:4px; }
+.footer .qrcode { margin:15px 0; }
+.footer .qrcode img { width:80px; height:auto; margin:0 auto; border-radius:6px; }
+.footer .qrcode p { font-size:12px; margin-top:6px; }
+.footer .copy { font-size:11px; margin-top:10px; line-height:1.8; }
+.footer .police { margin-top:8px; display:flex; align-items:center; justify-content:center; gap:6px; font-size:11px; }
+.footer .police img { width:16px; height:16px; }
+</style>
+</head>
+<body>
+<div class="header"><div class="header-inner"><a href="/m/index.php" class="logo"><img src="/templets/default/images/long/head-left.png" alt=""><span>龙洲集团</span></a><div class="menu-btn" onclick="toggleNav()">&#9776;</div></div></div>
+<div class="nav-overlay" id="navOverlay" onclick="toggleNav()"></div>
+<div class="nav-panel" id="navPanel"><div class="nav-close" onclick="toggleNav()">&times;</div>
+<a href="/m/index.php">首页</a>
+<a href="/m/pages/about/index.html" style="color:#c41230;">关于我们</a>
+<a href="/m/pages/about/index.html" class="sub">公司简介</a>
+<a href="/m/pages/about/culture.html" class="sub">企业文化</a>
+<a href="/m/pages/about/honor.html" class="sub">集团荣誉</a>
+<a href="/m/pages/bus.html">公司业务</a><a href="/m/pages/bus.html" class="sub">汽车客运及站务服务</a><a href="/m/pages/bus-sales.html" class="sub">汽车制造及销售与服务</a><a href="/m/pages/gas.html" class="sub">成品油及天然气销售</a><a href="/m/pages/otherIndustries.html" class="sub">其他产业</a>
+<a href="/m/list.php?tid=18">新闻动态</a><a href="/m/list.php?tid=18" class="sub">龙洲要闻</a><a href="/m/list.php?tid=19" class="sub">招投标</a>
+<a href="/m/pages/invest/stock.html">投资者关系</a>
+<a href="/m/pages/joinus.html">加入龙洲</a>
+<a href="/m/pages/contact.html">联系龙洲</a></div>
+
+<div class="page">
+    <div class="breadcrumb"><a href="/m/index.php">首页</a> &gt; 关于我们 &gt; 公司简介</div>
+    <div class="tabs">
+        <a href="/m/pages/about/index.html" class="active">公司简介</a>
+        <a href="/m/pages/about/culture.html">企业文化</a>
+        <a href="/m/pages/about/honor.html">集团荣誉</a>
+    </div>
+    <div class="card">
+        <h1>公司简介</h1>
+        <p>龙洲集团股份有限公司经福建省人民政府批准，于2003年8月29日注册成立，目前总股本5.62亿元。集团先后荣获"全国文明单位、全国五一劳动奖状、全国模范职工之家、全国先进劳动争议调解组织、全国厂务公开民主管理先进单位、全国交通运输企业文化建设优秀单位、全国安康杯竞赛优胜单位、全国物流行业先进集体、福建省先进基层党组织、福建省最佳信用企业、福建省和谐企业"等荣誉称号。</p>
+        <p>龙洲集团已逐步发展成为集现代物流、汽车制造与销售服务、汽车客运与站务服务、成品油与天然气销售等经营业务为一体的产业化集团。2012年6月，集团公司在深圳证券交易所成功挂牌上市。</p>
+        <p>集团通过自身发展及不断收购兼并区域内外运输企业，拥有闽西、闽北两个具有三省交通要冲区位优势的客运市场。截至2025年12月31日，公司拥有35个客运站，其中一级客运站5个，二级客运站14个；拥有客运车辆2200辆，其中班线客车1218辆、旅游车161辆、公交车502辆、出租车319辆；拥有客运班线615条，班线覆盖了闽西、闽北城乡和省内各主要城市，并向广东、浙江、江西等地辐射。</p>
+        <p>集团把准时代脉搏，紧抓国家大力推进物流业发展的历史机遇，加快大物流体系的建设。充分整合集团车辆和站点资源，在位于闽粤赣三省交通枢纽的武平县建设综合物流园，发展服务农村最后一公里和农产品上行最初一公里的县乡村三级电商产业园；聚集龙岩物流资源和要素，建设龙岩公路港，提升快递区域分拨中心、城市物流配送中心等功能；凭借长江626米优质深水岸线码头及配套667亩港后多式联运物流园，积极发展港口物流；以重大资产重组方式并购兆华供应链，发展沥青等大宗商品加工、仓储、集装箱运输、贸易及电子商务综合服务的特种物流。集团还完成国家交通运输部无车承运人三年试点工作。集团通过物流园区的建设和经营，不断完善物流节点的网络布局，并通过"互联网+"模式联结线上线下资源，实现现代物流业务的立体化发展。</p>
+        <p>集团稳步发展专用汽车研发及制造、汽车维修、车辆检测等汽车的前端和后端业务。通过投资控股方式，发展专用汽车的研发与制造。</p>
+        <p>集团着力拓展油气产业，通过新建、控股、收购等方式，与中石化、中石油、中海油等大型央企联手，业务从福建扩展到安徽，经营范围涵盖成品油批发与零售，天然气加工、生产、批发与零售，润滑油零售等；集团还延伸发展交通职业教育与培训、卫星定位监控服务、信息科技、新能源汽车充电站等业务，提升相关产业的融合发展，打造黄金产业链。</p>
+        <p>多年来，集团坚持做大做强主业，做精做深产业链，不断培育新的经济增长点，不断拓展新的市场空间，形成以福建为中心，逐步扩大对京津冀、长三角、珠三角等地区的业务覆盖，实现资产规模、经营业绩的跨越式发展。</p>
+        <p>集团将始终以"安全、快速、创造、卓越"为经营理念，以"精诚服务，造福社会"为服务理念，以"全方位满足人的高层次需求，全身心创造人的高品位生活"为使命，朝着"道路运输产业持续领导者、现代服务产业价值创新商"的目标不断前行，实现股东、企业、客户、员工、社会的和谐共赢。</p>
+        <div class="info-line">
+            <p>党委书记、董事长：陈明盛</p>
+            <p>党委副书记、副董事长、总裁：蓝能旺</p>
+            <p>地址：福建省龙岩市新罗区南环西路112号</p>
+            <p>联系电话：0597-3100600</p>
+            <p>传真：0597-3100612</p>
+            <p>邮编：364000</p>
+        </div>
+    </div>
+</div>
+
+<div class="footer"><div class="hotline">服务热线<strong>968866</strong></div><div class="qrcode"><img src="/templets/default/images/long/footer/code.jpg" alt=""><p>扫码网上订票</p></div><div class="copy">COPYRIGHT 2004 WWW.LZGF.CN ALL RIGHTS RESERVED.<br>龙洲集团股份有限公司 版权所有<br>网页维护:系统信息部<br>ICP备案号：闽ICP备17004275号</div><div class="police"><img src="/templets/default/images/long/footer/police.png" alt=""><span>闽公网安备 35080202350841号</span></div></div>
+<script>function toggleNav(){document.getElementById('navOverlay').classList.toggle('show');document.getElementById('navPanel').classList.toggle('show');}</script>
+</body>
+</html>
