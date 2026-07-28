@@ -17,18 +17,15 @@ $z[4][4]['name']="cfg_templets_skin";
 $z[5]=Array("global","",518,550);
 $z[5][4]=array();
 $z[5][4]['name']="cfg_templets_skin";
-$z[6]=Array("global","",2736,2762);
+$z[6]=Array("arclist","\n        <div class=\"item\">\n            <div class=\"date\">\n                <span class=\"day\">[field:pubdate function=\"MyDate('d',@me)\"/]</span>\n                <span class=\"ym\">[field:pubdate function=\"MyDate('Y-m',@me)\"/]</span>\n            </div>\n            <div class=\"info\">\n                <h3><a href=\"view.php?aid=[field:id/]\">[field:title/]</a></h3>\n            </div>\n        </div>\n        ",4415,4879);
 $z[6][4]=array();
-$z[6][4]['name']="cfg_webname";
-$z[7]=Array("arclist","\n        <div class=\"item\">\n            <div class=\"date\">\n                <span class=\"day\">[field:pubdate function=\"MyDate('d',@me)\"/]</span>\n                <span class=\"ym\">[field:pubdate function=\"MyDate('Y-m',@me)\"/]</span>\n            </div>\n            <div class=\"info\">\n                <h3><a href=\"view.php?aid=[field:id/]\">[field:title/]</a></h3>\n            </div>\n        </div>\n        ",6345,6809);
+$z[6][4]['typeid']="18";
+$z[6][4]['titlelen']="60";
+$z[6][4]['row']="5";
+$z[7]=Array("arclist","\n        <div class=\"item\">\n            <div class=\"date\">\n                <span class=\"day\">[field:pubdate function=\"MyDate('d',@me)\"/]</span>\n                <span class=\"ym\">[field:pubdate function=\"MyDate('Y-m',@me)\"/]</span>\n            </div>\n            <div class=\"info\">\n                <h3><a href=\"view.php?aid=[field:id/]\">[field:title/]</a></h3>\n            </div>\n        </div>\n        ",5154,5618);
 $z[7][4]=array();
-$z[7][4]['typeid']="18";
+$z[7][4]['typeid']="19";
 $z[7][4]['titlelen']="60";
-$z[7][4]['row']="5";
-$z[8]=Array("arclist","\n        <div class=\"item\">\n            <div class=\"date\">\n                <span class=\"day\">[field:pubdate function=\"MyDate('d',@me)\"/]</span>\n                <span class=\"ym\">[field:pubdate function=\"MyDate('Y-m',@me)\"/]</span>\n            </div>\n            <div class=\"info\">\n                <h3><a href=\"view.php?aid=[field:id/]\">[field:title/]</a></h3>\n            </div>\n        </div>\n        ",7092,7556);
-$z[8][4]=array();
-$z[8][4]['typeid']="19";
-$z[8][4]['titlelen']="60";
-$z[8][4]['row']="4";
+$z[7][4]['row']="4";
 
 ?>

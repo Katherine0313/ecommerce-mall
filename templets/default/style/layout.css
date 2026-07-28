@@ -1,64 +1,237 @@
 /* ============================================================
  *   PC端 — DedeCMS 列表 / 分页 / 侧栏样式
- *   (e2/d1/d6 = 列表  dede_pages = 分页  c1/ico2 = 热点)
+ *   (e2 = 文章列表  d1 = 首页新闻  d4/d6 = 推荐/栏目  c1/ico2 = 热点)
  * ============================================================ */
 
-/* ---- 较重色调 Box ---- */
-.light { background:none; }
-.light dt { height:24px; border:1px solid #DADADA; overflow:hidden; background:url(../images/green_skin.png) 0 -188px repeat-x; clear:both; }
-.light dd { border-left:1px solid #DADADA; border-right:1px solid #DADADA; overflow:hidden; }
-dt.light strong { color:#316301; }
+/* ---------- light: 较重色调 Box ---------- */
+.light {
+    background: none;
+}
+.light dt {
+    height: 24px;
+    border: 1px solid #DADADA;
+    overflow: hidden;
+    background: url(../images/green_skin.png) 0 -188px repeat-x;
+    clear: both;
+}
+.light dd {
+    border-left: 1px solid #DADADA;
+    border-right: 1px solid #DADADA;
+    overflow: hidden;
+}
+dt.light strong {
+    color: #316301;
+}
 
-/* ---- c1: 纯文本链接列表 ---- */
-.c1 { padding:4px 0; clear:right; }
-.c1 li { height:27px; line-height:27px; overflow:hidden; padding-left:16px; background:url(../images/ico-2.gif) 7px 11px no-repeat; }
-.c1 a { color:#585858; }
+/* ---------- c1: 纯文本链接列表 ---------- */
+.c1 {
+    padding: 4px 0;
+    clear: right;
+}
+.c1 li {
+    height: 27px;
+    line-height: 27px;
+    overflow: hidden;
+    padding-left: 16px;
+    background: url(../images/ico-2.gif) 7px 11px no-repeat;
+}
+.c1 a {
+    color: #585858;
+}
 
-/* ---- d1: 前置日期小列表（首页新闻列表用） ---- */
-.d1 { padding:4px 0; }
-.d1 li { height:27px; line-height:27px; overflow:hidden; }
-.d1 li span { color:#ABA9A2; margin-right:5px; float:left; }
-#news-list .item { display:flex; align-items:center; height:34px; line-height:34px; overflow:hidden; }
-#news-list .item .l { flex-shrink:0; margin-right:10px; }
-#news-list .item .r { flex:1; min-width:0; overflow:hidden; }
-#news-list .item .r a { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+/* ---------- d1: 前置日期小列表（首页新闻列表） ---------- */
+.d1 {
+    padding: 4px 0;
+}
+.d1 li {
+    height: 27px;
+    line-height: 27px;
+    overflow: hidden;
+}
+.d1 li span {
+    color: #ABA9A2;
+    margin-right: 5px;
+    float: left;
+}
+#news-list .item {
+    display: flex;
+    align-items: center;
+    height: 34px;
+    line-height: 34px;
+    overflow: hidden;
+}
+#news-list .item .l {
+    flex-shrink: 0;
+    margin-right: 10px;
+}
+#news-list .item .r {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+}
+#news-list .item .r a {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 
-/* ---- d4: 带简介列表 ---- */
-.d4 { padding:0; }
-.d4 li { padding:4px 8px; overflow:hidden; }
-.d4 li a { display:block; line-height:23px; overflow:hidden; text-indent:14px; background:url(../images/ico-3.gif) 4px 9px no-repeat; }
-.d4 li p { color:#888; line-height:17px; height:33px; overflow:hidden; }
+/* ---------- d4: 带简介列表 ---------- */
+.d4 {
+    padding: 0;
+}
+.d4 li {
+    padding: 4px 8px;
+    overflow: hidden;
+}
+.d4 li a {
+    display: block;
+    line-height: 23px;
+    overflow: hidden;
+    text-indent: 14px;
+    background: url(../images/ico-3.gif) 4px 9px no-repeat;
+}
+.d4 li p {
+    color: #888;
+    line-height: 17px;
+    height: 33px;
+    overflow: hidden;
+}
 
-/* ---- d6: 栏目列表导航 ---- */
-.d6 { width:100%; overflow:hidden; padding-bottom:6px; clear:both; }
-.d6 li { float:left; margin:6px 0 1px 8px; display:inline; }
-.d6 li a { width:87px; padding-left:20px; height:26px; line-height:26px; display:block; background:url(../images/green_skin.png) -42px -222px no-repeat; color:#316301; }
-.d6 li a:hover { text-decoration:none; }
-.d6 li a.thisclass { background:url(../images/green_skin.png) -42px -249px no-repeat; }
+/* ---------- d6: 栏目列表导航 ---------- */
+.d6 {
+    width: 100%;
+    overflow: hidden;
+    padding-bottom: 6px;
+    clear: both;
+}
+.d6 li {
+    float: left;
+    margin: 6px 0 1px 8px;
+    display: inline;
+}
+.d6 li a {
+    width: 87px;
+    padding-left: 20px;
+    height: 26px;
+    line-height: 26px;
+    display: block;
+    background: url(../images/green_skin.png) -42px -222px no-repeat;
+    color: #316301;
+}
+.d6 li a:hover {
+    text-decoration: none;
+}
+.d6 li a.thisclass {
+    background: url(../images/green_skin.png) -42px -249px no-repeat;
+}
 
-/* ---- e2: 图文混排列表（文章列表用） ---- */
-.e2 li { width:100%; overflow:hidden; clear:both; padding:12px 0; border-bottom:1px solid #EEE; color:#aaa; }
-.e2 li b a { color:#555; }
-.e2 li a.preview { width:84px; float:left; margin-right:7px; margin-bottom:3px; margin-left:10px; display:inline; }
-.e2 li a.preview img { width:80px; display:block; padding:1px; border:1px solid #EEE; }
-.e2 li a.preview:hover img { border:1px solid #AAA; }
-.e2 li a.title { overflow:hidden; line-height:25px; font-weight:bold; font-size:14px; margin-left:2px; }
-.e2 span.info { display:block; line-height:23px; color:#555; padding-left:12px; }
-.e2 span.info small { color:#AAA; font-size:12px; margin-left:3px; }
-.e2 span.info a { color:#690; }
-.e2 p.intro { color:#776955; line-height:20px; margin-left:5px; padding-left:10px; padding-right:10px; }
+/* ---------- e2: 图文混排列表（文章列表） ---------- */
+.e2 li {
+    width: 100%;
+    overflow: hidden;
+    clear: both;
+    padding: 12px 0;
+    border-bottom: 1px solid #EEE;
+    color: #aaa;
+}
+.e2 li b a {
+    color: #555;
+}
+.e2 li a.preview {
+    width: 84px;
+    float: left;
+    margin-right: 7px;
+    margin-bottom: 3px;
+    margin-left: 10px;
+    display: inline;
+}
+.e2 li a.preview img {
+    width: 80px;
+    display: block;
+    padding: 1px;
+    border: 1px solid #EEE;
+}
+.e2 li a.preview:hover img {
+    border: 1px solid #AAA;
+}
+.e2 li a.title {
+    overflow: hidden;
+    line-height: 25px;
+    font-weight: bold;
+    font-size: 14px;
+    margin-left: 2px;
+}
+.e2 span.info {
+    display: block;
+    line-height: 23px;
+    color: #555;
+    padding-left: 12px;
+}
+.e2 span.info small {
+    color: #AAA;
+    font-size: 12px;
+    margin-left: 3px;
+}
+.e2 span.info a {
+    color: #690;
+}
+.e2 p.intro {
+    color: #776955;
+    line-height: 20px;
+    margin-left: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
 
-/* ---- listbox ---- */
-.listbox { width:720px; overflow:hidden; float:left; clear:both; }
+/* ---------- listbox ---------- */
+.listbox {
+    width: 720px;
+    overflow: hidden;
+    float: left;
+    clear: both;
+}
 
-/* ---- dede_pages 分页 ---- */
-.dede_pages ul { float:left; padding:12px 0 12px 16px; }
-.dede_pages ul li { float:left; font-family:Tahoma; line-height:17px; margin-right:6px; border:1px solid #E9E9E9; }
-.dede_pages ul li a { float:left; padding:2px 4px; color:#555; display:block; }
-.dede_pages ul li a:hover { color:#690; text-decoration:none; }
-.dede_pages ul li.thisclass, .dede_pages ul li.thisclass a { background-color:#F8F8F8; font-weight:bold; }
-.dede_pages .pageinfo { line-height:21px; padding:12px 10px 12px 16px; color:#999; }
-.dede_pages .pageinfo strong { color:#555; font-weight:normal; margin:0 2px; }
+/* ---------- dede_pages 分页 ---------- */
+.dede_pages ul {
+    float: left;
+    padding: 12px 0 12px 16px;
+}
+.dede_pages ul li {
+    float: left;
+    font-family: Tahoma;
+    line-height: 17px;
+    margin-right: 6px;
+    border: 1px solid #E9E9E9;
+}
+.dede_pages ul li a {
+    float: left;
+    padding: 2px 4px;
+    color: #555;
+    display: block;
+}
+.dede_pages ul li a:hover {
+    color: #690;
+    text-decoration: none;
+}
+.dede_pages ul li.thisclass,
+.dede_pages ul li.thisclass a {
+    background-color: #F8F8F8;
+    font-weight: bold;
+}
+.dede_pages .pageinfo {
+    line-height: 21px;
+    padding: 12px 10px 12px 16px;
+    color: #999;
+}
+.dede_pages .pageinfo strong {
+    color: #555;
+    font-weight: normal;
+    margin: 0 2px;
+}
 
-/* ---- 图标 ---- */
-.ico2 li { padding-left:16px; background:url(../images/ico-2.gif) 6px 11px no-repeat; }
+/* ---------- 图标 ---------- */
+.ico2 li {
+    padding-left: 16px;
+    background: url(../images/ico-2.gif) 6px 11px no-repeat;
+}

@@ -5,6 +5,7 @@ $cfg_cookie_encode = 'C9WMecYaoL4giHo40PdrfgAneCdcBww';
 $cfg_indexurl = '/';
 $cfg_backup_dir = 'backupdata';
 $cfg_indexname = '主页';
+
 $cfg_webname = '我的网站';
 $cfg_adminemail = 'admin@dedecms.com';
 $cfg_html_editor = 'wangEditor';

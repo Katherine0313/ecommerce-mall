@@ -9,47 +9,22 @@
 <link href="assets/css/amazeui.min.css" rel="stylesheet">
 <link href="{dede:global.cfg_templets_skin/}/style/m/base.css" rel="stylesheet">
 <link href="{dede:global.cfg_templets_skin/}/style/m/index.css" rel="stylesheet">
-<style>
-    /* 首页头尾（独立类名） */
-    .header { display:flex; align-items:center; justify-content:space-between; background:#c41230; padding:10px 15px; }
-    .header .logo { display:flex; align-items:center; gap:10px; }
-    .header .logo img { height:36px; width:auto; }
-    .header .logo span { color:#fff; font-size:18px; font-weight:bold; }
-    .header .menu-btn { color:#fff; font-size:24px; cursor:pointer; padding:5px; }
-    .nav-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:99; }
-    .nav-overlay.show { display:block; }
-    .nav-panel { position:fixed; top:0; right:0; width:70%; max-width:280px; height:100%; background:#fff; z-index:100; transform:translateX(100%); transition:transform 0.3s; overflow-y:auto; }
-    .nav-panel.show { transform:translateX(0); }
-    .nav-panel .nav-close { text-align:right; padding:15px; font-size:24px; color:#999; cursor:pointer; border-bottom:1px solid #eee; }
-    .nav-panel a { display:block; padding:14px 20px; border-bottom:1px solid #f0f0f0; font-size:15px; color:#333; }
-    .nav-panel .sub { padding-left:30px; font-size:14px; color:#666; }
-    .footer { background:#333; color:#ccc; text-align:center; padding:25px 15px; margin-top:10px; }
-    .footer .hotline { font-size:14px; margin-bottom:8px; }
-    .footer .hotline strong { color:#fff; font-size:28px; font-weight:200; display:block; margin-top:4px; }
-    .footer .copyright { font-size:11px; margin-top:10px; line-height:1.8; }
-    .footer .police { margin-top:8px; display:flex; align-items:center; justify-content:center; gap:6px; font-size:11px; }
-    .footer .police img { width:16px; height:16px; }
-    .footer .qrcode { margin-top:15px; }
-    .footer .qrcode img { width:80px; height:auto; margin:0 auto; border-radius:6px; }
-    .footer .qrcode p { font-size:12px; margin-top:6px; }
-</style>
 </head>
 <body>
 
 <!-- 顶部导航 -->
-<div class="header">
+<div class="index-header">
     <div class="logo">
         <a href="/" style="display:flex;align-items:center;gap:10px;">
             <img src="/templets/default/images/long/head-left.png" alt="logo" />
-            <span>{dede:global.cfg_webname/}</span>
         </a>
     </div>
     <div class="menu-btn" onclick="toggleNav()">&#9776;</div>
 </div>
 
 <!-- 侧滑菜单 -->
-<div class="nav-overlay" id="navOverlay" onclick="toggleNav()"></div>
-<div class="nav-panel" id="navPanel">
+<div class="index-nav-overlay" id="navOverlay" onclick="toggleNav()"></div>
+<div class="index-nav-panel" id="navPanel">
     <div class="nav-close" onclick="toggleNav()">&times;</div>
     <a href="/">首页</a>
     <a href="/pages/about/index.htm">关于我们</a>
@@ -133,7 +108,7 @@
         </div>
         {/dede:arclist}
     </div>
-    <div class="more-link"><a href="list.php?tid=18">查看更多 &raquo;</a></div>
+    <div class="more-link"><a href="list.php?tid=18">查看更多</a></div>
 </div>
 
 <!-- 招投标 -->
@@ -155,7 +130,7 @@
         </div>
         {/dede:arclist}
     </div>
-    <div class="more-link"><a href="list.php?tid=19">查看更多 &raquo;</a></div>
+    <div class="more-link"><a href="list.php?tid=19">查看更多</a></div>
 </div>
 
 <!-- 友情链接 -->
@@ -175,7 +150,7 @@
 </div>
 
 <!-- 底部 -->
-<div class="footer">
+<div class="index-footer">
     <div class="hotline">服务热线<strong>968866</strong></div>
     <div class="qrcode">
         <img src="/templets/default/images/long/footer/code.jpg" alt="二维码">
