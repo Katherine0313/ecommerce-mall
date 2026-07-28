@@ -1,528 +1,189 @@
 /* ============================================================
- *   PC端 — 子页面样式（pages/ 目录所有页面共用）
+ *   子页面样式 — 现代企业风格 (Apple/Huawei/Tencent inspired)
  * ============================================================ */
-
-/* ---------- 顶部大图 ---------- */
-.top-img {
-    max-width: 1240px;
-    margin-bottom: 20px;
-}
-.top-img img {
-    width: 100%;
+:root{
+  --primary:#2563EB;--primary-light:#60A5FA;--bg:#F8FAFC;
+  --card:#FFFFFF;--text:#1E293B;--text2:#64748B;--text3:#94A3B8;
+  --border:#E5E7EB;--radius:16px;--radius-sm:12px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.04);--shadow:0 4px 16px rgba(0,0,0,.06);
+  --shadow-lg:0 16px 48px rgba(0,0,0,.08);
 }
 
-/* ---------- 面包屑 ---------- */
-.place {
-    height: 30px;
-    line-height: 30px;
-    font-size: 16px;
-    text-indent: 20px;
-    color: #999;
-    overflow: hidden;
-    font-family: Microsoft YaHei, sans-serif;
-    margin-bottom: 6px;
-    text-align: left;
-}
-.place strong {
-    font-weight: normal;
-    letter-spacing: 1px;
-}
-.place a {
-    color: #000;
-    margin: 0 2px;
-}
-.place a:hover {
-    color: #ff3366;
-    text-decoration: underline;
-}
+/* ============================================================
+   Breadcrumb
+   ============================================================ */
+.place{height:auto;line-height:1.6;font-size:13px;color:var(--text3);padding:8px 0;margin-bottom:0;font-family:inherit;text-indent:0}
+.place strong{font-weight:500;color:var(--text2);letter-spacing:0}
+.place a{color:var(--text2);margin:0;transition:color .2s}
+.place a:hover{color:var(--primary);text-decoration:none}
 
-/* ---------- 页面标题 ---------- */
-.page-header {
-    text-align: center;
-    margin: 0 0 30px;
-}
-.page-header h2 {
-    color: #333;
-    font-size: 26px;
-    margin-bottom: 18px;
-}
-.page-header p {
-    color: #666;
-    font-size: 16px;
-}
+/* ============================================================
+   Intro Layout
+   ============================================================ */
+.intro{display:flex;gap:40px;padding:40px 0}
+.intro-left{width:220px;flex-shrink:0;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow-sm);border:1px solid var(--border);padding:8px 0;height:fit-content;position:sticky;top:92px;margin-top:0}
+.intro-left .item{padding:0}
+.intro-left .item a{display:block;padding:12px 24px;font-size:14px;font-weight:500;color:var(--text2);text-decoration:none;font-family:inherit;transition:all .2s;border-left:3px solid transparent}
+.intro-left .item a:hover,.intro-left .item.active a{color:var(--primary);background:rgba(37,99,235,.04);border-left-color:var(--primary)}
+.intro-left .item.active{box-shadow:none}
+.intro-left .employ{margin-top:16px;border-top:1px solid var(--border);padding-top:8px}
+.intro-right{flex:1;min-width:0}
 
-/* ---------- 页面主体布局 ---------- */
-.intro {
-    display: flex;
-    gap: 30px;
-}
+/* ============================================================
+   Article Detail
+   ============================================================ */
+.article-card{background:var(--card);border-radius:var(--radius);padding:48px 56px;box-shadow:var(--shadow-sm);border:1px solid var(--border)}
+.article-header{margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border)}
+.article-title{font-size:42px;font-weight:700;color:var(--text);line-height:1.25;letter-spacing:-1px;margin-bottom:20px}
+.article-meta{display:flex;align-items:center;gap:24px;flex-wrap:wrap;font-size:14px;color:var(--text3)}
+.article-meta span{display:inline-flex;align-items:center;gap:6px}
+.article-meta svg{width:16px;height:16px;color:var(--text3)}
+.share-btns{display:flex;align-items:center;gap:12px;margin-left:auto}
+.share-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text3);transition:all .2s;cursor:pointer;background:var(--card)}
+.share-btn:hover{color:var(--primary);border-color:var(--primary);background:rgba(37,99,235,.04)}
 
-/* 左侧导航 */
-.intro-left {
-    width: 20%;
-    background: linear-gradient(180deg, #1a56db 0%, #1e40af 100%);
-    border-radius: 8px;
-    height: 300px;
-    margin-top: 34px;
-    padding-top: 20px;
-}
-.intro-left .item {
-    padding: 10px 0 10px 30px;
-}
-.intro-left .item.active {
-    box-shadow: 0 0 12px 8px #f6eaea;
-}
-.intro-left a {
-    text-decoration: none;
-    font-size: 18px;
-    color: #fff;
-    font-family: 'SourceHanSansCN', serif !important;
-}
-.intro-left .employ {
-    margin-top: 80px;
-}
+.article-body{font-size:18px;color:var(--text);line-height:2}
+.article-body p{margin-bottom:20px}
+.article-body img{max-width:100%;border-radius:12px;margin:24px 0}
+.article-body h2{font-size:28px;font-weight:700;color:var(--text);margin:40px 0 16px}
+.article-body h3{font-size:22px;font-weight:600;color:var(--text);margin:32px 0 12px}
+.article-body blockquote{border-left:4px solid var(--primary);padding:8px 20px;margin:20px 0;color:var(--text2);background:rgba(37,99,235,.03);border-radius:0 8px 8px 0}
+.editor{margin-top:36px;padding-top:20px;border-top:1px solid var(--border);font-size:13px;color:var(--text3);text-align:right}
 
-/* 右侧内容 */
-.intro-right {
-    flex: 1;
-}
+/* Prev/Next */
+.article-nav{display:flex;gap:20px;margin-top:24px}
+.article-nav a{flex:1;display:block;padding:20px 24px;background:var(--card);border-radius:var(--radius);border:1px solid var(--border);transition:all .3s;color:var(--text2);font-size:14px}
+.article-nav a:hover{border-color:var(--primary);box-shadow:var(--shadow);color:var(--primary)}
+.article-nav .nav-label{font-size:12px;color:var(--text3);margin-bottom:6px}
+.article-nav .nav-title{font-weight:500;line-height:1.4}
 
-/* ---------- 文章详情 ---------- */
-#news-title {
-    text-align: center;
-    font-size: 26px;
-    color: rgba(51, 51, 51, 0.8);
-    margin-bottom: 20px;
-}
-.intro-right .info {
-    border-bottom: 1px #bd5656 solid;
-    padding-bottom: 20px;
-    color: #999;
-    font-size: 14px;
-}
-.info .item {
-    margin-right: 10px;
-}
-.intro-text {
-    padding: 8px 0;
-}
-.intro-text p {
-    margin: 15px 0;
-    font-size: 14px;
-    color: rgba(51, 51, 51, 0.8);
-    line-height: 30px;
-    text-indent: 2em;
-}
-.description {
-    margin-top: 10px;
-    color: #757171;
-}
-.editor {
-    margin-top: 20px;
-    font-size: 13px;
-    color: #999;
-    text-align: right;
-}
+/* Related */
+.related-section{margin-top:40px}
+.related-title{font-size:24px;font-weight:700;color:var(--text);margin-bottom:20px}
+.related-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.related-item{display:block;padding:20px 24px;background:var(--card);border-radius:var(--radius);border:1px solid var(--border);transition:all .3s;color:var(--text)}
+.related-item:hover{border-color:var(--primary);box-shadow:var(--shadow);color:var(--primary)}
+.related-item h4{font-size:15px;font-weight:600;line-height:1.4;margin-bottom:8px}
+.related-item .rmeta{font-size:12px;color:var(--text3)}
 
-/* ---------- 新闻列表页 ---------- */
-.news-list .nl-item {
-    display: flex;
-    gap: 20px;
-    padding: 18px 0;
-    border-bottom: 1px dashed #e0e0e0;
-}
-.news-list .nl-item:last-child { border-bottom: none; }
-.news-list .nl-date {
-    width: 70px;
-    height: 70px;
-    background: #1a56db;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    line-height: 1.2;
-}
-.news-list .nl-date .day {
-    font-size: 28px;
-    font-weight: bold;
-}
-.news-list .nl-date .mon {
-    font-size: 13px;
-    opacity: 0.85;
-}
-.news-list .nl-body { flex: 1; min-width: 0; }
-.news-list .nl-body .nl-title {
-    display: block;
-    font-size: 18px;
-    color: #333;
-    line-height: 1.6;
-    margin-bottom: 8px;
-}
-.news-list .nl-body .nl-title:hover { color: #1a56db; }
-.news-list .nl-body .nl-meta {
-    font-size: 13px;
-    color: #999;
-}
-.news-list .nl-body .nl-meta span { margin-right: 20px; }
+/* ============================================================
+   News List
+   ============================================================ */
+.news-list .nl-item{display:flex;gap:20px;padding:24px 28px;border-bottom:1px solid var(--border);transition:all .3s;background:var(--card);border-radius:var(--radius);margin-bottom:12px;border:1px solid var(--border)}
+.news-list .nl-item:hover{border-color:var(--primary);box-shadow:var(--shadow)}
+.news-list .nl-item:last-child{margin-bottom:0}
+.news-list .nl-date{width:64px;height:64px;background:var(--primary);color:#fff;text-align:center;border-radius:12px;flex-shrink:0;display:flex;flex-direction:column;justify-content:center;line-height:1.2}
+.news-list .nl-date .day{font-size:26px;font-weight:700}
+.news-list .nl-date .mon{font-size:12px;opacity:.8}
+.news-list .nl-body{flex:1;min-width:0}
+.news-list .nl-body .nl-title{display:block;font-size:18px;font-weight:600;color:var(--text);line-height:1.5;margin-bottom:8px;transition:color .2s}
+.news-list .nl-body .nl-title:hover{color:var(--primary)}
+.news-list .nl-body .nl-meta{font-size:13px;color:var(--text3)}
+.news-list .nl-body .nl-meta span{margin-right:20px}
 
-/* ---------- 业务列表页（bus / gas / bus-sales / otherIndustries / system / education 共用） ---------- */
-.bs-right {
-    flex: 1;
-}
-.bs-right .item {
-    border-bottom: 1px #ddd solid;
-    padding: 35px 0;
-}
-.bs-right .item a {
-    font-family: '思源黑体', 'SourceHanSansCN', sans-serif !important;
-    color: #333;
-}
-.bs-right a:visited {
-    color: #333;
-}
-.bs-right .item .inner {
-    display: flex;
-    gap: 20px;
-}
-.bs-right .item .inner .l {
-    width: 70px;
-    height: 49px;
-    line-height: 49px;
-    text-align: center;
-    background-color: #1a56db;
-    font-size: 28px;
-    color: #fff;
-}
-.bs-right .item .inner .r .comp-ny {
-    font-size: 18px;
-}
-.bs-right .item .inner .r .link {
-    margin-top: 10px;
-    font-size: 14px;
-    color: #1a56db;
-}
+/* ============================================================
+   Business List
+   ============================================================ */
+.bs-right{flex:1}
+.bs-right .item{margin-bottom:12px;border-bottom:none;padding:0}
+.bs-right .item a{display:block;padding:28px 32px;background:var(--card);border-radius:var(--radius);border:1px solid var(--border);transition:all .3s;color:var(--text);font-family:inherit}
+.bs-right .item a:hover{border-color:var(--primary);box-shadow:var(--shadow);transform:translateY(-2px)}
+.bs-right a:visited{color:var(--text)}
+.bs-right .item .inner{display:flex;gap:20px;align-items:center}
+.bs-right .item .inner .l{width:52px;height:52px;line-height:52px;text-align:center;background:var(--primary);font-size:22px;color:#fff;border-radius:12px;flex-shrink:0}
+.bs-right .item .inner .r .comp-ny{font-size:17px;font-weight:600;color:var(--text);margin-bottom:4px}
+.bs-right .item .inner .r .link{font-size:13px;color:var(--primary);margin-top:4px}
 
-/* 业务列表页 — 分页 */
-.content .page {
-    display: flex;
-    justify-content: flex-end;
-    margin: 40px 0 20px 0;
-    gap: 15px;
-    color: #ccc;
-    font-size: 13px;
-    align-items: center;
-}
-.content .page #cr-page {
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    text-align: center;
-    background: #1a56db;
-}
+/* ============================================================
+   Pagination
+   ============================================================ */
+.content .page{display:flex;justify-content:center;margin:40px 0;gap:8px;color:var(--text2);font-size:14px;align-items:center}
+.content .page span{padding:8px 16px;border-radius:8px;background:var(--card);border:1px solid var(--border);color:var(--text2);cursor:pointer;transition:all .2s}
+.content .page span:hover{border-color:var(--primary);color:var(--primary)}
+.content .page #cr-page{background:var(--primary);color:#fff;border-color:var(--primary)}
 
-/* ---------- 加入我们 ---------- */
-.intro .join {
-    flex: 1;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    margin: 0 0 20px 50px;
-}
-.join .join-item {
-    width: 350px;
-    height: 250px;
-    border: 1px solid #ddd;
-    padding: 20px;
-}
-.join .join-item .join-item-text {
-    margin: 20px auto;
-}
-.join .join-item .form {
-    color: #787878;
-    font-size: 14px;
-    line-height: 25px;
-}
-.join-item a {
-    font-size: 14px;
-    color: #1a56db;
-}
-.join-item .btn {
-    background: #1a56db;
-    width: 200px;
-    height: 50px;
-    line-height: 50px;
-    color: #fff;
-    border-radius: 15px;
-    font-size: 20px;
-    text-align: center;
-    cursor: pointer;
-}
+/* ============================================================
+   Join Us
+   ============================================================ */
+.intro .join{flex:1;display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin:0}
+.join .join-item{padding:32px;background:var(--card);border-radius:var(--radius);border:1px solid var(--border);transition:all .3s;width:auto;height:auto}
+.join .join-item:hover{border-color:var(--primary);box-shadow:var(--shadow);transform:translateY(-2px)}
+.join .join-item .join-item-text{margin:0 0 16px;font-size:18px;font-weight:600;color:var(--text)}
+.join .join-item .form{color:var(--text2);font-size:14px;line-height:1.8;margin-bottom:16px}
+.join-item a{font-size:14px;color:var(--primary);font-weight:500}
+.join-item .btn{background:var(--primary);width:auto;display:inline-flex;align-items:center;justify-content:center;padding:12px 28px;height:auto;color:#fff;border-radius:100px;font-size:14px;font-weight:600;cursor:pointer;transition:all .3s}
+.join-item .btn:hover{background:#1d4ed8;box-shadow:0 4px 16px rgba(37,99,235,.3)}
 
-/* ---------- 联系我们 ---------- */
-.intro .map img {
-    width: 800px;
-    height: 400px;
-    object-fit: cover;
-    margin-left: 100px;
-}
-.intro .contact {
-    width: 800px;
-    margin: 20px 0 30px 100px;
-}
-.intro .contact-item {
-    display: flex;
-    gap: 30px;
-    margin-top: 15px;
-    margin-left: 100px;
-}
-.intro .contact-item p {
-    line-height: 30px;
-    font-size: 16px;
-    color: #787878;
-}
-.contact-item .item-l,
-.contact-item .item-r {
-    width: 350px;
-}
-.intro .contact .title {
-    width: 250px;
-    height: 30px;
-    background: #1a56db;
-    margin: 0 auto;
-    color: #fff;
-    text-align: center;
-    line-height: 30px;
-}
+/* ============================================================
+   Contact
+   ============================================================ */
+.contact-section{flex:1}
+.intro .map{margin:0 0 30px}
+.intro .map img{width:100%;height:380px;object-fit:cover;border-radius:var(--radius);margin-left:0;box-shadow:var(--shadow-sm);border:1px solid var(--border)}
+.intro .contact{width:100%;margin:0;background:var(--card);border-radius:var(--radius);padding:32px;border:1px solid var(--border)}
+.intro .contact .title{width:auto;height:auto;background:none;color:var(--text);font-size:22px;font-weight:700;text-align:left;line-height:1.4;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.intro .contact-item{display:flex;gap:40px;margin:0}
+.contact-item .item-l,.contact-item .item-r{width:auto;flex:1}
+.intro .contact-item p{line-height:2;font-size:15px;color:var(--text2)}
 
-/* ---------- 投资者关系 ---------- */
-.intro-right .invest-section {
-    margin-top: 34px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    color: #1a56db;
-    line-height: 48px;
-}
+/* ============================================================
+   Investor
+   ============================================================ */
+.intro-right .invest-section{margin-top:0;display:flex;flex-direction:column;align-items:center;text-align:center;color:var(--primary);line-height:2;padding:48px;background:var(--card);border-radius:var(--radius);border:1px solid var(--border)}
+.invest-section .invest-item{margin-bottom:24px}
+.invest-section img{width:auto;max-width:160px;height:auto;border-radius:12px;margin-bottom:16px}
+.invest-section a{font-size:18px;color:var(--primary);text-decoration:none;transition:opacity .2s}
+.invest-section a:hover{opacity:.7}
 
-.invest-section img {
-    width: 142px;
-    height: auto;
-}
-.invest-section a {
-    font-size: 20px;
-    color: #1a56db;
-    text-decoration: underline;
-    text-underline-offset: 4px;
-}
+/* ============================================================
+   Director Cards
+   ============================================================ */
+.investor-header{text-align:center;margin:0 0 36px}
+.investor-header h2{color:var(--text);font-size:32px;font-weight:700;margin-bottom:12px}
+.investor-header p{color:var(--text2);font-size:16px}
+.director-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:0}
+.director-card{flex:none;min-width:0;border:1px solid var(--border);background:var(--card);padding:0;border-radius:var(--radius);overflow:hidden;transition:all .3s}
+.director-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-4px)}
+.director-card .card-banner{background:var(--primary);padding:24px 28px;position:relative;overflow:hidden}
+.director-card .card-banner .name{color:#fff;font-size:22px;font-weight:700;position:relative;z-index:1}
+.director-card .card-banner .role{display:inline-block;border:1px solid rgba(255,255,255,.6);color:#fff;font-size:12px;padding:2px 10px;position:relative;z-index:1;border-radius:20px}
+.director-card .card-banner .name-row{position:relative;z-index:1;display:flex;align-items:center;gap:12px}
+.director-card .card-banner .decor{position:absolute;top:-30px;right:-30px;width:120px;height:60px;background:linear-gradient(135deg,var(--primary) 30%,var(--primary-light) 100%);border-radius:0 0 0 60px;transform:rotate(-8deg)}
+.director-card .card-email{padding:12px 28px;font-size:13px;color:var(--text3);background:rgba(37,99,235,.03);border-bottom:1px solid var(--border)}
+.director-card .card-bio{padding:24px 28px;font-size:14px;color:var(--text2);line-height:1.9;height:auto;overflow-y:visible}
 
-/* ---------- 独立董事卡片 ---------- */
-.investor-header {
-    text-align: center;
-    margin: 20px 0 30px 0;
-}
-.investor-header h2 {
-    color: #333;
-    font-size: 26px;
-    margin-bottom: 18px;
-}
-.investor-header p {
-    color: #666;
-    font-size: 16px;
-}
-.director-cards {
-    display: flex;
-    gap: 35px;
-    justify-content: center;
-    margin-top: 20px;
-}
-.director-card {
-    flex: 1;
-    min-width: 0;
-    border: 1px solid #e0e0e0;
-    background: #fff;
-    padding: 10px;
-}
-.director-card .card-banner {
-    background: #1e40af;
-    padding: 18px 20px;
-    position: relative;
-    overflow: hidden;
-}
-.director-card .card-banner .name-row {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-.director-card .card-banner .name {
-    color: #fff;
-    font-size: 22px;
-    font-weight: bold;
-    position: relative;
-    z-index: 1;
-}
-.director-card .card-banner .role {
-    display: inline-block;
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    color: #fff;
-    font-size: 12px;
-    padding: 2px 8px;
-    position: relative;
-    z-index: 1;
-}
-.director-card .card-banner .decor {
-    position: absolute;
-    top: -20px;
-    right: -40px;
-    width: 140px;
-    height: 70px;
-    background: linear-gradient(135deg, #1e40af 30%, #3b82f6 100%);
-    border-radius: 0 0 0 80px;
-    transform: rotate(-8deg);
-}
-.director-card .card-email {
-    background: #f5f5f5;
-    padding: 8px 20px;
-    font-size: 13px;
-    color: #888;
-}
-.director-card .card-bio {
-    padding: 18px 20px;
-    font-size: 14px;
-    color: #555;
-    line-height: 1.9;
-    height: 175px;
-    overflow-y: auto;
-}
+/* ============================================================
+   Timeline (Honor)
+   ============================================================ */
+.timeline{position:relative;padding:20px 0}
+.timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:2px;background:var(--border);transform:translateX(-50%)}
+.timeline-era{margin-bottom:48px}
+.timeline-era-header{display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--primary);color:#fff;font-size:22px;letter-spacing:2px;width:140px;height:140px;border-radius:50%;text-align:center;margin:0 auto 40px;position:relative;z-index:1}
+.timeline-item{position:relative;width:50%;padding:0 40px;margin-bottom:36px;box-sizing:border-box}
+.timeline-item.left{left:0;text-align:right}.timeline-item.right{left:50%;text-align:left}
+.timeline-dot{position:absolute;top:10px;width:12px;height:12px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 2px var(--primary);z-index:1}
+.timeline-item.left .timeline-dot{right:-9px}.timeline-item.right .timeline-dot{left:-9px}
+.timeline-year{font-size:20px;font-weight:700;color:var(--primary);margin-bottom:10px}
+.timeline-text p{font-size:14px;color:var(--text2);line-height:1.9;margin:0}
+.timeline-card img{max-width:180px;max-height:120px;margin-top:8px;border-radius:8px}
 
-/* ---------- 集团荣誉 — 时间轴 ---------- */
-.timeline {
-    position: relative;
-    padding: 20px 0;
-}
-.timeline::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: #1e40af;
-    transform: translateX(-50%);
-}
-.timeline-era {
-    position: relative;
-    margin-bottom: 50px;
-}
-.timeline-era-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: #1e40af;
-    color: #fff;
-    font-size: 26px;
-    letter-spacing: 2px;
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    text-align: center;
-    margin: 0 auto 36px auto;
-    position: relative;
-    z-index: 1;
-}
-.timeline-item {
-    position: relative;
-    width: 50%;
-    padding: 0 40px;
-    margin-bottom: 36px;
-    box-sizing: border-box;
-}
-.timeline-item.left {
-    left: 0;
-    text-align: right;
-}
-.timeline-item.right {
-    left: 50%;
-    text-align: left;
-}
-.timeline-dot {
-    position: absolute;
-    top: 10px;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #1e40af;
-    border: 3px solid #fff;
-    box-shadow: 0 0 0 2px #1e40af;
-    z-index: 1;
-}
-.timeline-item.left .timeline-dot {
-    right: -9px;
-}
-.timeline-item.right .timeline-dot {
-    left: -9px;
-}
-.timeline-year {
-    font-size: 22px;
-    font-weight: bold;
-    color: #1e40af;
-    margin-bottom: 10px;
-}
-.timeline-text p {
-    font-size: 14px;
-    color: #555;
-    line-height: 2;
-    margin: 0;
-}
-.timeline-card img {
-    max-width: 200px;
-    max-height: 140px;
-    margin-top: 8px;
-}
+/* ============================================================
+   Scroll Reveal
+   ============================================================ */
+.sub-reveal{opacity:0;transform:translateY(24px);transition:all .6s cubic-bezier(.22,.61,.36,1)}
+.sub-reveal.visible{opacity:1;transform:translateY(0)}
 
-/* ---------- 底部（所有页面共用） ---------- */
-.footer-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1240px;
-    margin: 0 auto;
-    padding: 40px 20px 20px;
-    color: #fff;
-}
-.footer-section .footer-left .item {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 15px;
-    color: #ccc;
-    font-size: 14px;
-}
-.footer-section .footer-left .item h2 {
-    font-weight: 200;
-}
-.footer-section .footer-right {
-    text-align: center;
-}
-.footer-section .footer-right img {
-    width: 120px;
-    height: 120px;
-}
-.footer-section .footer-right .text {
-    margin-top: 10px;
-    font-size: 14px;
-    color: #ccc;
-}
-#police {
-    font-size: 14px;
-}
-#police img {
-    width: 20px;
-    height: 20px;
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media(max-width:1024px){
+  .intro{flex-direction:column;gap:24px}
+  .intro-left{width:100%;position:static;display:flex;flex-wrap:wrap;gap:4px;padding:8px}
+  .intro-left .item a{border-left:none;border-bottom:2px solid transparent;padding:10px 16px}
+  .intro-left .item.active a{border-left:none;border-bottom-color:var(--primary)}
+  .article-card{padding:32px 24px}.article-title{font-size:28px}
+  .director-cards{grid-template-columns:1fr}
+  .join .join{grid-template-columns:1fr}
+  .news-layout{grid-template-columns:1fr}
+  .related-grid{grid-template-columns:1fr}
 }

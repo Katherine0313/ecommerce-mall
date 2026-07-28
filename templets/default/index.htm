@@ -1,179 +1,473 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>{dede:global.cfg_webname/}</title>
-    <meta name="description" content="{dede:global.cfg_description/}" />
-    <meta name="keywords" content="{dede:global.cfg_keywords/}" />
-    <link href="{dede:global.cfg_templets_skin/}/style/dedecms.css?v=20260728" rel="stylesheet" media="screen" type="text/css" />
-    <link href="{dede:global.cfg_templets_skin/}/style/layout.css" rel="stylesheet" media="screen" type="text/css" />
-    <link href="{dede:global.cfg_templets_skin/}/style/page.css" rel="stylesheet" media="screen" type="text/css" />
-    <meta http-equiv="mobile-agent" content="format=xhtml;url={dede:global.cfg_mobileurl/}/index.php">
-    <script type="text/javascript">if (window.location.toString().indexOf('pref=padindex') != -1) {
-    } else {
-        if (/AppleWebKit.*Mobile/i.test(navigator.userAgent) || (/MIDP|SymbianOS|NOKIA|SAMSUNG|LG|NEC|TCL|Alcatel|BIRD|DBTEL|Dopod|PHILIPS|HAIER|LENOVO|MOT-|Nokia|SonyEricsson|SIE-|Amoi|ZTE/i).test(navigator.userAgent)) {
-            if (window.location.href.indexOf("?mobile") < 0) {
-                try {
-                    if (/Android|Windows Phone|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
-                        window.location.href = "{dede:global.cfg_mobileurl/}/index.php";
-                    } else if (/iPad/i.test(navigator.userAgent)) {
-                    } else { }
-                } catch (e) { }
-            }
-        }
-    }</script>
-    <script language="javascript" type="text/javascript" src="{dede:global.cfg_cmsurl/}/include/dedeajax2.js"></script>
-    <script language="javascript" type="text/javascript" src="{dede:global.cfg_cmspath/}/images/js/j.js"></script>
-    <script language="javascript" type="text/javascript"
-            src="{dede:global.cfg_templets_skin/}/js/pic_scroll.js"></script>
-    <script language="javascript" type="text/javascript">
-        $(function () {
-            $("a[_for]").mouseover(function () {
-                $(this).parents().children("a[_for]").removeClass("thisclass").parents().children("dd").hide();
-                $(this).addClass("thisclass").blur();
-                $("#" + $(this).attr("_for")).show();
-            });
-            $("a[_for=uc_member]").mouseover();
-            $("a[_for=flink_1]").mouseover();
-        });
-        function CheckLogin() {
-            var taget_obj = document.getElementById('_userlogin');
-            myajax = new DedeAjax(taget_obj, false, false, '', '', '');
-            myajax.SendGet2("{dede:global.cfg_cmspath/}/member/ajax_loginsta.php");
-            DedeXHTTP = null;
-        }
-    </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{dede:global.cfg_webname/}</title>
+<meta name="description" content="{dede:global.cfg_description/}" />
+<meta name="keywords" content="{dede:global.cfg_keywords/}" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<meta http-equiv="mobile-agent" content="format=xhtml;url={dede:global.cfg_mobileurl/}/index.php">
+<script type="text/javascript">if(window.location.toString().indexOf('pref=padindex')!=-1){}else{if(/AppleWebKit.*Mobile/i.test(navigator.userAgent)||(/MIDP|SymbianOS|NOKIA|SAMSUNG|LG|NEC|TCL|Alcatel|BIRD|DBTEL|Dopod|PHILIPS|HAIER|LENOVO|MOT-|Nokia|SonyEricsson|SIE-|Amoi|ZTE/i).test(navigator.userAgent)){if(window.location.href.indexOf("?mobile")<0){try{if(/Android|Windows Phone|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)){window.location.href="{dede:global.cfg_mobileurl/}/index.php"}else if(/iPad/i.test(navigator.userAgent)){}else{}}catch(e){}}}}</script>
+<style>
+/* ============================================================
+   CSS Reset & Root Variables
+   ============================================================ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --primary:#2563EB;--primary-light:#60A5FA;--accent:#0EA5E9;
+  --bg:#F8FAFC;--surface:#FFFFFF;--text:#1E293B;--text2:#64748B;
+  --text3:#94A3B8;--border:#E5E7EB;--radius:16px;--radius-sm:12px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.04);--shadow:0 4px 16px rgba(0,0,0,.06);
+  --shadow-lg:0 16px 48px rgba(0,0,0,.08);--shadow-xl:0 24px 64px rgba(0,0,0,.12);
+  --ease: cubic-bezier(.22,.61,.36,1);--ease-bounce: cubic-bezier(.34,1.56,.64,1);
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Inter','HarmonyOS Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--text);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+img{display:block;max-width:100%}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#CBD5E1;border-radius:3px}
+
+/* ============================================================
+   Utility
+   ============================================================ */
+.container{max-width:1280px;margin:0 auto;padding:0 40px}
+.section{padding:100px 0}
+.section-tag{font-size:12px;font-weight:700;letter-spacing:4px;color:var(--primary);text-transform:uppercase;margin-bottom:14px}
+.section-title{font-size:44px;font-weight:800;color:var(--text);letter-spacing:-1.5px;margin-bottom:18px;line-height:1.1}
+.section-desc{font-size:17px;color:var(--text2);max-width:560px;line-height:1.8}
+.section-head{text-align:center;margin-bottom:64px}.section-head .section-desc{margin:0 auto}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;font-size:15px;font-weight:600;border-radius:100px;border:none;cursor:pointer;font-family:inherit;letter-spacing:.3px;transition:all .3s var(--ease);white-space:nowrap}
+.btn-primary{background:var(--primary);color:#fff;box-shadow:0 4px 20px rgba(37,99,235,.3)}.btn-primary:hover{background:#1d4ed8;transform:translateY(-2px);box-shadow:0 8px 28px rgba(37,99,235,.4)}
+.btn-secondary{background:var(--surface);color:var(--primary);border:1.5px solid rgba(37,99,235,.15)}.btn-secondary:hover{border-color:var(--primary);background:rgba(37,99,235,.03)}
+.reveal{opacity:0;transform:translateY(36px);transition:all .7s var(--ease)}.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ============================================================
+   Header
+   ============================================================ */
+.header{position:fixed;top:0;left:0;right:0;z-index:1000;height:72px;background:rgba(255,255,255,.85);transition:all .4s ease}
+.header.scrolled{background:rgba(255,255,255,.7);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);box-shadow:0 1px 0 rgba(0,0,0,.05)}
+.header-inner{display:flex;align-items:center;height:100%;max-width:1280px;margin:0 auto;padding:0 40px}
+.logo{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.logo-mark{width:38px;height:38px;background:linear-gradient(135deg,var(--primary),var(--primary-light));border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:800}
+.logo-cn{font-size:17px;font-weight:700;color:var(--text);letter-spacing:1.5px;line-height:1.2}
+.logo-en{display:block;font-size:10px;font-weight:500;color:var(--text3);letter-spacing:2px;margin-top:1px}
+
+.nav{display:flex;align-items:center;gap:6px;margin-left:56px;flex:1}
+.nav a{position:relative;padding:8px 18px;font-size:14px;font-weight:500;color:var(--text2);border-radius:10px;transition:all .25s ease}
+.nav a::after{content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:0;height:2px;background:var(--primary);border-radius:1px;transition:width .3s var(--ease)}
+.nav a:hover,.nav a.active{color:var(--primary)}.nav a:hover::after,.nav a.active::after{width:calc(100% - 36px)}
+
+.header-right{display:flex;align-items:center;gap:16px;margin-left:auto}
+.stock-badge{padding:6px 14px;background:rgba(37,99,235,.06);color:var(--primary);border-radius:8px;font-size:13px;font-weight:700;letter-spacing:1px}
+
+/* ============================================================
+   Hero
+   ============================================================ */
+.hero{position:relative;height:100vh;min-height:700px;display:flex;align-items:center;overflow:hidden;background:linear-gradient(160deg,#F0F5FF 0%,#F8FAFC 40%,#EFF6FF 70%,#F0F9FF 100%)}
+.hero-particles{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.hero-inner{display:flex;align-items:center;gap:80px;position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:0 40px;width:100%}
+.hero-left{flex:1}
+.hero-tag{font-size:12px;font-weight:700;letter-spacing:4px;color:var(--primary);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.hero-tag::before{content:'';width:32px;height:1.5px;background:var(--primary)}
+.hero-title{font-size:68px;font-weight:900;line-height:1.08;letter-spacing:-2.5px;color:#0F172A;margin-bottom:22px}
+.hero-title span{background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-desc{font-size:17px;color:var(--text2);line-height:1.8;margin-bottom:36px;max-width:480px}
+.hero-btns{display:flex;gap:14px;margin-bottom:52px}
+.hero-stats{display:flex;gap:48px}
+.hero-stat{text-align:center}.hero-stat-num{font-size:30px;font-weight:800;color:var(--text)}.hero-stat-label{font-size:12px;color:var(--text3);margin-top:4px}
+
+.hero-right{flex:1;display:flex;justify-content:center;align-items:center;position:relative}
+.hero-visual{position:relative;width:460px;height:460px}
+.visual-orb{position:absolute;border-radius:50%}
+.visual-orb-1{width:260px;height:260px;top:50%;left:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(37,99,235,.12),transparent 70%);animation:orbPulse 4s ease-in-out infinite}
+.visual-orb-2{width:160px;height:160px;top:15%;right:5%;background:radial-gradient(circle,rgba(14,165,233,.14),transparent 60%);animation:orbFloat 5s ease-in-out infinite}
+.visual-orb-3{width:120px;height:120px;bottom:10%;left:5%;background:radial-gradient(circle,rgba(96,165,250,.12),transparent 60%);animation:orbFloat 6s ease-in-out infinite reverse}
+.visual-ring{position:absolute;border-radius:50%;border:1.5px solid rgba(37,99,235,.1)}
+.visual-ring-1{width:320px;height:320px;top:50%;left:50%;transform:translate(-50%,-50%) rotateX(60deg);animation:ringSpin 14s linear infinite}
+.visual-ring-2{width:380px;height:380px;top:50%;left:50%;transform:translate(-50%,-50%) rotateX(60deg) rotateY(30deg);animation:ringSpin 18s linear infinite reverse;border-color:rgba(96,165,250,.06)}
+.visual-grid{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:180px;height:180px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:3px}
+.visual-grid div{background:rgba(37,99,235,.06);border-radius:4px}
+.visual-grid div:nth-child(odd){background:rgba(37,99,235,.1)}
+.visual-grid div:nth-child(5){background:var(--primary);border-radius:8px}
+
+@keyframes orbPulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.5}50%{transform:translate(-50%,-50%) scale(1.2);opacity:.9}}
+@keyframes orbFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+@keyframes ringSpin{to{transform:translate(-50%,-50%) rotateX(60deg) rotateZ(360deg)}}
+
+.hero-scroll{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--text3);font-size:11px;letter-spacing:1px;animation:bounce 2s infinite}
+.hero-scroll span{width:24px;height:40px;border:2px solid var(--text3);border-radius:12px;position:relative}
+.hero-scroll span::after{content:'';position:absolute;top:8px;left:50%;transform:translateX(-50%);width:4px;height:8px;background:var(--text3);border-radius:2px;animation:scrollDot 1.5s infinite}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-8px)}}
+@keyframes scrollDot{0%{opacity:1;top:8px}100%{opacity:0;top:24px}}
+
+/* ============================================================
+   Business
+   ============================================================ */
+.business-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.biz-card{position:relative;border-radius:var(--radius);overflow:hidden;cursor:pointer;height:320px;display:flex;align-items:flex-end;transition:all .5s var(--ease)}
+.biz-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl)}
+.biz-card:hover .biz-card-name{transform:translateY(-4px)}
+.biz-card:hover .biz-card-arrow{opacity:1;transform:translateX(0)}
+.biz-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(15,23,42,.85),rgba(15,23,42,.2) 50%,transparent 70%)}
+.biz-card-content{position:relative;z-index:2;padding:36px 32px;width:100%}
+.biz-card-icon{margin-bottom:14px;display:inline-flex;padding:10px;background:rgba(255,255,255,.12);border-radius:10px;backdrop-filter:blur(8px)}
+.biz-card-name{font-size:24px;font-weight:700;color:#fff;letter-spacing:-.5px;margin-bottom:8px;transition:transform .4s var(--ease)}
+.biz-card-desc{font-size:14px;color:rgba(255,255,255,.7);line-height:1.6;max-width:360px}
+.biz-card-arrow{display:inline-flex;align-items:center;gap:6px;margin-top:16px;color:#fff;font-size:13px;font-weight:600;opacity:0;transform:translateX(-12px);transition:all .4s var(--ease)}
+.biz-card-bg{background-size:cover;background-position:center}
+.biz-card:nth-child(1) .biz-card-bg{background:linear-gradient(135deg,#1a365d,#1e40af,#2563eb)}
+.biz-card:nth-child(2) .biz-card-bg{background:linear-gradient(135deg,#1e293b,#0f172a,#1e3a5f)}
+.biz-card:nth-child(3) .biz-card-bg{background:linear-gradient(135deg,#0f2744,#1a3a6b,#1d4ed8)}
+.biz-card:nth-child(4) .biz-card-bg{background:linear-gradient(135deg,#172554,#1e40af,#3b82f6)}
+
+/* ============================================================
+   Stats
+   ============================================================ */
+.stats-section{background:var(--surface)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.stat-card{padding:44px 32px;border-radius:var(--radius);background:var(--bg);text-align:center;transition:all .4s var(--ease);border:1px solid transparent;cursor:default}
+.stat-card:hover{border-color:var(--border);box-shadow:var(--shadow-lg);transform:translateY(-4px)}
+.stat-card:hover .stat-icon-wrap{transform:scale(1.08);background:rgba(37,99,235,.1)}
+.stat-icon-wrap{width:56px;height:56px;margin:0 auto 22px;background:rgba(37,99,235,.06);border-radius:14px;display:flex;align-items:center;justify-content:center;transition:all .3s var(--ease)}
+.stat-icon-wrap svg{width:28px;height:28px;color:var(--primary)}
+.stat-value{display:flex;align-items:baseline;justify-content:center;gap:4px;margin-bottom:8px}
+.stat-num{font-size:44px;font-weight:900;color:var(--text);letter-spacing:-2px;font-variant-numeric:tabular-nums}
+.stat-unit{font-size:22px;font-weight:700;color:var(--primary)}
+.stat-name{font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px}
+.stat-sub{font-size:12px;color:var(--text3)}
+
+/* ============================================================
+   News
+   ============================================================ */
+.news-section{background:var(--surface)}
+.news-layout{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.news-featured{border-radius:var(--radius);overflow:hidden;background:var(--bg);transition:all .4s var(--ease)}
+.news-featured:hover{box-shadow:var(--shadow-lg);transform:translateY(-4px)}
+.news-featured:hover .news-featured-title{color:var(--primary)}
+.news-featured-img{height:260px;background:linear-gradient(135deg,#EFF6FF,#F0F9FF);display:flex;align-items:center;justify-content:center;position:relative}
+.news-featured-tag{position:absolute;top:16px;left:16px;background:var(--primary);color:#fff;padding:4px 12px;border-radius:8px;font-size:12px;font-weight:600}
+.news-featured-body{padding:28px 32px}
+.news-featured-date{font-size:13px;color:var(--text3);margin-bottom:12px}
+.news-featured-title{font-size:22px;font-weight:700;color:var(--text);line-height:1.4;margin-bottom:12px;transition:color .3s}
+.news-featured-desc{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:18px}
+
+.news-list{display:flex;flex-direction:column;gap:6px}
+.news-item{display:flex;gap:20px;padding:22px 24px;border-radius:var(--radius-sm);transition:all .3s var(--ease);border:1px solid transparent}
+.news-item:hover{background:var(--bg);border-color:var(--border);box-shadow:var(--shadow-sm)}
+.news-item:hover .news-item-img-wrap{opacity:1;transform:scale(1)}
+.news-item:hover .news-item-title{color:var(--primary)}
+.news-timeline{display:flex;flex-direction:column;align-items:center;gap:0;flex-shrink:0}
+.tl-dot{width:10px;height:10px;border-radius:50%;background:var(--primary);box-shadow:0 0 0 4px rgba(37,99,235,.1);margin-top:6px}
+.tl-line{width:1px;flex:1;background:var(--border);margin:6px 0}
+.news-item-body{flex:1;min-width:0}
+.news-item-date{font-size:12px;color:var(--text3);font-weight:500}
+.news-item-title{font-size:15px;font-weight:600;color:var(--text);margin:6px 0 4px;line-height:1.4;transition:color .3s}
+.news-item-desc{font-size:13px;color:var(--text2);line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.news-item-img-wrap{width:76px;height:56px;border-radius:8px;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;opacity:0;transform:scale(.9);transition:all .3s var(--ease)}
+
+/* ============================================================
+   Partners
+   ============================================================ */
+.partners-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.partner-card{padding:40px 24px 32px;border-radius:var(--radius);background:var(--surface);text-align:center;border:1px solid var(--border);transition:all .3s var(--ease)}
+.partner-card:hover{border-color:var(--primary);box-shadow:var(--shadow-lg);transform:translateY(-4px)}
+.partner-card:hover .partner-name{color:var(--primary)}
+.partner-card:hover .partner-icon svg{color:var(--primary)}
+.partner-icon{margin-bottom:16px;display:flex;justify-content:center}
+.partner-icon svg{width:40px;height:40px;color:var(--text3);transition:color .3s ease}
+.partner-name{font-size:14px;font-weight:600;color:var(--text2);transition:color .3s}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+.footer{background:#0F172A;color:rgba(255,255,255,.7);padding:80px 0 40px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:60px}
+.footer-brand .logo{margin-bottom:20px}.footer-brand .logo-cn{color:#fff}.footer-brand .logo-en{color:rgba(255,255,255,.4)}
+.footer-about{font-size:14px;line-height:1.8;color:rgba(255,255,255,.5);margin-bottom:24px;max-width:320px}
+.footer-social{display:flex;gap:12px}
+.footer-social a{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;transition:all .3s;color:rgba(255,255,255,.5)}
+.footer-social a:hover{background:var(--primary);color:#fff}
+.footer-col-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:24px;letter-spacing:1px}
+.footer-col a,.footer-col p{display:block;font-size:13px;color:rgba(255,255,255,.5);margin-bottom:12px;transition:color .2s;line-height:1.6}
+.footer-col a:hover{color:var(--primary-light)}
+.footer-qrcode-img{width:100px;height:100px;background:#fff;border-radius:12px;padding:8px}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:32px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:rgba(255,255,255,.35);flex-wrap:wrap;gap:12px}
+.footer-bottom-links{display:flex;gap:24px}
+.footer-bottom-links a{color:rgba(255,255,255,.35);transition:color .2s}
+.footer-bottom-links a:hover{color:rgba(255,255,255,.7)}
+
+@media(max-width:1024px){
+  .nav{display:none}.hero-inner{flex-direction:column;text-align:center;gap:40px}.hero-title{font-size:44px}.hero-desc{margin:0 auto 32px}.hero-btns,.hero-stats{justify-content:center}.hero-right{display:none}.business-grid,.stats-grid,.partners-grid{grid-template-columns:repeat(2,1fr)}.news-layout{grid-template-columns:1fr}.footer-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:640px){
+  .container{padding:0 20px}.section{padding:60px 0}.section-title{font-size:32px}.hero-title{font-size:36px}.business-grid,.stats-grid,.partners-grid{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr}
+}
+</style>
 </head>
-<body class="index">
-{dede:include filename="head.htm"/}
-<div class="content">
-    <!-- 顶部大轮播 -->
-    <div class="banner" data-carousel>
-        <img src="{dede:global.cfg_templets_skin/}/images/jie/banner-top1.png" />
-        <img src="{dede:global.cfg_templets_skin/}/images/jie/banner-top2.png" />
-        <img src="{dede:global.cfg_templets_skin/}/images/jie/banner-top3.png" />
-        <img src="{dede:global.cfg_templets_skin/}/images/jie/banner-top4.png" />
+<body>
+
+<!-- Header -->
+<header class="header" id="header">
+  <div class="header-inner">
+    <a href="{dede:global.cfg_cmsurl/}/" class="logo">
+      <div class="logo-mark">杰</div>
+      <div><div class="logo-cn">小杰集团</div><span class="logo-en">XIAO JIE GROUP</span></div>
+    </a>
+    <nav class="nav">
+      <a href="{dede:global.cfg_cmsurl/}/" class="active">首页</a>
+      <a href="#business">公司业务</a>
+      <a href="#news">新闻动态</a>
+      <a href="#invest">投资者关系</a>
+      <a href="#about">关于我们</a>
+    </nav>
+    <div class="header-right">
+      <span class="stock-badge">000000</span>
+      <a href="{dede:global.cfg_cmsurl/}/pages/contact.htm" class="btn btn-primary" style="font-size:13px;padding:10px 20px">联系我们</a>
     </div>
-    <div class="business">
-        <div class="title">核心业务</div>
-        <div class="sub-title">CORE BUSINESS</div>
-        <div class="business-logo">
-            <div class="item">
-                <a href="/pages/bus.htm">
-                    <div class="biz-icon">&#x1F3D7;</div>
-                    <div class="text">工程建设</div>
-                </a>
-            </div>
-            <div class="item">
-                <a href="/pages/bus-sales.htm">
-                    <div class="biz-icon">&#x1F4E6;</div>
-                    <div class="text">商贸服务</div>
-                </a>
-            </div>
-            <div class="item">
-                <a href="/pages/gas.htm">
-                    <div class="biz-icon">&#x26A1;</div>
-                    <div class="text">绿色能源</div>
-                </a>
-            </div>
-            <div class="item">
-                <a href="/pages/otherIndustries.htm">
-                    <div class="biz-icon">&#x1F4C8;</div>
-                    <div class="text">综合投资</div>
-                </a>
-            </div>
-        </div>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <canvas class="hero-particles" id="particles"></canvas>
+  <div class="hero-inner">
+    <div class="hero-left reveal">
+      <div class="hero-tag">SINCE 2003 · 上市集团 000000</div>
+      <h1 class="hero-title">创新驱动<br><span>多元发展</span></h1>
+      <p class="hero-desc">小杰集团以工程建设、商贸服务、绿色能源、综合投资为核心，致力于成为多元化产业持续引领者，为客户、股东、社会创造长期价值。</p>
+      <div class="hero-btns">
+        <a href="#business" class="btn btn-primary">了解业务 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="#about" class="btn btn-secondary">集团介绍</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="hero-stat-num">22+</div><div class="hero-stat-label">年行业经验</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">60+</div><div class="hero-stat-label">控股参股企业</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">500+</div><div class="hero-stat-label">重点工程项目</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">800MW</div><div class="hero-stat-label">光伏装机容量</div></div>
+      </div>
     </div>
-    <div class="news-section">
-        <div class="title">集团要闻</div>
-        <div class="sub-title">XIAO JIE NEWS</div>
-        <div class="news">
-            <div class="news-left">
-                <!-- 左侧小轮播 -->
-                <div class="banner-left" data-carousel>
-                    <img src="{dede:global.cfg_templets_skin/}/images/jie/banner-left1.png" />
-                    <img src="{dede:global.cfg_templets_skin/}/images/jie/banner-left2.png" />
-                    <img src="{dede:global.cfg_templets_skin/}/images/jie/banner-left3.png" />
-                    <img src="{dede:global.cfg_templets_skin/}/images/jie/banner-left4.png" />
-                </div>
-            </div>
-            <div class="news-right">
-                {dede:channelartlist}
-                <div class="tbox">
-                    <div class="head">
-                        <div class="l">
-                            <a href="{dede:field name='typeurl'/}">{dede:field name='typename'/}</a>
-                        </div>
-                        <div class="r"><a href="{dede:field name='typeurl'/}">更多...</a></div>
-                    </div>
-                    <div>
-                        <div class="d1" id="news-list">
-                            {dede:arclist titlelen='75' row='8'}
-                            <div class="item">
-                                <div class="l news-date">
-                                    <div class="day">[field:pubdate function="MyDate('d',@me)"/]</div>
-                                    <div class="ym">[field:pubdate function="MyDate('Y-m',@me)"/]</div>
-                                </div>
-                                <div class="r"><a href="[field:arcurl /]">[field:title function="(strlen(@me)>75?mb_substr(@me,0,25,'utf-8').'…':@me)" /]</a></div>
-                            </div>
-                            {/dede:arclist}
-                        </div>
-                    </div>
-                </div>
-                {/dede:channelartlist}
-            </div>
-        </div>
+    <div class="hero-right reveal">
+      <div class="hero-visual">
+        <div class="visual-orb visual-orb-1"></div>
+        <div class="visual-orb visual-orb-2"></div>
+        <div class="visual-orb visual-orb-3"></div>
+        <div class="visual-ring visual-ring-1"></div>
+        <div class="visual-ring visual-ring-2"></div>
+        <div class="visual-grid"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+      </div>
     </div>
-    <div class="link">
-        <div class="title">友情链接</div>
-        <div class="sub-title">FRIENDSHIP LINKS</div>
-        <div class="img-section friend-group">
-            <div class="friend-card">
-                <div class="fc-icon">&#x1F31F;</div>
-                <div class="fc-name">星辰科技集团</div>
-                <div class="fc-desc">数字化解决方案服务商</div>
-            </div>
-            <div class="friend-card">
-                <div class="fc-icon">&#x1F3EC;</div>
-                <div class="fc-name">锦绣建设控股</div>
-                <div class="fc-desc">建筑工程总承包企业</div>
-            </div>
-            <div class="friend-card">
-                <div class="fc-icon">&#x1F33F;</div>
-                <div class="fc-name">明睿绿能投资</div>
-                <div class="fc-desc">清洁能源综合服务商</div>
-            </div>
-            <div class="friend-card">
-                <div class="fc-icon">&#x1F48E;</div>
-                <div class="fc-name">锦程资本管理</div>
-                <div class="fc-desc">资产管理及投资顾问</div>
-            </div>
-        </div>
+  </div>
+  <div class="hero-scroll"><span></span>SCROLL</div>
+</section>
+
+<!-- Business -->
+<section class="section" id="business">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">CORE BUSINESS</div>
+      <h2 class="section-title">核心业务</h2>
+      <p class="section-desc">多元产业协同，构建可持续发展的商业生态</p>
     </div>
-</div>
-<footer>
-    <div class="footer-section">
-        <div class="footer-left">
-            <div class="item">
-                <span class="footer-icon-phone">&#x260E;</span>
-                <div class="text">服务热线<h2>400-888-9999</h2></div>
-            </div>
-            <div class="item">
-                <div class="text">COPYRIGHT 2004 WWW.XIAOJIE.COM ALL RIGHTS RESERVED.小杰集团有限公司 版权所有<br>
-                    网页维护:信息技术部 ICP备案号：京ICP备20240001号
-                </div>
-            </div>
-            <div class="item" id="police">
-                <span class="footer-icon-police">&#x1F6E1;</span>
-                <div class="text">京公网安备 11010502000001号</div>
-            </div>
+    <div class="business-grid">
+      <a href="{dede:global.cfg_cmsurl/}/pages/bus.htm" class="biz-card reveal">
+        <div class="biz-card-bg"></div><div class="biz-card-overlay"></div>
+        <div class="biz-card-content">
+          <div class="biz-card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+          <h3 class="biz-card-name">工程建设</h3>
+          <p class="biz-card-desc">房屋建筑总承包特级资质，累计完成500+重点工程项目</p>
+          <div class="biz-card-arrow">了解详情 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
         </div>
-        <div class="footer-right">
-            <div class="footer-qrcode"></div>
-            <div class="text">扫码关注我们</div>
+      </a>
+      <a href="{dede:global.cfg_cmsurl/}/pages/bus-sales.htm" class="biz-card reveal">
+        <div class="biz-card-bg"></div><div class="biz-card-overlay"></div>
+        <div class="biz-card-content">
+          <div class="biz-card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10"/><path d="M2 12h20"/></svg></div>
+          <h3 class="biz-card-name">商贸服务</h3>
+          <p class="biz-card-desc">全球供应链网络，涵盖大宗商品贸易、进出口代理</p>
+          <div class="biz-card-arrow">了解详情 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
         </div>
+      </a>
+      <a href="{dede:global.cfg_cmsurl/}/pages/gas.htm" class="biz-card reveal">
+        <div class="biz-card-bg"></div><div class="biz-card-overlay"></div>
+        <div class="biz-card-content">
+          <div class="biz-card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+          <h3 class="biz-card-name">绿色能源</h3>
+          <p class="biz-card-desc">光伏电站装机800MW+，布局储能与氢能清洁能源</p>
+          <div class="biz-card-arrow">了解详情 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        </div>
+      </a>
+      <a href="{dede:global.cfg_cmsurl/}/pages/otherIndustries.htm" class="biz-card reveal">
+        <div class="biz-card-bg"></div><div class="biz-card-overlay"></div>
+        <div class="biz-card-content">
+          <div class="biz-card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          <h3 class="biz-card-name">综合投资</h3>
+          <p class="biz-card-desc">科技创新、医疗健康、文化教育多领域战略投资布局</p>
+          <div class="biz-card-arrow">了解详情 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        </div>
+      </a>
     </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="section stats-section" id="about">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">OUR STRENGTH</div>
+      <h2 class="section-title">集团优势</h2>
+      <p class="section-desc">以实力铸就品牌，以创新驱动未来</p>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card reveal">
+        <div class="stat-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+        <div class="stat-value"><span class="stat-num" data-count="2003">0</span><span class="stat-unit">年</span></div>
+        <div class="stat-name">成立时间</div><div class="stat-sub">深耕行业二十余载</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div class="stat-value"><span class="stat-num" data-count="12000">0</span><span class="stat-unit">+</span></div>
+        <div class="stat-name">员工人数</div><div class="stat-sub">汇聚全球卓越人才</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/><line x1="12" y1="22" x2="12" y2="15.5"/></svg></div>
+        <div class="stat-value"><span class="stat-num" data-count="500">0</span><span class="stat-unit">+</span></div>
+        <div class="stat-name">重点工程</div><div class="stat-sub">项目遍布全国各省市</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg></div>
+        <div class="stat-value"><span class="stat-num" data-count="60">0</span><span class="stat-unit">+</span></div>
+        <div class="stat-name">合作伙伴</div><div class="stat-sub">政企战略深度合作</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- News -->
+<section class="section news-section" id="news">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">XIAO JIE NEWS</div>
+      <h2 class="section-title">新闻中心</h2>
+      <p class="section-desc">了解小杰集团最新动态与重要资讯</p>
+    </div>
+    <div class="news-layout">
+      <div class="news-featured reveal">
+        {dede:arclist typeid='18' row='1' titlelen='80'}
+        <a href="[field:arcurl/]" class="news-featured-img">
+          <div class="news-featured-tag">最新</div>
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        </a>
+        <div class="news-featured-body">
+          <div class="news-featured-date">[field:pubdate function="MyDate('Y-m-d',@me)"/]</div>
+          <a href="[field:arcurl/]"><h3 class="news-featured-title">[field:title/]</h3></a>
+          <p class="news-featured-desc">[field:description function="cn_substr(@me,120)"/]...</p>
+          <a href="[field:arcurl/]" class="btn btn-secondary">阅读全文 →</a>
+        </div>
+        {/dede:arclist}
+      </div>
+      <div class="news-list">
+        {dede:arclist typeid='18' row='5' titlelen='60' limit='1,5'}
+        <a href="[field:arcurl/]" class="news-item reveal">
+          <div class="news-timeline"><div class="tl-dot"></div><div class="tl-line"></div></div>
+          <div class="news-item-body">
+            <div class="news-item-date">[field:pubdate function="MyDate('Y-m-d',@me)"/]</div>
+            <h4 class="news-item-title">[field:title/]</h4>
+            <div class="news-item-desc">[field:description function="cn_substr(@me,80)"/]...</div>
+          </div>
+          <div class="news-item-img-wrap"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/></svg></div>
+        </a>
+        {/dede:arclist}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Partners -->
+<section class="section" id="invest">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">PARTNERS</div>
+      <h2 class="section-title">合作伙伴</h2>
+      <p class="section-desc">与行业领先者同行，共创商业未来</p>
+    </div>
+    <div class="partners-grid">
+      <div class="partner-card reveal"><div class="partner-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></div><div class="partner-name">星辰科技集团</div></div>
+      <div class="partner-card reveal"><div class="partner-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div><div class="partner-name">锦绣建设控股</div></div>
+      <div class="partner-card reveal"><div class="partner-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div class="partner-name">明睿绿能投资</div></div>
+      <div class="partner-card reveal"><div class="partner-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="partner-name">锦程资本管理</div></div>
+      <div class="partner-card reveal"><div class="partner-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="partner-name">创智未来集团</div></div>
+      <div class="partner-card reveal"><div class="partner-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 2l9 4.5v7L12 18l-9-4.5v-7L12 2z"/><path d="M12 18v4M8 21h8"/></svg></div><div class="partner-name">远航国际控股</div></div>
+      <div class="partner-card reveal"><div class="partner-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10"/><path d="M2 12h20"/></svg></div><div class="partner-name">鼎丰国际集团</div></div>
+      <div class="partner-card reveal"><div class="partner-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg></div><div class="partner-name">瑞信科技公司</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="{dede:global.cfg_cmsurl/}/" class="logo">
+          <div class="logo-mark">杰</div>
+          <div><div class="logo-cn">小杰集团</div><span class="logo-en">XIAO JIE GROUP</span></div>
+        </a>
+        <p class="footer-about">小杰集团有限公司成立于2003年，是一家集工程建设、商贸服务、绿色能源、综合投资于一体的多元化产业集团。</p>
+        <div class="footer-social">
+          <a href="#" title="微信"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 10.5c-2.5 0-4.5 2-4.5 4.5 0 1.5.8 2.8 2 3.6L5 20l2-1.2c.8.4 1.7.6 2.6.6 2.5 0 4.5-2 4.5-4.5S10.5 10.5 8 10.5z"/><path d="M18.5 8c2.5 0 4.5 2 4.5 4.5 0 1.5-.7 2.8-1.9 3.6l.4 1.4-1.7-.9c-.7.3-1.4.5-2.2.5-1 0-2-.3-2.8-.8"/></svg></a>
+          <a href="#" title="微博"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">快速链接</div>
+        <a href="{dede:global.cfg_cmsurl/}/pages/about/index.htm">公司简介</a>
+        <a href="{dede:global.cfg_cmsurl/}/pages/about/culture.htm">企业文化</a>
+        <a href="{dede:global.cfg_cmsurl/}/a/qiyezixun/">新闻动态</a>
+        <a href="{dede:global.cfg_cmsurl/}/pages/invest/stock.htm">投资者关系</a>
+        <a href="{dede:global.cfg_cmsurl/}/pages/joinus.htm">加入我们</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">联系我们</div>
+        <p>地址：北京市朝阳区建国路88号小杰大厦</p>
+        <p>电话：400-888-9999</p>
+        <p>传真：010-8888-7777</p>
+        <p>邮箱：info@xiaojie.com</p>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">关注我们</div>
+        <img src="{dede:global.cfg_templets_skin/}/images/jie/QRcode.png" class="footer-qrcode-img" alt="二维码" />
+        <p style="font-size:11px;margin-top:10px">扫码关注微信公众号</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2004-2026 小杰集团有限公司 版权所有 | 京ICP备20240001号 | 京公网安备 11010502000001号</span>
+      <div class="footer-bottom-links"><a href="#">法律声明</a><a href="#">隐私政策</a><a href="#">网站地图</a></div>
+    </div>
+  </div>
 </footer>
-<script type="text/javascript" src="{dede:global.cfg_templets_skin/}/js/banner.js"></script>
+
+<script>
+var header=document.getElementById('header')
+window.addEventListener('scroll',function(){header.classList.toggle('scrolled',window.scrollY>20)})
+var observer=new IntersectionObserver(function(e){e.forEach(function(v){if(v.isIntersecting)v.target.classList.add('visible')})},{threshold:.15,rootMargin:'0px 0px -40px 0px'})
+document.querySelectorAll('.reveal').forEach(function(el){observer.observe(el)})
+// Particles
+var canvas=document.getElementById('particles')
+if(canvas){var ctx=canvas.getContext('2d'),w,h
+function resize(){w=canvas.width=canvas.offsetWidth;h=canvas.height=canvas.offsetHeight}
+resize();window.addEventListener('resize',resize)
+var particles=Array.from({length:50},function(){return{x:Math.random()*w,y:Math.random()*h,r:Math.random()*2+1,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,alpha:Math.random()*.3+.05}})
+function animate(){ctx.clearRect(0,0,w,h)
+particles.forEach(function(p){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>w)p.vx*=-1;if(p.y<0||p.y>h)p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,2*Math.PI);ctx.fillStyle='rgba(37,99,235,'+p.alpha+')';ctx.fill()})
+requestAnimationFrame(animate)}animate()}
+// Count-up
+var countObs=new IntersectionObserver(function(e){e.forEach(function(v){if(!v.isIntersecting)return;var el=v.target,target=parseInt(el.dataset.count),duration=2000,start=performance.now()
+function tick(now){var p=Math.min((now-start)/duration,1),eased=1-Math.pow(1-p,3);el.textContent=Math.floor(target*eased).toLocaleString();if(p<1)requestAnimationFrame(tick);else el.textContent=target.toLocaleString()}requestAnimationFrame(tick)})},{threshold:.5})
+document.querySelectorAll('[data-count]').forEach(function(el){countObs.observe(el)})
+</script>
 </body>
 </html>
