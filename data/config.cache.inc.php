@@ -7,7 +7,7 @@ $cfg_backup_dir = 'backupdata';
 $cfg_indexname = '主页';
 
 $cfg_webname = '小杰';
-$cfg_adminemail = 'admin@xinyuangroup.com';
+$cfg_adminemail = 'admin@dedecms.com';
 $cfg_html_editor = 'wangEditor';
 $cfg_arcdir = '/a';
 $cfg_medias_dir = '/uploads';
@@ -27,7 +27,7 @@ $cfg_fck_xhtml = 'N';
 $cfg_df_style = 'default';
 $cfg_multi_site = 'N';
 $cfg_dede_log = 'N';
-$cfg_powerby = 'Copyright &copy; 2004-2024 鑫远集团有限公司';
+$cfg_powerby = 'Copyright &copy; 2004-2024 小杰';
 $cfg_arcsptitle = 'N';
 $cfg_arcautosp = 'N';
 $cfg_arcautosp_size = 5;

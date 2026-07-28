@@ -305,11 +305,9 @@
     align-items: center;
     text-align: center;
     color: #1a56db;
-    line-height: 34px;
+    line-height: 48px;
 }
-.invest-section .invest-item {
-    margin-bottom: 30px;
-}
+
 .invest-section img {
     width: 142px;
     height: auto;
