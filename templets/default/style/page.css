@@ -124,6 +124,50 @@
     text-align: right;
 }
 
+/* ---------- 新闻列表页 ---------- */
+.news-list .nl-item {
+    display: flex;
+    gap: 20px;
+    padding: 18px 0;
+    border-bottom: 1px dashed #e0e0e0;
+}
+.news-list .nl-item:last-child { border-bottom: none; }
+.news-list .nl-date {
+    width: 70px;
+    height: 70px;
+    background: #1a56db;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 1.2;
+}
+.news-list .nl-date .day {
+    font-size: 28px;
+    font-weight: bold;
+}
+.news-list .nl-date .mon {
+    font-size: 13px;
+    opacity: 0.85;
+}
+.news-list .nl-body { flex: 1; min-width: 0; }
+.news-list .nl-body .nl-title {
+    display: block;
+    font-size: 18px;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+.news-list .nl-body .nl-title:hover { color: #1a56db; }
+.news-list .nl-body .nl-meta {
+    font-size: 13px;
+    color: #999;
+}
+.news-list .nl-body .nl-meta span { margin-right: 20px; }
+
 /* ---------- 业务列表页（bus / gas / bus-sales / otherIndustries / system / education 共用） ---------- */
 .bs-right {
     flex: 1;
@@ -232,7 +276,7 @@
     display: flex;
     gap: 30px;
     margin-top: 15px;
-    margin-left: 150px;
+    margin-left: 100px;
 }
 .intro .contact-item p {
     line-height: 30px;
@@ -241,7 +285,7 @@
 }
 .contact-item .item-l,
 .contact-item .item-r {
-    width: 300px;
+    width: 350px;
 }
 .intro .contact .title {
     width: 250px;
