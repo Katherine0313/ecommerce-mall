@@ -106,9 +106,9 @@ document.writeln("        </div>");
 
 document.writeln("    </div>");
 
-document.writeln("<script type=\"text/javascript\" src=\"/templets/default/js/art_web20.js\" charset=utf-8></script> <!--web2.0模块JS-->");
+document.writeln("<script type=\"text/javascript\" src=\"/templets/js20.js\" charset=utf-8></script> <!--web2.0模块JS-->");
 
-document.writeln("<style type=\"text/css\">@import url(/templets/default/style/share.css);</style><!--分享模块CSS文件-->");
+document.writeln("<style type=\"text/css\">@import url(/templets/style/share.css);</style><!--分享模块CSS文件-->");
 
 document.writeln("    <div class=\"px10\"></div>");
 

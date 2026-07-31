@@ -33,9 +33,9 @@ var ROUTES = {
     '综合投资':     '/pages/otherIndustries.htm',
 
     // =================== 新闻动态 ===================
-    'news':       '/a/qiyezixun/',
-    '集团要闻':     '/a/qiyezixun/',
-    '招投标':       '/a/zhaotoubiao/',
+    'news':       '/pages/qiyezixun/',
+    '集团要闻':     '/pages/qiyezixun/',
+    '招投标':       '/pages/zhaotoubiao/',
 
     // =================== 投资者关系 ===================
     'investor':   '/pages/invest/stock.htm',
