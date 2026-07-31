@@ -2,146 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2571bb5b-b0df-4e79-aaa5-0d3d847dd109" name="Changes" comment="0731">
-      <change afterPath="$PROJECT_DIR$/templets/images/1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templets/images/home/business.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templets/images/home/energy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templets/images/home/invest.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/about/culture.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/about/culture.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/about/honor.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/about/honor.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/about/index.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/about/index.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/bus-sales.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/bus-sales.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/bus.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/bus.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/contact.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/contact.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/gas.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/gas.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/invest/education.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/invest/education.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/invest/investor.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/invest/investor.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/invest/stock.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/invest/stock.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/invest/system.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/invest/system.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/joinus.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/joinus.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/otherIndustries.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/otherIndustries.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/qiyezixun/2026/0707/157.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/qiyezixun/2026/0707/157.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/qiyezixun/2026/0708/159.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/qiyezixun/2026/0708/159.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/qiyezixun/2026/0708/161.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/qiyezixun/2026/0708/161.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/qiyezixun/2026/0708/162.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/qiyezixun/2026/0708/162.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/qiyezixun/2026/0717/163.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/qiyezixun/2026/0717/163.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/qiyezixun/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/qiyezixun/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/qiyezixun/list_18_1.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/qiyezixun/list_18_1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/zhaotoubiao/2026/0707/158.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/zhaotoubiao/2026/0707/158.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/zhaotoubiao/2026/0708/160.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/zhaotoubiao/2026/0708/160.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/zhaotoubiao/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/zhaotoubiao/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/zhaotoubiao/list_19_1.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/zhaotoubiao/list_19_1.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/style/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/style/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/actbox-ico.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/banner-header.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/bcastr3.swf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/boxoff.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/btn-bg2.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/but_bg_sr.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/but_bg_sr1.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/but_bg_sr2.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/but_bg_sr3.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/but_bg_sr4.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/but_bg_sr5.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/channel_bg.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/channel_bg_skin1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/channel_bg_skin2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/cmt-bad.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/cmt-good.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/cmt-neu.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/comm-bt.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/digg-bg.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/downurl-bg.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/green_skin.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/ico-1.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/ico-2.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/ico-3.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/img_scroll.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/logo.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/banner/banner1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/banner/banner2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/banner/banner3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/banner/banner4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/banner/side.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/business/business1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/business/business2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/business/business3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/business/business4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/business/business5.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/contact.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/footer/code.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/footer/phone.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/footer/police.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/head-left.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/head-right.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/honor/honor1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/honor/honor10.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/honor/honor11.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/honor/honor12.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/honor/honor13.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/honor/honor2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/honor/honor3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/honor/honor4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/honor/honor5.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/honor/honor6.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/honor/honor7.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/honor/honor8.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/honor/honor9.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/invest.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/joinus.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/link/link1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/link/link2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/link/link3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/link/link4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/link/link5.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/link/link6.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/map.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/news-title.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/news/news1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/news/news2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/news/news3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/news/news4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/side.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/long/top/top.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/mood/ico-mood-1.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/mood/ico-mood-10.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/mood/ico-mood-11.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/mood/ico-mood-12.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/mood/ico-mood-2.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/mood/ico-mood-3.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/mood/ico-mood-4.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/mood/ico-mood-5.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/mood/ico-mood-6.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/mood/ico-mood-7.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/mood/ico-mood-8.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/mood/ico-mood-9.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/new-article.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/newdigg-bg.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/nophoto.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/number-range.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/page_bg.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/photo/a.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/photo/album.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/photo/e_m_01.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/photo/e_m_02.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/photo/e_m_03.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/photo/e_m_05.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/photo/e_m_06.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/photo/e_m_07.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/photo/fl-bg.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/photo/heiphoto.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/photo/loading_01.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/photo/m.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/photo/photo.swf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/photo/sinaflash.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/photo/unfcn_mj_01.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/picbox-listbg.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/rsso.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/search-bt.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/search-top-bg.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/theme.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/view-labeltitle-bg.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/white_bg.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/index.htm" beforeDir="false" afterPath="$PROJECT_DIR$/templets/index.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/images/1.png" beforeDir="false" afterPath="$PROJECT_DIR$/templets/images/home/project.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -209,7 +76,7 @@
       <workItem from="1785488814149" duration="16000" />
       <workItem from="1785489664982" duration="335000" />
       <workItem from="1785490862148" duration="308000" />
-      <workItem from="1785491214759" duration="4574000" />
+      <workItem from="1785491214759" duration="6194000" />
     </task>
     <task id="LOCAL-00001" summary="0731">
       <option name="closed" value="true" />
@@ -243,7 +110,15 @@
       <option name="project" value="LOCAL" />
       <updated>1785492293887</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="0731">
+      <option name="closed" value="true" />
+      <created>1785495794636</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1785495794636</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
