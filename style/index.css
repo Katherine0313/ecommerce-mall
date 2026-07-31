@@ -242,7 +242,7 @@ img {
 .nav a {
     position: relative;
     padding: 8px 18px;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 500;
     color: var(--text2);
     border-radius: 10px;
@@ -593,7 +593,7 @@ img {
     height: 320px;
     display: flex;
     align-items: flex-end;
-    transition: all .5s var(--ease)
+    transition: all .5s var(--ease);
 }
 
 .biz-card:hover {
@@ -612,8 +612,9 @@ img {
 
 .biz-card-overlay {
     position: absolute;
+    z-index: 1;
     inset: 0;
-    background: linear-gradient(to top, rgba(15, 23, 42, .85), rgba(15, 23, 42, .2) 50%, transparent 70%)
+    background: linear-gradient(to top, rgba(15, 23, 42, .85), rgba(15, 23, 42, .2) 50%, transparent 70%);
 }
 
 .biz-card-content {
@@ -624,7 +625,10 @@ img {
 }
 
 .biz-card-icon {
-    margin-bottom: 14px;
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    z-index: 3;
     display: inline-flex;
     padding: 10px;
     background: rgba(255, 255, 255, .12);
@@ -662,24 +666,9 @@ img {
 }
 
 .biz-card-bg {
-    background-size: cover;
-    background-position: center
-}
-
-.biz-card:nth-child(1) .biz-card-bg {
-    background: linear-gradient(135deg, #1a365d, #1e40af, #2563eb)
-}
-
-.biz-card:nth-child(2) .biz-card-bg {
-    background: linear-gradient(135deg, #1e293b, #0f172a, #1e3a5f)
-}
-
-.biz-card:nth-child(3) .biz-card-bg {
-    background: linear-gradient(135deg, #0f2744, #1a3a6b, #1d4ed8)
-}
-
-.biz-card:nth-child(4) .biz-card-bg {
-    background: linear-gradient(135deg, #172554, #1e40af, #3b82f6)
+    position: absolute;
+    inset: 0;
+    z-index: 0;
 }
 
 /* ============================================================
@@ -731,7 +720,7 @@ img {
 .stat-icon-wrap svg {
     width: 28px;
     height: 28px;
-    color: var(--primary)
+    color: var(--primary);
 }
 
 .stat-value {
