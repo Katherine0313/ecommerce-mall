@@ -2,13 +2,71 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2571bb5b-b0df-4e79-aaa5-0d3d847dd109" name="Changes" comment="0731">
-      <change afterPath="$PROJECT_DIR$/templets/images/home/business.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templets/images/home/energy.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templets/images/home/invest.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/pagination.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/sidebar.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/business/construct.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/style/page.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/about/culture.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/about/culture.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/about/honor.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/about/honor.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/about/index.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/about/index.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/bus-sales.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/bus-sales.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/bus.htm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/contact.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/contact.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/gas.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/gas.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/invest/education.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/invest/education.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/invest/investor.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/invest/investor.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/invest/stock.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/invest/stock.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/invest/system.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/invest/system.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/joinus.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/joinus.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/otherIndustries.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/otherIndustries.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/qiyezixun/2026/0707/157.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/qiyezixun/2026/0707/157.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/qiyezixun/2026/0708/159.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/qiyezixun/2026/0708/159.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/qiyezixun/2026/0708/161.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/qiyezixun/2026/0708/161.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/qiyezixun/2026/0708/162.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/qiyezixun/2026/0708/162.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/qiyezixun/2026/0717/163.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/qiyezixun/2026/0717/163.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/qiyezixun/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/qiyezixun/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/qiyezixun/list_18_1.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/qiyezixun/list_18_1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/zhaotoubiao/2026/0707/158.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/zhaotoubiao/2026/0707/158.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/zhaotoubiao/2026/0708/160.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/zhaotoubiao/2026/0708/160.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/zhaotoubiao/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/zhaotoubiao/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/zhaotoubiao/list_19_1.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/zhaotoubiao/list_19_1.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/style/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/style/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/images/1.png" beforeDir="false" afterPath="$PROJECT_DIR$/templets/images/home/project.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/images/home/business.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/home/business.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/images/home/energy.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/home/energy.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/images/home/invest.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/home/invest.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/images/home/project.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/home/project.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/images/jie/QRcode.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/jie/QRcode.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/images/jie/banner-left1.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/jie/banner-left1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/images/jie/banner-left2.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/jie/banner-left2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/images/jie/banner-left3.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/jie/banner-left3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/images/jie/banner-left4.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/jie/banner-left4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/images/jie/banner-top1.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/jie/banner-top1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/images/jie/banner-top2.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/jie/banner-top2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/images/jie/banner-top3.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/jie/banner-top3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/images/jie/banner-top4.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/jie/banner-top4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/images/jie/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/jie/logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/images/jie/map.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/jie/map.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/index.htm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/js/art_share.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/js/art_web20.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/js/banner.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/js/jcarousellite.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/js/list.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/js/nav.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/js/page-total.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/js/pic_scroll.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/js/sidebar-active.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/style/dedecms.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/style/dedecms.css.bak" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/style/layout.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/style/page.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/style/picture.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/style/scroll.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/style/search.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/style/share.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templets/style/table.css" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +77,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
+        <option value="HTML File" />
         <option value="JavaScript File" />
       </list>
     </option>
@@ -37,6 +96,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
     "JavaScript Debug.index.html.executor": "Debug",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -45,7 +105,7 @@
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "master",
     "javascript.preferred.runtime.type.id": "node",
-    "last_opened_file_path": "D:/study/html-workspace/company-website/templets/images",
+    "last_opened_file_path": "D:/study/html-workspace/company-website/pages/business",
     "list.type.of.created.stylesheet": "CSS",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.lookFeel",
@@ -54,6 +114,9 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\study\html-workspace\company-website\pages\business" />
+      <recent name="D:\study\html-workspace\company-website\js" />
+      <recent name="D:\study\html-workspace\company-website" />
       <recent name="D:\study\html-workspace\company-website\templets\images" />
     </key>
   </component>
@@ -76,7 +139,9 @@
       <workItem from="1785488814149" duration="16000" />
       <workItem from="1785489664982" duration="335000" />
       <workItem from="1785490862148" duration="308000" />
-      <workItem from="1785491214759" duration="6194000" />
+      <workItem from="1785491214759" duration="6214000" />
+      <workItem from="1785510853812" duration="17000" />
+      <workItem from="1785564977830" duration="13976000" />
     </task>
     <task id="LOCAL-00001" summary="0731">
       <option name="closed" value="true" />
@@ -118,7 +183,15 @@
       <option name="project" value="LOCAL" />
       <updated>1785495794636</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="0731">
+      <option name="closed" value="true" />
+      <created>1785497525241</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1785497525241</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
