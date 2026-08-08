@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2571bb5b-b0df-4e79-aaa5-0d3d847dd109" name="Changes" comment="0731">
-      <change afterPath="$PROJECT_DIR$/images/home/news.png" afterDir="false" />
+    <list default="true" id="2571bb5b-b0df-4e79-aaa5-0d3d847dd109" name="Changes" comment="0802">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/style/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/style/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/m/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +42,7 @@
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "master",
     "javascript.preferred.runtime.type.id": "node",
-    "last_opened_file_path": "D:/study/html-workspace/company-website/images/home",
+    "last_opened_file_path": "D:/study/my-workspace/html-workspace/company-website",
     "list.type.of.created.stylesheet": "CSS",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.lookFeel",
@@ -82,7 +80,9 @@
       <workItem from="1785491214759" duration="6214000" />
       <workItem from="1785510853812" duration="17000" />
       <workItem from="1785564977830" duration="14049000" />
-      <workItem from="1785679448433" duration="4711000" />
+      <workItem from="1785679448433" duration="5349000" />
+      <workItem from="1785719169910" duration="60000" />
+      <workItem from="1786183045257" duration="3006000" />
     </task>
     <task id="LOCAL-00001" summary="0731">
       <option name="closed" value="true" />
@@ -140,7 +140,15 @@
       <option name="project" value="LOCAL" />
       <updated>1785580149308</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="0802">
+      <option name="closed" value="true" />
+      <created>1785685138608</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1785685138608</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -160,6 +168,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="0728" />
     <MESSAGE value="0731" />
-    <option name="LAST_COMMIT_MESSAGE" value="0731" />
+    <MESSAGE value="0802" />
+    <option name="LAST_COMMIT_MESSAGE" value="0802" />
   </component>
 </project>
