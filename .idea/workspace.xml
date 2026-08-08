@@ -2,7 +2,46 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2571bb5b-b0df-4e79-aaa5-0d3d847dd109" name="Changes" comment="0802">
+      <change afterPath="$PROJECT_DIR$/m/js/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/m/style/index.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/css/admin.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/css/amazeui.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/css/amazeui.flat.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/css/amazeui.flat.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/css/amazeui.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/css/app.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/fonts/FontAwesome.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/fonts/fontawesome-webfont.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/fonts/fontawesome-webfont.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/fonts/fontawesome-webfont.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/fonts/fontawesome-webfont.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/i/app-icon72x72@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/i/examples/admin-chrome.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/i/examples/admin-firefox.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/i/examples/admin-ie.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/i/examples/admin-opera.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/i/examples/admin-safari.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/i/examples/adminPage.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/i/examples/blogPage.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/i/examples/landing.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/i/examples/landingPage.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/i/examples/loginPage.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/i/examples/mlszuqiu.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/i/examples/sidebarPage.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/i/favicon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/i/startup-640x1096.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/js/amazeui.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/js/amazeui.legacy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/js/amazeui.legacy.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/js/amazeui.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/js/amazeui.widgets.helper.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/js/amazeui.widgets.helper.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/js/app.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/js/handlebars.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/js/jquery.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/js/polyfill/rem.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/assets/js/polyfill/respond.min.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/m/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/m/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -13,9 +52,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="CSS File" />
         <option value="HTML File" />
         <option value="JavaScript File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -57,6 +96,9 @@
       <recent name="D:\study\html-workspace\company-website" />
       <recent name="D:\study\html-workspace\company-website\templets\images" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\study\my-workspace\html-workspace\company-website\m" />
+    </key>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -82,7 +124,7 @@
       <workItem from="1785564977830" duration="14049000" />
       <workItem from="1785679448433" duration="5349000" />
       <workItem from="1785719169910" duration="60000" />
-      <workItem from="1786183045257" duration="3006000" />
+      <workItem from="1786183045257" duration="5564000" />
     </task>
     <task id="LOCAL-00001" summary="0731">
       <option name="closed" value="true" />
@@ -148,7 +190,15 @@
       <option name="project" value="LOCAL" />
       <updated>1785685138608</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="0802">
+      <option name="closed" value="true" />
+      <created>1786186068695</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1786186068695</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
