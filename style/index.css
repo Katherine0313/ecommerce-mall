@@ -1012,8 +1012,10 @@ img {
     padding: 20px 10px;
 }
 .footer-grid {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    /*grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));*/
+    grid-template-columns:repeat(4, 1fr);
+    gap: 20px;
 }
 .footer-brand .logo {
     margin-bottom: 20px;

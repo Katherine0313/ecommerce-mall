@@ -55,8 +55,8 @@ img { display: block; max-width: 100%; }
     align-items: center;
     justify-content: space-between;
     height: 100%;
-    padding: 0 16px;
-    max-width: 480px;
+    padding: 0 20px;
+    max-width: 750px;
     margin: 0 auto;
 }
 .logo {
@@ -214,9 +214,9 @@ img { display: block; max-width: 100%; }
 .hero-inner {
     position: relative;
     z-index: 2;
+    max-width: 750px;
     width: 100%;
-    padding: 40px 20px 60px;
-    max-width: 480px;
+    padding: 40px 20px;
     margin: 0 auto;
     text-align: center;
 }
@@ -413,7 +413,7 @@ img { display: block; max-width: 100%; }
    Section Common
    ============================================================ */
 .section { padding: 50px 0; }
-.container { max-width: 480px; margin: 0 auto; padding: 0 16px; }
+.container { max-width: 750px; margin: 0 auto; padding: 0 16px; }
 .section-head { text-align: center; margin-bottom: 28px; }
 .section-tag {
     font-size: 11px;
@@ -720,9 +720,9 @@ img { display: block; max-width: 100%; }
     font-size: 13px;
 }
 .footer-container {
-    max-width: 480px;
+    max-width: 750px;
     margin: 0 auto;
-    padding: 40px 16px 20px;
+    padding: 40px 20px;
 }
 .footer-brand {
     text-align: center;
