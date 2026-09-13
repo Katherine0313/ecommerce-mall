@@ -582,7 +582,7 @@ img { display: block; max-width: 100%; }
 .news-featured:active { transform: scale(.98); }
 .news-featured-img {
     height: 180px;
-    background: url('../../images/home/news.png') center/cover no-repeat;
+    background: url('../../images/home/news.webp') center/cover no-repeat;
     display: flex;
     align-items: flex-start;
     position: relative;
@@ -783,11 +783,17 @@ img { display: block; max-width: 100%; }
     line-height: 1.5;
 }
 .footer-col a:active { color: var(--primary-light); }
+/* 「关注我们」二维码列：双列网格中独占整行并居中，避免单独落在左半边 */
+.footer-cols .footer-col:last-child {
+    grid-column: 1 / -1;
+    text-align: center;
+}
 .footer-qrcode-img {
     width: 90px; height: 90px;
     background: #fff;
     border-radius: 10px;
     padding: 6px;
+    margin: 0 auto; /* img 为块级元素，需自动左右外边距才能水平居中 */
 }
 .footer-bottom {
     text-align: center;
@@ -795,19 +801,34 @@ img { display: block; max-width: 100%; }
     border-top: 1px solid rgba(255,255,255,.08);
 }
 .footer-bottom span {
-    display: block;
-    font-size: 11px;
-    color: rgba(255,255,255,.35);
+    /* 与 PC 端一致：版权文字用白色，字号跟随 .footer 继承 */
+    color: #fff;
     line-height: 1.8;
 }
+
+.footer-police-icon {
+    width: 14px;
+    height: 14px;
+    margin-right: 4px;
+    vertical-align: -2px;
+}
+
+/* 与 PC 端一致：备案信息独立成行，盾牌图标排在行首 */
+.police {
+    display: flex;
+    color: var(--primary-light);
+    justify-content: center;
+    align-items: center;
+}
+
 .footer-bottom-links {
     display: flex;
-    gap: 16px;
+    gap: 24px;
     justify-content: center;
     margin-top: 10px;
 }
 .footer-bottom-links a {
-    font-size: 11px;
+    /* 字号不单独指定，与 PC 端一致，跟随 .footer 继承 */
     color: rgba(255,255,255,.35);
 }
 .footer-bottom-links a:active { color: rgba(255,255,255,.7); }

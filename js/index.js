@@ -87,3 +87,14 @@ var countObs = new IntersectionObserver(function (e) {
 document.querySelectorAll('[data-count]').forEach(function (el) {
 	countObs.observe(el)
 })
+
+// =================== 5. 子页面入口禁用 ===================
+// 站点当前只开放首页：拦截所有指向 pages/ 子页面的链接
+// 只阻止跳转，href 与外观保持不变（导航、业务卡片、新闻列表、页脚链接均生效）
+document.addEventListener('click', function (e) {
+	var link = e.target && e.target.closest ? e.target.closest('a[href]') : null
+	if (!link) return;
+	var href = link.getAttribute('href')
+	// 放行锚点（#xxx）、首页链接和外部链接，只拦截站内子页面
+	if (href && href.indexOf('#') !== 0 && /(^|\/)pages\//.test(href)) e.preventDefault()
+}, true)

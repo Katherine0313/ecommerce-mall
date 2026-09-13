@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2571bb5b-b0df-4e79-aaa5-0d3d847dd109" name="Changes" comment="0802">
-      <change beforePath="$PROJECT_DIR$/.idea/dede1.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dede/.idea/workspace.xml" beforeDir="false" />
+    <list default="true" id="2571bb5b-b0df-4e79-aaa5-0d3d847dd109" name="Changes" comment="0831">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/home/business.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/home/energy.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/home/invest.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/home/news.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/home/project.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/m/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/m/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/m/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/m/js/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/m/pages/about/culture.html" beforeDir="false" afterPath="$PROJECT_DIR$/m/pages/about/culture.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/m/pages/about/honor.html" beforeDir="false" afterPath="$PROJECT_DIR$/m/pages/about/honor.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/m/pages/about/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/m/pages/about/index.html" afterDir="false" />
@@ -23,13 +26,31 @@
       <change beforePath="$PROJECT_DIR$/m/pages/joinus.html" beforeDir="false" afterPath="$PROJECT_DIR$/m/pages/joinus.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/m/pages/otherIndustries.html" beforeDir="false" afterPath="$PROJECT_DIR$/m/pages/otherIndustries.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/m/style/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/m/style/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/about/culture.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/about/culture.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/about/honor.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/about/honor.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/about/index.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/about/index.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/bus-sales.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/bus-sales.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/business/construct.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/business/construct.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/contact.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/contact.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/gas.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/gas.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/invest/education.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/invest/education.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/invest/investor.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/invest/investor.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/invest/stock.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/invest/stock.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/invest/system.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/invest/system.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/joinus.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/joinus.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/otherIndustries.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/otherIndustries.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/qiyezixun/2026/0707/157.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/qiyezixun/2026/0707/157.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/qiyezixun/2026/0708/159.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/qiyezixun/2026/0708/159.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/qiyezixun/2026/0708/161.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/qiyezixun/2026/0708/161.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/qiyezixun/2026/0708/162.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/qiyezixun/2026/0708/162.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/qiyezixun/2026/0717/163.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/qiyezixun/2026/0717/163.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/qiyezixun/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/qiyezixun/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/qiyezixun/list_18_1.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/qiyezixun/list_18_1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/zhaotoubiao/2026/0707/158.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/zhaotoubiao/2026/0707/158.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/zhaotoubiao/2026/0708/160.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/zhaotoubiao/2026/0708/160.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/zhaotoubiao/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/zhaotoubiao/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/zhaotoubiao/list_19_1.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/zhaotoubiao/list_19_1.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/style/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/style/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/style/m/article.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/style/m/base.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/style/m/footer.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/style/m/header.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/style/m/index.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templets/style/m/list.css" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,7 +137,13 @@
       <workItem from="1786338944460" duration="29000" />
       <workItem from="1787119685867" duration="2328000" />
       <workItem from="1788164360704" duration="2171000" />
-      <workItem from="1788166724611" duration="3513000" />
+      <workItem from="1788166724611" duration="3549000" />
+      <workItem from="1788172733597" duration="84000" />
+      <workItem from="1788678754570" duration="2603000" />
+      <workItem from="1789224249718" duration="1383000" />
+      <workItem from="1789263405851" duration="15000" />
+      <workItem from="1789277176922" duration="5586000" />
+      <workItem from="1789284029692" duration="4306000" />
     </task>
     <task id="LOCAL-00001" summary="0731">
       <option name="closed" value="true" />
@@ -198,7 +225,23 @@
       <option name="project" value="LOCAL" />
       <updated>1786193039526</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="0831">
+      <option name="closed" value="true" />
+      <created>1788172304005</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1788172304005</updated>
+    </task>
+    <task id="LOCAL-00012" summary="0831">
+      <option name="closed" value="true" />
+      <created>1788172308688</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1788172308688</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -219,6 +262,7 @@
     <MESSAGE value="0728" />
     <MESSAGE value="0731" />
     <MESSAGE value="0802" />
-    <option name="LAST_COMMIT_MESSAGE" value="0802" />
+    <MESSAGE value="0831" />
+    <option name="LAST_COMMIT_MESSAGE" value="0831" />
   </component>
 </project>

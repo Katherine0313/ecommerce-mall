@@ -773,7 +773,7 @@ img {
 .news-featured {
     border-radius: var(--radius);
     overflow: hidden;
-    background: url("/images/home/news.png") center / cover no-repeat;
+    background: url("/images/home/news.webp") center / cover no-repeat;
     transition: all .4s var(--ease);
     flex:6;
     min-width: 0;
@@ -1105,4 +1105,21 @@ img {
 }
 .footer-bottom{
     margin-bottom:20px;
+}
+
+/* 页脚底部：版权文字用白色，备案信息用亮蓝色 + 公网安备图标 */
+.footer-bottom span {
+    color: #fff;
+}
+
+.footer-police-icon {
+    width: 14px;
+    height: 14px;
+    margin-right: 4px;
+    vertical-align: -2px;
+}
+/* 备案信息独立成行，盾牌图标排在行首 */
+.police{
+    display: flex;
+    color: var(--primary-light);
 }
