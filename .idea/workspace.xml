@@ -1,56 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2571bb5b-b0df-4e79-aaa5-0d3d847dd109" name="Changes" comment="0831">
+    <list default="true" id="2571bb5b-b0df-4e79-aaa5-0d3d847dd109" name="Changes" comment="0913">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/home/business.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/home/energy.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/home/invest.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/home/news.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/home/project.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/m/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/m/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/m/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/m/js/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/m/pages/about/culture.html" beforeDir="false" afterPath="$PROJECT_DIR$/m/pages/about/culture.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/m/pages/about/honor.html" beforeDir="false" afterPath="$PROJECT_DIR$/m/pages/about/honor.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/m/pages/about/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/m/pages/about/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/m/pages/bus-sales.html" beforeDir="false" afterPath="$PROJECT_DIR$/m/pages/bus-sales.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/m/pages/bus.html" beforeDir="false" afterPath="$PROJECT_DIR$/m/pages/bus.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/m/pages/contact.html" beforeDir="false" afterPath="$PROJECT_DIR$/m/pages/contact.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/m/pages/gas.html" beforeDir="false" afterPath="$PROJECT_DIR$/m/pages/gas.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/m/pages/invest/education.html" beforeDir="false" afterPath="$PROJECT_DIR$/m/pages/invest/education.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/m/pages/invest/investor.html" beforeDir="false" afterPath="$PROJECT_DIR$/m/pages/invest/investor.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/m/pages/invest/stock.html" beforeDir="false" afterPath="$PROJECT_DIR$/m/pages/invest/stock.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/m/pages/invest/system.html" beforeDir="false" afterPath="$PROJECT_DIR$/m/pages/invest/system.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/m/pages/joinus.html" beforeDir="false" afterPath="$PROJECT_DIR$/m/pages/joinus.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/m/pages/otherIndustries.html" beforeDir="false" afterPath="$PROJECT_DIR$/m/pages/otherIndustries.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/m/style/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/m/style/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/about/culture.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/about/culture.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/about/honor.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/about/honor.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/about/index.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/about/index.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/bus-sales.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/bus-sales.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/business/construct.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/business/construct.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/contact.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/contact.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/gas.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/gas.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/invest/education.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/invest/education.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/invest/investor.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/invest/investor.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/invest/stock.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/invest/stock.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/invest/system.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/invest/system.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/joinus.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/joinus.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/otherIndustries.htm" beforeDir="false" afterPath="$PROJECT_DIR$/pages/otherIndustries.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/qiyezixun/2026/0707/157.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/qiyezixun/2026/0707/157.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/qiyezixun/2026/0708/159.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/qiyezixun/2026/0708/159.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/qiyezixun/2026/0708/161.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/qiyezixun/2026/0708/161.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/qiyezixun/2026/0708/162.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/qiyezixun/2026/0708/162.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/qiyezixun/2026/0717/163.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/qiyezixun/2026/0717/163.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/qiyezixun/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/qiyezixun/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/qiyezixun/list_18_1.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/qiyezixun/list_18_1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/zhaotoubiao/2026/0707/158.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/zhaotoubiao/2026/0707/158.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/zhaotoubiao/2026/0708/160.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/zhaotoubiao/2026/0708/160.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/zhaotoubiao/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/zhaotoubiao/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/zhaotoubiao/list_19_1.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/zhaotoubiao/list_19_1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/style/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/style/index.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -143,7 +97,8 @@
       <workItem from="1789224249718" duration="1383000" />
       <workItem from="1789263405851" duration="15000" />
       <workItem from="1789277176922" duration="5586000" />
-      <workItem from="1789284029692" duration="4306000" />
+      <workItem from="1789284029692" duration="6757000" />
+      <workItem from="1789369341545" duration="2113000" />
     </task>
     <task id="LOCAL-00001" summary="0731">
       <option name="closed" value="true" />
@@ -241,7 +196,23 @@
       <option name="project" value="LOCAL" />
       <updated>1788172308688</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="0913">
+      <option name="closed" value="true" />
+      <created>1789293316958</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1789293316958</updated>
+    </task>
+    <task id="LOCAL-00014" summary="0913">
+      <option name="closed" value="true" />
+      <created>1789293320848</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1789293320848</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -263,6 +234,7 @@
     <MESSAGE value="0731" />
     <MESSAGE value="0802" />
     <MESSAGE value="0831" />
-    <option name="LAST_COMMIT_MESSAGE" value="0831" />
+    <MESSAGE value="0913" />
+    <option name="LAST_COMMIT_MESSAGE" value="0913" />
   </component>
 </project>
