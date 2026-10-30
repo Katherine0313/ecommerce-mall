@@ -24,12 +24,16 @@ request.interceptors.response.use(
     return body ? body.data : res.data
   },
   (err) => {
-    // 401 未登录/令牌过期：清 token 并带 redirect 跳登录页
+    // 401 未登录/令牌过期：清 token 并通知布局层弹登录框
     if (err.response?.status === 401) {
-      localStorage.removeItem('token')
-      if (!location.pathname.startsWith('/login')) {
-        const redirect = encodeURIComponent(location.pathname + location.search)
-        location.href = `/login?redirect=${redirect}`
+      const url = err.config?.url || ''
+      // 登录/注册接口的 401 是「密码或验证码错误」，交给弹窗提示，不当作登录态失效
+      const isAuthRequest = ['/user/login', '/user/login-code', '/user/register'].some((path) =>
+        url.includes(path)
+      )
+      if (!isAuthRequest) {
+        localStorage.removeItem('token')
+        window.dispatchEvent(new Event('auth-expired'))
       }
     }
     return Promise.reject(err.response?.data || err)

@@ -9,10 +9,12 @@ import StoreCard from '@/components/StoreCard.vue'
 import Settlement from './Settlement.vue'
 import { useCartStore } from '@/stores/cart.js'
 import { useUserStore } from '@/stores/user.js'
+import { useAuthStore } from '@/stores/auth.js'
 
 const route = useRoute()
 const cartStore = useCartStore()
 const userStore = useUserStore()
+const authStore = useAuthStore()
 const settlementRef = ref(null)
 
 const loading = ref(true)
@@ -134,15 +136,15 @@ const insuranceDetail = computed(() => {
   return list
 })
 
-// 购买前校验：售罄 / 未登录
-function canBuy() {
+// 购买前校验：售罄 / 未登录（未登录时弹登录框，登录成功继续）
+async function canBuy() {
   if (soldOut.value) {
     ElMessage.warning('该商品已售罄')
     return false
   }
   if (!userStore.isLoggedIn) {
-    ElMessage.warning('请先登录后购买')
-    return false
+    const ok = await authStore.openLogin('login')
+    if (!ok) return false
   }
   return true
 }
@@ -158,7 +160,7 @@ async function addCurrentToCart() {
 }
 
 async function addToCart() {
-  if (!canBuy()) return
+  if (!(await canBuy())) return
   try {
     await addCurrentToCart()
     ElMessage.success('已加入购物车')
@@ -169,7 +171,7 @@ async function addToCart() {
 
 // 立即购买：先加购，再直接打开结算弹窗
 async function buyNow() {
-  if (!canBuy()) return
+  if (!(await canBuy())) return
   try {
     await addCurrentToCart()
     settlementRef.value?.open([product.value.id])
@@ -432,7 +434,9 @@ watch(() => route.params.id, load, { immediate: true })
 
 <style scoped>
 .breadcrumb {
-  margin-bottom: 16px;
+  height: 26px;
+  line-height: 26px;
+  font-size: 16px;
 }
 
 /* 左右分栏：左侧图与详情（定宽），右侧信息面板自适应 */

@@ -1,13 +1,15 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
 import { useUserStore } from '@/stores/user'
+import { useAuthStore } from '@/stores/auth'
 import Cart from '@/views/products/Cart.vue'
+import LoginModal from '@/components/LoginModal.vue'
 
 const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
+const authStore = useAuthStore()
 const keyword = ref('')
 // 购物车弹窗：头部入口 + 详情页加入购物车后也可以复用
 const cartRef = ref(null)
@@ -16,10 +18,19 @@ function onCart() {
   cartRef.value?.open()
 }
 
-// 登录页还没做，先提示；后续换成 router.push('/login')
+// 打开全局登录/注册弹窗
 function onLogin() {
-  ElMessage.info('登录功能将在 P2 阶段接入')
+  authStore.openLogin('login')
 }
+
+// 令牌失效（request.js 派发）：清登录态并弹登录框，用户登录后继续当前页面操作
+function onAuthExpired() {
+  userStore.logout()
+  authStore.openLogin('login')
+}
+
+onMounted(() => window.addEventListener('auth-expired', onAuthExpired))
+onUnmounted(() => window.removeEventListener('auth-expired', onAuthExpired))
 
 // 从搜索页返回时同步输入框内容
 watch(
@@ -71,6 +82,9 @@ function onSearch() {
 
     <!-- 全局购物车弹窗 -->
     <Cart ref="cartRef" />
+
+    <!-- 全局登录/注册弹窗 -->
+    <LoginModal />
 
     <footer class="footer">
       <div class="container">

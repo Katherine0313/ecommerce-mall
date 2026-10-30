@@ -162,6 +162,7 @@ import {
 } from '@element-plus/icons-vue'
 import { useCartStore } from '@/stores/cart.js'
 import { useUserStore } from '@/stores/user.js'
+import { useAuthStore } from '@/stores/auth.js'
 import { formatPrice } from '@/utils/format.js'
 import StoreCard from '@/components/StoreCard.vue'
 import Settlement from './Settlement.vue'
@@ -169,12 +170,13 @@ import Settlement from './Settlement.vue'
 const visible = ref(false)
 const cartStore = useCartStore()
 const userStore = useUserStore()
+const authStore = useAuthStore()
 
-// 父组件通过 ref 调用；未登录直接提示，避免 401 跳走
+// 父组件通过 ref 调用；未登录先弹登录框，登录成功后继续打开
 async function open() {
   if (!userStore.isLoggedIn) {
-    ElMessage.warning('请先登录后查看购物车')
-    return
+    const ok = await authStore.openLogin('login')
+    if (!ok) return
   }
   visible.value = true
   selectedIds.value = new Set()

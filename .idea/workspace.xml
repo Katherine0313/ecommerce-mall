@@ -2,46 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2571bb5b-b0df-4e79-aaa5-0d3d847dd109" name="Changes" comment="1029">
-      <change afterPath="$PROJECT_DIR$/src/views/products/ProductDetail.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/products/ProductList.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/home/business.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/home/energy.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/home/invest.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/home/news.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/home/police.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/home/project.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/jie/QRcode.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/jie/banner-left1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/jie/banner-left2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/jie/banner-left3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/jie/banner-left4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/jie/banner-top1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/jie/banner-top2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/jie/banner-top3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/jie/banner-top4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/jie/logo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/jie/map.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/pagination.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/sidebar.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/favicon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/product.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/product.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ProductCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ProductCard.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/layouts/DefaultLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/DefaultLayout.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/global.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Home.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/ProductDetail.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/ProductList.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Search.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Search.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/style/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/style/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/style/page.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/vite.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/request.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/request.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/products/Cart.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/products/Cart.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/products/ProductDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/products/ProductDetail.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,7 +106,7 @@
       <workItem from="1793260944893" duration="10000" />
       <workItem from="1793261702571" duration="486000" />
       <workItem from="1793262243076" duration="9796000" />
-      <workItem from="1793355994786" duration="12263000" />
+      <workItem from="1793355994786" duration="13727000" />
     </task>
     <task id="LOCAL-00001" summary="0731">
       <option name="closed" value="true" />
@@ -279,7 +244,23 @@
       <option name="project" value="LOCAL" />
       <updated>1793264095015</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="1029">
+      <option name="closed" value="true" />
+      <created>1793368705979</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1793368705979</updated>
+    </task>
+    <task id="LOCAL-00019" summary="1029">
+      <option name="closed" value="true" />
+      <created>1793368709367</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1793368709367</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
