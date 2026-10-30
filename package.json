@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.3.2",
     "axios": "^1.21.0",
     "element-plus": "^2.14.7",
     "pinia": "^3.0.4",
@@ -17,8 +18,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.6",
-    "vite": "^8.0.8",
-    "vite-plugin-vue-devtools": "^8.1.1"
+    "vite": "^8.0.8"
   },
   "engines": {
     "node": "^20.19.0 || >=22.12.0"

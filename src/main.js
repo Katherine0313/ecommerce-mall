@@ -4,7 +4,8 @@ import ElementPlus from 'element-plus'
 
 // Element Plus 基础样式先引入，全局样式放后面以便覆盖主色
 import 'element-plus/dist/index.css'
-import '@/styles/global.css'
+// 通用全局样式（设计变量 / 重置 / 工具类 / 响应式）
+import '../style/index.css'
 
 import App from './App.vue'
 import router from './router'

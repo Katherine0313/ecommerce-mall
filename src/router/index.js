@@ -8,10 +8,10 @@ const router = createRouter({
       component: () => import('@/layouts/DefaultLayout.vue'),
       children: [
         { path: '', name: 'home', component: () => import('@/views/Home.vue') },
-        { path: 'products', name: 'products', component: () => import('@/views/ProductList.vue') },
-        { path: 'category/:id', name: 'category', component: () => import('@/views/ProductList.vue') },
+        { path: 'products-list', name: 'products', component: () => import('@/views/products/ProductList.vue') },
+        { path: 'category/:id', name: 'category', component: () => import('@/views/products/ProductList.vue') },
         { path: 'search', name: 'search', component: () => import('@/views/Search.vue') },
-        { path: 'product/:id', name: 'product-detail', component: () => import('@/views/ProductDetail.vue') },
+        { path: 'product/:id', name: 'product-detail', component: () => import('@/views/products/ProductDetail.vue') },
       ],
     },
     // 未匹配的路径回首页

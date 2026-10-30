@@ -9,6 +9,7 @@ defineProps({
 <template>
   <router-link :to="`/product/${product.id}`" class="product-card">
     <div class="thumb">
+      <span v-if="product.promotionTag" class="promo-tag">{{ product.promotionTag }}</span>
       <img :src="product.image" :alt="product.name" loading="lazy" />
     </div>
     <div class="info">
@@ -16,6 +17,7 @@ defineProps({
       <p class="sub">{{ product.subTitle }}</p>
       <div class="price-row">
         <span class="price">¥{{ formatPrice(product.price) }}</span>
+        <span v-if="product.originalPrice" class="origin">¥{{ formatPrice(product.originalPrice) }}</span>
         <span v-if="product.marketPrice" class="market">¥{{ formatPrice(product.marketPrice) }}</span>
       </div>
     </div>
@@ -38,8 +40,22 @@ defineProps({
 }
 
 .thumb {
+  position: relative;
   aspect-ratio: 1 / 1;
   background: #fafafa;
+}
+
+/* 促销标签：图片左上角 */
+.promo-tag {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  padding: 2px 8px;
+  font-size: 12px;
+  color: #fff;
+  background: var(--mall-primary);
+  border-radius: 0 0 8px 0;
 }
 
 .thumb img {
@@ -86,6 +102,13 @@ defineProps({
 }
 
 .market {
+  color: var(--mall-text-light);
+  font-size: 12px;
+  text-decoration: line-through;
+}
+
+/* 活动前原价 */
+.origin {
   color: var(--mall-text-light);
   font-size: 12px;
   text-decoration: line-through;
