@@ -8,9 +8,7 @@ import ProductCard from '@/components/ProductCard.vue'
 const PAGE_SIZE = 40
 
 const route = useRoute()
-const router = useRouter()
 
-const keyword = ref(route.query.keyword || '')
 const loading = ref(false)
 const loadingMore = ref(false)
 const error = ref('')
@@ -67,16 +65,10 @@ async function loadMore() {
   }
 }
 
-function onSearch() {
-  const q = keyword.value.trim()
-  router.push({ path: '/search', query: q ? { keyword: q } : {} })
-}
-
-// 关键词变化时重新搜索（含从首页搜索框跳转过来）
+// 关键词变化时重新搜索（搜索框在顶部导航，这里只负责按 URL 上的 keyword 拉结果）
 watch(
   () => route.query.keyword,
   (value) => {
-    keyword.value = value || ''
     load(value)
   },
   { immediate: true }
@@ -84,12 +76,7 @@ watch(
 </script>
 
 <template>
-  <div class="container">
-    <form class="search-bar" @submit.prevent="onSearch">
-      <el-input v-model="keyword" placeholder="输入商品名称" clearable />
-      <el-button type="primary" native-type="submit">搜索</el-button>
-    </form>
-
+  <div class="container search-page">
     <el-skeleton v-if="loading" :rows="5" animated />
 
     <el-alert v-else-if="error" :title="error" type="error" show-icon :closable="false" />
@@ -110,11 +97,9 @@ watch(
 </template>
 
 <style scoped>
-.search-bar {
-  display: flex;
-  gap: 8px;
-  max-width: 560px;
-  margin: 0 0 20px;
+/* 搜索框在顶部导航里，本页只展示结果，这里补一点上间距 */
+.search-page {
+  padding-top: 20px;
 }
 
 .load-more {

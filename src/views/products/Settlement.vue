@@ -1,5 +1,7 @@
 <template>
-  <el-dialog v-model="visible" title="订单结算" width="min(900px, 92vw)" class="settle-dialog">
+  <div class="container settle-page">
+    <h2 class="section-title">确认订单</h2>
+
     <div class="settle-wrapper">
       <!-- ===== 左侧：结算商品列表 ===== -->
       <div class="settle-left">
@@ -133,22 +135,21 @@
           </div>
 
           <div class="btn-row">
-            <el-button class="btn-return" @click="handleReturn">返回</el-button>
+            <el-button class="btn-return" @click="handleReturn">返回购物车</el-button>
             <el-button class="btn-pay" @click="handlePay">提交订单</el-button>
           </div>
         </div>
       </div>
     </div>
-  </el-dialog>
 
-  <!-- 地址管理 -->
-  <Address ref="addressRef" @saved="fetchAddressList" />
-  <!-- 收银台 -->
-  <Paid ref="paidRef" />
+    <!-- 地址管理（抽屉） -->
+    <Address ref="addressRef" @saved="fetchAddressList" />
+  </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { ShoppingCart, CircleCheckFilled, Location } from '@element-plus/icons-vue'
 import { useCartStore } from '@/stores/cart.js'
@@ -157,28 +158,30 @@ import { createOrder } from '@/api/order.js'
 import { formatPrice } from '@/utils/format.js'
 import StoreCard from '@/components/StoreCard.vue'
 import Address from './Address.vue'
-import Paid from './Paid.vue'
 
-const emit = defineEmits(['back'])
+const route = useRoute()
+const router = useRouter()
 
-const visible = ref(false)
 const cartStore = useCartStore()
 const addressRef = ref(null)
-const paidRef = ref(null)
 
 // 本次参与结算的商品 ID
 const keys = ref([])
 // 已勾选的商品 ID
 const selectedKeys = ref([])
 
-// 父组件通过 ref 调用：传入要结算的商品 ID 列表
-function open(list = []) {
-  keys.value = [...list]
-  selectedKeys.value = [...list]
-  visible.value = true
+// 独立结算页：待结算的商品 ID 从路由 query 读（/checkout?ids=1,2）
+onMounted(() => {
+  const raw = typeof route.query.ids === 'string' ? route.query.ids : ''
+  keys.value = raw ? raw.split(',').map((v) => Number(v)).filter(Boolean) : []
+  selectedKeys.value = [...keys.value]
+  if (!keys.value.length) {
+    ElMessage.warning('没有要结算的商品')
+    router.replace('/cart')
+    return
+  }
   fetchAddressList()
-}
-defineExpose({ open })
+})
 
 // ============ 选中逻辑 ============
 function toggleItem(id) {
@@ -237,8 +240,7 @@ function itemSubtotal(item) {
 
 // ============ 返回购物车 ============
 function handleReturn() {
-  visible.value = false
-  emit('back')
+  router.push('/cart')
 }
 
 // ============ 地址 ============
@@ -297,10 +299,9 @@ async function handlePay() {
       })),
     })
 
-    // 下单成功：移出购物车并打开收银台
+    // 下单成功：移出购物车，跳支付结果页
     for (const item of checkedItems.value) await cartStore.removeItem(item.productId)
-    visible.value = false
-    paidRef.value?.open(order.id)
+    router.push(`/pay/${order.id}`)
   } catch (e) {
     ElMessage.error(e?.message || '下单失败')
   }
@@ -313,7 +314,7 @@ async function handlePay() {
   display: flex;
   gap: 14px;
   align-items: center;
-  background: #fff;
+  background: transparent;
   padding: 18px 22px;
   border-radius: 16px;
   border: 1px solid var(--border-light);
@@ -350,11 +351,11 @@ async function handlePay() {
 /* ===== 整体布局 ===== */
 .settle-wrapper {
   display: flex;
-  gap: 24px;
+  gap: 30px;
 }
 
 .settle-left {
-  max-width: 570px;
+  width: 700px;
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -421,9 +422,8 @@ async function handlePay() {
   display: flex;
   align-items: center;
   gap: 16px;
-  background: #fff;
+  background: transparent;
   border-radius: 18px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
   padding: 6px 20px;
   border: 2px solid transparent;
   transition: border-color 0.2s;
@@ -509,7 +509,7 @@ async function handlePay() {
   width: 26px;
   height: 26px;
   border: none;
-  background: #fff;
+  background: transparent;
   font-size: 16px;
   color: var(--text-primary);
   cursor: pointer;
@@ -558,9 +558,8 @@ async function handlePay() {
 
 /* ===== 右侧结算卡 ===== */
 .checkout-card {
-  background: #fff;
+  background: transparent;
   border-radius: 18px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
   padding: 28px 24px;
   display: flex;
   flex-direction: column;
@@ -672,7 +671,7 @@ async function handlePay() {
   border-radius: 999px;
   font-size: 15px;
   font-weight: 500;
-  background: #fff;
+  background: transparent;
   color: var(--text-secondary);
   border: 1px solid #e0e0e0;
 }

@@ -40,7 +40,7 @@
 
   /* 布局 */
   --container-width: 1200px;
-  --header-height: 64px;
+  --header-height: 80px;
 
   /* 层级 */
   --z-header: 100;
@@ -83,6 +83,7 @@ body {
   background: #fff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
 }
 
 #app {
@@ -119,6 +120,18 @@ img,
 video {
   display: block;
   max-width: 100%;
+}
+
+/* ---------- 图片放大预览 ---------- */
+/* Element Plus 的图片查看器默认让大图铺满整个屏幕（全局 img 的 max-width:100% 作用在查看器里），
+   这里限制最大宽度 800px 并居中显示，不占满屏幕。
+   放大器是 teleport 到 body 的，所以必须写在全局样式里，scoped 样式管不到。 */
+.el-image-viewer__img {
+  max-width: 800px;
+  max-height: 80vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
 }
 
 button,

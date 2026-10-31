@@ -1,5 +1,7 @@
 <template>
-  <el-dialog v-model="visible" title="购物车" width="min(900px, 92vw)" class="cart-dialog">
+  <div class="container cart-page">
+    <h2 class="section-title">购物车</h2>
+
     <div class="cart-wrapper">
       <!-- ===== 左侧：商品列表 ===== -->
       <div class="cart-left">
@@ -129,7 +131,7 @@
             <el-button class="btn-settle" :disabled="!selectedCount" @click="handleSettlement">
               去支付
             </el-button>
-            <el-button class="btn-continue" @click="visible = false">继续购物</el-button>
+            <el-button class="btn-continue" @click="router.push('/')">继续购物</el-button>
           </div>
 
           <div class="checkout-services">
@@ -141,14 +143,12 @@
         </div>
       </div>
     </div>
-  </el-dialog>
-
-  <!-- 结算弹窗：放在购物车弹窗之外，避免父弹窗关闭时一起被隐藏 -->
-  <Settlement ref="settlementRef" @back="visible = true" />
+  </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import {
   ShoppingCart,
@@ -162,27 +162,24 @@ import {
 } from '@element-plus/icons-vue'
 import { useCartStore } from '@/stores/cart.js'
 import { useUserStore } from '@/stores/user.js'
-import { useAuthStore } from '@/stores/auth.js'
 import { formatPrice } from '@/utils/format.js'
 import StoreCard from '@/components/StoreCard.vue'
-import Settlement from './Settlement.vue'
 
-const visible = ref(false)
 const cartStore = useCartStore()
 const userStore = useUserStore()
-const authStore = useAuthStore()
+const router = useRouter()
 
-// 父组件通过 ref 调用；未登录先弹登录框，登录成功后继续打开
-async function open() {
+// 独立页面：进入时未登录直接跳登录页，登录后跳回来
+onMounted(() => {
   if (!userStore.isLoggedIn) {
-    const ok = await authStore.openLogin('login')
-    if (!ok) return
+    router.push({ path: '/login', query: { redirect: router.currentRoute.value.fullPath } })
+    return
   }
-  visible.value = true
   selectedIds.value = new Set()
-  await cartStore.load()
-}
-defineExpose({ open })
+  cartStore.load().catch((e) => {
+    ElMessage.error(e?.message || '购物车加载失败')
+  })
+})
 
 // ============ 选中逻辑 ============
 const selectedIds = ref(new Set())
@@ -250,12 +247,10 @@ const finalTotal = computed(() =>
 
 const shippingText = '免运费'
 
-// ============ 去结算 ============
-const settlementRef = ref(null)
+// ============ 去结算（独立结算页） ============
 function handleSettlement() {
   if (!selectedCount.value) return
-  settlementRef.value?.open([...selectedIds.value])
-  visible.value = false
+  router.push({ path: '/checkout', query: { ids: [...selectedIds.value].join(',') } })
 }
 
 // （单价 + 单件保障费）× 数量；后端有 subTotal 时优先用
@@ -269,11 +264,11 @@ function itemSubtotal(item) {
 /* ===== 整体布局 ===== */
 .cart-wrapper {
   display: flex;
-  gap: 16px;
+  gap: 30px;
 }
 
 .cart-left {
-  flex: 1;
+  width: 700px;
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -331,9 +326,8 @@ function itemSubtotal(item) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #fff;
+  background: transparent;
   border-radius: 18px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
   padding: 16px 20px;
   font-size: 14px;
   color: var(--text-secondary);
@@ -347,7 +341,7 @@ function itemSubtotal(item) {
 .batch-delete-btn {
   border: 1px solid #ffccc7;
   color: #ff4d4f;
-  background: #fff;
+  background: transparent;
   font-size: 13px;
   border-radius: 8px;
   padding: 4px 16px;
@@ -376,9 +370,8 @@ function itemSubtotal(item) {
   display: flex;
   align-items: center;
   gap: 12px;
-  background: #fff;
+  background: transparent;
   border-radius: 18px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
   padding: 6px 14px;
   border: 2px solid transparent;
   transition: border-color 0.2s;
@@ -466,7 +459,7 @@ function itemSubtotal(item) {
   width: 24px;
   height: 24px;
   border: none;
-  background: #fff;
+  background: transparent;
   font-size: 16px;
   color: var(--text-primary);
   cursor: pointer;
@@ -550,7 +543,7 @@ function itemSubtotal(item) {
 
 /* ===== 右侧结算卡 ===== */
 .cart-right {
-  width: 280px;
+  flex:1;
   flex-shrink: 0;
   position: sticky;
   top: 10px;
@@ -558,9 +551,8 @@ function itemSubtotal(item) {
 }
 
 .checkout-card {
-  background: #fff;
+  background: transparent;
   border-radius: 18px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
   padding: 20px 16px;
   display: flex;
   flex-direction: column;
@@ -673,7 +665,7 @@ function itemSubtotal(item) {
   border-radius: 999px;
   font-size: 15px;
   font-weight: 500;
-  background: #fff;
+  background: transparent;
   color: var(--text-secondary);
   border: 1px solid #e0e0e0;
 }
@@ -707,7 +699,7 @@ function itemSubtotal(item) {
 }
 
 /* ===== 响应式 ===== */
-@media (max-width: 1200px) {
+@media (max-width: 1000px) {
   .cart-wrapper {
     flex-wrap: wrap;
   }

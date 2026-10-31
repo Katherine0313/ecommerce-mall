@@ -1,21 +1,22 @@
 <script setup>
-import { ref, computed, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, computed, watch, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { ElMessage, ElImageViewer } from 'element-plus'
 import { Medal, Lightning, Clock, Location, Discount } from '@element-plus/icons-vue'
 import { getProduct, getProductTags } from '@/api/product.js'
 import { formatPrice } from '@/utils/format.js'
+import { savePendingAction, takePendingAction } from '@/utils/login-action.js'
 import StoreCard from '@/components/StoreCard.vue'
+import AddCartDialog from '@/components/AddCartDialog.vue'
 import Settlement from './Settlement.vue'
 import { useCartStore } from '@/stores/cart.js'
 import { useUserStore } from '@/stores/user.js'
-import { useAuthStore } from '@/stores/auth.js'
 
 const route = useRoute()
+const router = useRouter()
 const cartStore = useCartStore()
 const userStore = useUserStore()
-const authStore = useAuthStore()
-const settlementRef = ref(null)
+const addCartDialogRef = ref(null)
 
 const loading = ref(true)
 const error = ref('')
@@ -25,24 +26,22 @@ const productTags = ref([])
 
 // 购买数量
 const quantity = ref(1)
-// 增值保障选中状态（价格按售价百分比算，与后端 insurance_fee 口径一致）
-const selectedWarranty = ref(false) // 全面保修 1%
-const selectedAccident = ref(false) // 一年意外保 2%
-const selectedBattery = ref(false) // 电池无忧 固定 20
+// 增值保障选中状态（可选项由后端按商品属性返回，费用直接用后端算好的）
+const selectedInsurance = ref([]) // 已勾选的保障项 code
 
 const price = computed(() => Number(product.value?.price) || 0)
-// 全面保修：售价的 1%
-const warrantyFee = computed(() => (price.value * 0.01).toFixed(2))
-// 一年意外保：售价的 2%
-const accidentFee = computed(() => (price.value * 0.02).toFixed(2))
+
+// 可选增值保障项：后端按商品属性算出（配件类、低价商品返回空数组）
+const insuranceOptions = computed(() =>
+  (product.value?.insuranceOptions || []).filter((o) => o?.code)
+)
 
 // 单件保障费合计
 const insuranceFee = computed(() => {
-  let fee = 0
-  if (selectedWarranty.value) fee += Number(warrantyFee.value)
-  if (selectedAccident.value) fee += Number(accidentFee.value)
-  if (selectedBattery.value) fee += 20
-  return fee.toFixed(2)
+  const total = insuranceOptions.value
+    .filter((o) => selectedInsurance.value.includes(o.code))
+    .reduce((sum, o) => sum + Number(o.fee || 0), 0)
+  return total.toFixed(2)
 })
 
 // 合计 = 商品售价 + 单件保障费（金额计算只在后端/展示层，前端不参与下单金额）
@@ -102,9 +101,7 @@ async function load(id) {
   product.value = null
   // 切换商品时重置数量、增值保障与图集选中项，避免上一个商品的状态串到当前商品
   quantity.value = 1
-  selectedWarranty.value = false
-  selectedAccident.value = false
-  selectedBattery.value = false
+  selectedInsurance.value = []
   currentIndex.value = 0
   productTags.value = []
   try {
@@ -120,6 +117,8 @@ async function load(id) {
     if (data?.body) {
       data.body = data.body.replace(/<img\b/gi, '<img loading="lazy" ')
     }
+    // 从登录页跳回来的：把登录前记下的加购操作补上
+    resumePendingAddCart(id)
   } catch (e) {
     error.value = e?.message || '商品加载失败'
   } finally {
@@ -127,31 +126,69 @@ async function load(id) {
   }
 }
 
-// 勾选的增值保障明细（单件费用，后端按购买数量放大）
-const insuranceDetail = computed(() => {
-  const list = []
-  if (selectedWarranty.value) list.push({ name: '全面保修', price: Number(warrantyFee.value) })
-  if (selectedAccident.value) list.push({ name: '一年意外保', price: Number(accidentFee.value) })
-  if (selectedBattery.value) list.push({ name: '电池无忧', price: 20 })
-  return list
-})
+// 登录页跳回来后，自动把登录前记下的加购操作补上
+// （登录页是独立路由，跳过去再跳回来时原来的点击意图会丢，所以先记在 sessionStorage）
+function resumePendingAddCart(currentId) {
+  const pending = takePendingAction()
+  if (!pending || pending.type !== 'addCart') return
+  // 只处理当前商品，避免误加别的商品
+  if (pending.productId !== currentId) return
+  cartStore.addItem(
+    product.value,
+    pending.quantity || 1,
+    pending.insuranceDetail || [],
+    Number(pending.insuranceFee) || 0
+  )
+    .then(() => {
+      ElMessage.success('已加入购物车')
+    })
+    .catch((e) => {
+      ElMessage.error(e?.message || '加入购物车失败')
+    })
+}
 
-// 购买前校验：售罄 / 未登录（未登录时弹登录框，登录成功继续）
-async function canBuy() {
+// 勾选的增值保障明细（单件费用，后端按购买数量放大）
+// 字段与小程序保持一致：{ code, name, fee }
+const insuranceDetail = computed(() =>
+  insuranceOptions.value
+    .filter((o) => selectedInsurance.value.includes(o.code))
+    .map((o) => ({ code: o.code, name: o.name, fee: Number(o.fee) }))
+)
+
+// 购买前校验：售罄 / 未登录
+// 未登录：记下「登录后要加购的商品」，跳登录页，登录成功跳回来自动加购
+function canBuy() {
   if (soldOut.value) {
     ElMessage.warning('该商品已售罄')
     return false
   }
   if (!userStore.isLoggedIn) {
-    const ok = await authStore.openLogin('login')
-    if (!ok) return false
+    savePendingAction({
+      type: 'addCart',
+      productId: product.value.id,
+      quantity: quantity.value,
+      insuranceDetail: insuranceDetail.value,
+      insuranceFee: Number(insuranceFee.value),
+    })
+    router.push({ path: '/login', query: { redirect: route.fullPath } })
+    return false
   }
   return true
 }
 
+// 点卡片切换保障项勾选
+function toggleInsurance(code) {
+  const index = selectedInsurance.value.indexOf(code)
+  if (index > -1) {
+    selectedInsurance.value.splice(index, 1)
+  } else {
+    selectedInsurance.value.push(code)
+  }
+}
+
 // 加购与立即购买共用：把当前商品（含数量、增值保障）写入购物车
-async function addCurrentToCart() {
-  await cartStore.addItem(
+function addCurrentToCart() {
+  return cartStore.addItem(
     product.value,
     quantity.value,
     insuranceDetail.value,
@@ -159,25 +196,28 @@ async function addCurrentToCart() {
   )
 }
 
-async function addToCart() {
-  if (!(await canBuy())) return
-  try {
-    await addCurrentToCart()
-    ElMessage.success('已加入购物车')
-  } catch (e) {
-    ElMessage.error(e?.message || '加入购物车失败')
-  }
+function addToCart() {
+  if (!canBuy()) return
+  addCurrentToCart()
+    .then(() => {
+      // 加购成功弹窗（淘宝同款：绿色对勾 + 提示 + 去购物车/继续购物）
+      addCartDialogRef.value?.open()
+    })
+    .catch((e) => {
+      ElMessage.error(e?.message || '加入购物车失败')
+    })
 }
 
-// 立即购买：先加购，再直接打开结算弹窗
-async function buyNow() {
-  if (!(await canBuy())) return
-  try {
-    await addCurrentToCart()
-    settlementRef.value?.open([product.value.id])
-  } catch (e) {
-    ElMessage.error(e?.message || '下单失败')
-  }
+// 立即购买：先加购，再跳独立结算页
+function buyNow() {
+  if (!canBuy()) return
+  addCurrentToCart()
+    .then(() => {
+      router.push({ path: '/checkout', query: { ids: String(product.value.id) } })
+    })
+    .catch((e) => {
+      ElMessage.error(e?.message || '下单失败')
+    })
 }
 
 // 国家补贴活动暂未接入后端，先给提示占位
@@ -197,7 +237,7 @@ watch(() => route.params.id, load, { immediate: true })
     <template v-else-if="product">
       <el-breadcrumb separator="/" class="breadcrumb">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/products' }">全部商品</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ name: 'products' }">全部商品</el-breadcrumb-item>
         <el-breadcrumb-item>{{ product.name }}</el-breadcrumb-item>
       </el-breadcrumb>
 
@@ -361,39 +401,21 @@ watch(() => route.params.id, load, { immediate: true })
               />
             </div>
 
-            <!-- 增值保障 -->
-            <div class="insurance-section">
+            <!-- 增值保障：可选项由后端按商品属性返回（配件类、低价商品后端不返回，整块不显示） -->
+            <div class="insurance-section" v-if="insuranceOptions.length">
               <div class="section-label">增值保障</div>
               <div class="insurance-cards">
                 <button
                   type="button"
                   class="insurance-card"
-                  :class="{ active: selectedAccident }"
+                  v-for="opt in insuranceOptions"
+                  :key="opt.code"
+                  :class="{ active: selectedInsurance.includes(opt.code) }"
                   :disabled="soldOut"
-                  @click="selectedAccident = !selectedAccident"
+                  @click="toggleInsurance(opt.code)"
                 >
-                  <span class="insurance-name">一年意外保</span>
-                  <span class="insurance-price">¥{{ accidentFee }}</span>
-                </button>
-                <button
-                  type="button"
-                  class="insurance-card"
-                  :class="{ active: selectedWarranty }"
-                  :disabled="soldOut"
-                  @click="selectedWarranty = !selectedWarranty"
-                >
-                  <span class="insurance-name">全面保修</span>
-                  <span class="insurance-price">¥{{ warrantyFee }}</span>
-                </button>
-                <button
-                  type="button"
-                  class="insurance-card"
-                  :class="{ active: selectedBattery }"
-                  :disabled="soldOut"
-                  @click="selectedBattery = !selectedBattery"
-                >
-                  <span class="insurance-name">电池无忧</span>
-                  <span class="insurance-price">¥20</span>
+                  <span class="insurance-name">{{ opt.name }}</span>
+                  <span class="insurance-price">¥{{ opt.fee }}</span>
                 </button>
               </div>
             </div>
@@ -428,12 +450,16 @@ watch(() => route.params.id, load, { immediate: true })
     </template>
 
     <!-- 立即购买 / 结算弹窗 -->
-    <Settlement ref="settlementRef" />
+    <!-- 结算已改为独立页面（/checkout），这里不再挂弹窗 -->
+
+    <!-- 加入购物车成功弹窗 -->
+    <AddCartDialog ref="addCartDialogRef" />
   </div>
 </template>
 
 <style scoped>
 .breadcrumb {
+  margin-top:20px;
   height: 26px;
   line-height: 26px;
   font-size: 16px;
@@ -444,7 +470,9 @@ watch(() => route.params.id, load, { immediate: true })
   display: flex;
   gap: 24px;
   align-items: stretch;
-  height:800px;
+  /* 用 min-height 而不是 height：内容比 800px 高时容器自动长高，
+     写死 height 会让内容溢出容器，页脚会盖到溢出内容上（页脚「跑上去」） */
+  min-height: 800px;
 }
 
 .main-col {
@@ -866,10 +894,21 @@ watch(() => route.params.id, load, { immediate: true })
 @media (max-width: 1024px) {
   .detail {
     flex-direction: column;
+    /* 竖排时两栏上下堆叠，总高度远超 800px，必须放开高度让内容撑开 */
+    height: auto;
   }
 
   .main-col {
     width: 100%;
+    /* 窄屏下主图别铺满整屏：限制最大宽度并居中 */
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  /* 主图限高兜底：限在 img 上并用 contain，避免 el-image 的 overflow 把图裁掉 */
+  .main-img :deep(img) {
+    max-height: 520px;
+    object-fit: contain;
   }
 
   .side-col {

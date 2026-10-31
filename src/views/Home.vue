@@ -131,7 +131,7 @@ onMounted(async () => {
           <div class="banner-wrap">
             <el-carousel class="banner-carousel" height="100%" :interval="5000" arrow="hover">
               <el-carousel-item v-for="(b, i) in banners" :key="b.src">
-                <router-link to="/products" class="banner-link">
+                <router-link to="/products-list" class="banner-link">
                   <img :src="b.src" :alt="b.alt" :loading="i === 0 ? 'eager' : 'lazy'" />
                 </router-link>
               </el-carousel-item>
@@ -202,7 +202,6 @@ onMounted(async () => {
   flex-shrink: 0;
   background: var(--bg-card);
   border-radius: var(--radius-md);
-  padding: 12px 0;
 }
 
 /* 分类栏不能加 overflow:hidden —— 会把 hover 出来的二级分类浮层裁掉 */
@@ -216,7 +215,6 @@ onMounted(async () => {
   color: var(--text-primary);
   padding: 0 16px 8px;
   border-bottom: 1px solid var(--border-light);
-  margin-bottom: 6px;
 }
 
 .cat-list {
@@ -382,7 +380,6 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 10px;
 }
 
 .side-img-link {

@@ -1,11 +1,5 @@
 <template>
-  <el-dialog
-    v-model="visible"
-    width="900px"
-    :show-close="false"
-    :close-on-click-modal="false"
-    class="pay-dialog"
-  >
+  <div class="container pay-page">
     <div class="pay-wrapper">
       <!-- 顶栏 -->
       <div class="pay-header">
@@ -13,7 +7,7 @@
           <span class="pay-header-title">收银台</span>
           <span class="pay-header-sub">订单支付</span>
         </div>
-        <el-button text class="pay-close" @click="visible = false">
+        <el-button text class="pay-close" @click="router.push('/cart')">
           <el-icon><Close /></el-icon>
         </el-button>
       </div>
@@ -88,24 +82,26 @@
       <div v-if="orderData" class="pay-footer">
         <span class="footer-countdown">支付剩余 <strong>{{ countdown }}</strong></span>
         <div class="footer-btns">
-          <el-button class="btn-cancel" @click="visible = false">稍后支付</el-button>
+          <el-button class="btn-cancel" @click="router.push('/cart')">稍后支付</el-button>
           <el-button class="btn-confirm" @click="handlePay(orderData.id)">
             我已支付 ¥{{ formatPrice(orderData.payAmount) }}
           </el-button>
         </div>
       </div>
     </div>
-  </el-dialog>
+  </div>
 </template>
 
 <script setup>
-import { ref, computed, onBeforeUnmount } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { Close, CircleCheckFilled } from '@element-plus/icons-vue'
 import { getOrder, payOrder } from '@/api/order.js'
 import { formatPrice } from '@/utils/format.js'
 
-const emit = defineEmits(['paid'])
+const route = useRoute()
+const router = useRouter()
 
 // 沙箱支付二维码走 product-service 静态目录
 const qrSrc = '/image/QRcode.webp'
@@ -117,7 +113,6 @@ const PAY_METHODS = {
   BankCard: { label: '输入银行卡号支付', name: '银行卡' },
 }
 
-const visible = ref(false)
 const orderData = ref(null)
 const countdown = ref('')
 const payType = ref('WeChat')
@@ -125,20 +120,23 @@ const payType = ref('WeChat')
 const payTypeLabel = computed(() => PAY_METHODS[payType.value]?.label || '')
 const payTypeName = computed(() => PAY_METHODS[payType.value]?.name || '')
 
-// 父组件通过 ref 调用：打开收银台并加载订单
-async function open(id) {
-  visible.value = true
-  orderData.value = null
-  try {
-    const data = await getOrder(id)
-    orderData.value = data
-    startCountdown(data?.createdAt)
-  } catch (e) {
-    ElMessage.error(e?.message || '订单加载失败')
-    visible.value = false
+// 独立支付结果页：订单 ID 从路由参数读（/pay/:orderId）
+onMounted(() => {
+  const id = route.params.orderId
+  if (!id) {
+    router.replace('/cart')
+    return
   }
-}
-defineExpose({ open })
+  getOrder(id)
+    .then((data) => {
+      orderData.value = data
+      startCountdown(data?.createdAt)
+    })
+    .catch((e) => {
+      ElMessage.error(e?.message || '订单加载失败')
+      router.replace('/cart')
+    })
+})
 
 function formatTime(iso) {
   if (!iso) return ''
@@ -167,8 +165,7 @@ async function handlePay(id) {
   try {
     await payOrder(id, { payType: payType.value })
     ElMessage.success('支付成功')
-    visible.value = false
-    emit('paid')
+    router.push('/user/orders')
   } catch (e) {
     ElMessage.error(e?.message || '支付失败')
   }
@@ -180,6 +177,7 @@ onBeforeUnmount(() => clearInterval(timer))
 <style scoped>
 .pay-wrapper {
   padding: 0 4px;
+  gap:30px;
 }
 
 /* ── 顶栏 ── */
@@ -191,6 +189,7 @@ onBeforeUnmount(() => clearInterval(timer))
 }
 
 .pay-header-left {
+  width:700px;
   display: flex;
   align-items: baseline;
   gap: 12px;
@@ -216,21 +215,20 @@ onBeforeUnmount(() => clearInterval(timer))
 /* ── 主体 ── */
 .pay-body {
   display: flex;
-  gap: 28px;
+  gap: 30px;
 }
 
 .pay-left {
-  flex: 1;
+  width: 700px;
   min-width: 0;
 }
 
 /* 订单信息卡 */
 .info-card {
-  background: #fff;
+  background: transparent;
   border-radius: 12px;
   padding: 10px 16px;
   margin-bottom: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .info-row {
@@ -243,9 +241,8 @@ onBeforeUnmount(() => clearInterval(timer))
 
 /* 商品列表 */
 .goods-list {
-  background: #fff;
+  background: transparent;
   border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
   padding: 8px 0;
   margin-bottom: 12px;
 }
@@ -326,7 +323,7 @@ onBeforeUnmount(() => clearInterval(timer))
 
 /* ── 右侧 ── */
 .pay-right {
-  width: 280px;
+  flex:1;
   flex-shrink: 0;
 }
 
@@ -354,10 +351,9 @@ onBeforeUnmount(() => clearInterval(timer))
 }
 
 .method-item.active {
-  background: #fff;
+  background: transparent;
   color: var(--color-primary);
   font-weight: 500;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 }
 
 .method-check {
@@ -377,10 +373,9 @@ onBeforeUnmount(() => clearInterval(timer))
   width: 160px;
   height: 160px;
   margin: 0 auto 12px;
-  background: #fff;
+  background: transparent;
   border-radius: 10px;
   padding: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .qrcode-img img {
@@ -441,6 +436,7 @@ onBeforeUnmount(() => clearInterval(timer))
   font-size: 15px;
   font-weight: 600;
   box-shadow: 0 4px 14px rgba(255, 78, 42, 0.3);
+  margin-right:70px;
 }
 
 .btn-confirm:hover {
@@ -486,13 +482,8 @@ onBeforeUnmount(() => clearInterval(timer))
 </style>
 
 <style>
-/* 收银台弹窗：去掉默认内边距，交给内容自己控制 */
-.pay-dialog .el-dialog__header {
-  display: none;
-}
-
-.pay-dialog .el-dialog__body {
-  padding: 24px 28px 28px;
-  border-radius: 16px;
+/* 支付页：内容自己控制内边距 */
+.pay-page {
+  padding: var(--space-lg) 0 var(--space-xl);
 }
 </style>

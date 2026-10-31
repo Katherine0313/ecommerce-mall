@@ -1,5 +1,6 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
+import { getToken } from '@/utils/token.js'
 import {
   getCart,
   addCartItem,
@@ -16,7 +17,7 @@ export const useCartStore = defineStore('cart', () => {
   const items = ref([])
   const loading = ref(false)
 
-  const isLoggedIn = () => !!localStorage.getItem('token')
+  const isLoggedIn = () => !!getToken()
 
   // 从后端拉取购物车（打开购物车弹窗时调用）
   async function load() {
@@ -100,6 +101,11 @@ export const useCartStore = defineStore('cart', () => {
     }
   }
 
+  /** 只清本地内存里的购物车快照，不动后端数据（退出登录用） */
+  function resetLocal() {
+    items.value = []
+  }
+
   return {
     items,
     loading,
@@ -109,5 +115,6 @@ export const useCartStore = defineStore('cart', () => {
     removeItem,
     updateQuantity,
     clear,
+    resetLocal,
   }
 })

@@ -17,6 +17,7 @@
 | — | **管理端 / 小程序端对照探索** | ✅ 已完成（2026-10-30） |
 | — | **README 删除后的文档重整** | ✅ 已完成（2026-10-30） |
 | — | **轮播图转 WebP + 首页接后端数据** | ✅ **本次完成（2026-10-30）** |
+| — | **发布脚本独立（`deploy/release-mall.sh`）** | ✅ **本次完成（2026-10-31）** |
 | 阶段一 | 修 Bug 与补齐地基 | ⬜ 未开始 |
 | P1 | 商品浏览（首页改版 ✅ / 详情补齐 / 筛选 / 状态统一） | 🔶 **首页已完成，其余待做** |
 | P2 | 账号 + 购物车 | ⬜ 未开始（⚠ 阻塞于后端 demo 登录） |
@@ -75,7 +76,7 @@
   - 比例 16:9 → **2:1**（对齐小程序已有横幅 750×375），原图居中裁上下各 5.6%，已逐张目视确认文案未被切到
   - **未覆盖 `1.webp`~`4.webp`** —— 那 4 张是小程序 `custom-swiper.vue` 在用的
 - [x] 产物放 `ecommerce-mall/public/swiper/swiper1~4.webp`：Vite 构建时拷进 `dist/swiper/`，
-  随 `release-web.sh` 一起发布，**不需要另外在服务器上同步后端 upload 目录**
+  随 `release-mall.sh` 一起发布，**不需要另外在服务器上同步后端 upload 目录**
 - [x] `Home.vue` 接真实后端数据（原来只是静态线框草稿）：
   - 左侧分类栏：数据来自 `GET /api/home` 的 `categories`（嵌套树：8 个一级 + 17 个二级，Redis 缓存）
   - 中间轮播：4 张 WebP，`el-carousel` + 外层 `aspect-ratio: 2/1`
@@ -166,7 +167,9 @@
       —— API 层与公共组件可参考小程序端 `api/cart.js` / `api/order.js` / `components/*`
 - [ ] P3 交易链路（下单带 `idempotencyKey`、金额调 `/api/orders/quote`、订单状态按 code 分组）
 - [ ] P4 收藏 / 售后 / 优惠券 / 会员（后端都已就绪，前端直接接）/ 评价（等后端补列表）
-- [ ] P5 每次发布走「构建 → release-web.sh → 清 Cloudflare 缓存 → curl 验证」
+- [ ] P5 每次发布走「构建 → `./deploy/release-mall.sh` → 清 **EdgeOne** 缓存 → curl 验证」
+      —— 发布脚本在 `e-commerce-boot` 仓库，**必须用 `release-mall.sh`**，它写死了 `WEB_DIR=../ecommerce-mall` + `WEB_ROOT=/www/wwwroot/xiaojiecpn.com`；
+      裸的 `release-web.sh` 默认发后台管理端到 jiemids.com（2026-10-31 已发错过一次，误把后台端重发到 www.jiemids.com）
 
 ---
 

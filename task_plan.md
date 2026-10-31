@@ -250,9 +250,11 @@ POST /api/demo-login?phone=13800138000
 ## 阶段六：P5 部署（每次改完前端都要走）
 
 1. `npm run build`
-2. 发布：`WEB_DIR=<mall目录> WEB_ROOT=/www/wwwroot/xiaojiecpn.com ./deploy/release-web.sh --no-build`
-   （脚本在 `e-commerce-boot` 仓库，自动备份 `xiaojiecpn.com.bak.<时间戳>`）
-3. Cloudflare 清缓存（至少清 `index.html` 和 `/assets/*`）
+2. 发布：在 `e-commerce-boot` 仓库执行 `./deploy/release-mall.sh`
+   （专用脚本，已写死 `WEB_DIR=../ecommerce-mall` + `WEB_ROOT=/www/wwwroot/xiaojiecpn.com`，
+   自动备份 `xiaojiecpn.com.bak.<时间戳>`；**不要用裸的 `release-web.sh`**，那个默认发后台管理端到 jiemids.com）
+3. **EdgeOne** 清缓存（腾讯云 EdgeOne 控制台 → 站点 → 缓存刷新：整站刷新，或至少刷 `index.html` 和 `/assets/*`；
+   自查是否命中边缘缓存：`curl -I https://www.xiaojiecpn.com/ | grep -i "EO-Cache-Status\|Age"`）
 4. 验证：
 
 ```bash

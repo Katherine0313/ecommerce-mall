@@ -584,8 +584,8 @@ POST /api/demo-login?phone=13800138000
 | Nginx 配置 | `deploy/xiaojiecpn-mall.conf`（仓库内唯一权威副本）→ 服务器放到 `/www/server/panel/vhost/nginx/extension/xiaojiecpn.com/mall.conf`，主配置 include 该目录 |
 | 路由规则 | `/api/**` `/image/**` `/upload/**` → `http://127.0.0.1:8080`；`location /` → `try_files $uri $uri/ /index.html`（SPA 回退） |
 | 本地构建 | `npm run build` |
-| 发布 | 在 `e-commerce-boot` 仓库执行：`WEB_DIR=<mall目录> WEB_ROOT=/www/wwwroot/xiaojiecpn.com ./deploy/release-web.sh --no-build`（自动留 `.bak.<时间戳>` 备份） |
-| Cloudflare | 替换 `index.html` 后需清缓存（至少 `index.html` + `/assets/*`） |
+| 发布 | 在 `e-commerce-boot` 仓库执行：`./deploy/release-mall.sh`（专用脚本，写死 `WEB_DIR=../ecommerce-mall` + `WEB_ROOT=/www/wwwroot/xiaojiecpn.com`，自动留 `.bak.<时间戳>` 备份）。⚠️ **不要用裸的 `./deploy/release-web.sh`** —— 它默认发后台管理端到 `/www/wwwroot/jiemids.com`，2026-10-31 已因此发错过一次 |
+| CDN | **腾讯云 EdgeOne**（不是 Cloudflare）。替换 `index.html` 后需在 EdgeOne 控制台刷新缓存（至少 `index.html` + `/assets/*`）；自查是否命中边缘缓存：`curl -I https://www.xiaojiecpn.com/ \| grep -i "EO-Cache-Status\|Age"` |
 | 回滚 | `rsync -a --delete --exclude '.well-known' <备份目录>/ /www/wwwroot/xiaojiecpn.com/` |
 
 验收 `curl`：

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="visible" title="收货地址" width="720px">
+  <el-drawer v-model="visible" title="收货地址" size="480px" direction="rtl">
     <el-form
       ref="formRef"
       :model="form"
@@ -54,7 +54,7 @@
 
     <!-- 省市区选择 -->
     <Place ref="placeRef" @confirm="onRegionConfirm" />
-  </el-dialog>
+  </el-drawer>
 </template>
 
 <script setup>

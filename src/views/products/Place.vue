@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="visible" title="选择所在地区" width="620px">
+  <el-drawer v-model="visible" title="选择所在地区" size="480px" direction="rtl">
     <div class="place-select">
       <el-select
         v-model="province"
@@ -21,7 +21,7 @@
       <el-button @click="visible = false">取消</el-button>
       <el-button type="primary" @click="onConfirm">确定</el-button>
     </template>
-  </el-dialog>
+  </el-drawer>
 </template>
 
 <script setup>
