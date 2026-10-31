@@ -3,27 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2571bb5b-b0df-4e79-aaa5-0d3d847dd109" name="Changes" comment="1029">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/findings.md" beforeDir="false" afterPath="$PROJECT_DIR$/findings.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/progress.md" beforeDir="false" afterPath="$PROJECT_DIR$/progress.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/order.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/order.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/LoginModal.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/StoreCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/StoreCard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layouts/DefaultLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/DefaultLayout.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stores/auth.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stores/cart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/cart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stores/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/request.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/request.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Home.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Search.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Search.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/products/Address.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/products/Address.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/products/Cart.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/products/Cart.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/products/Paid.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/products/Paid.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/products/Place.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/products/Place.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/products/ProductDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/products/ProductDetail.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/products/Settlement.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/products/Settlement.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/style/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/style/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/task_plan.md" beforeDir="false" afterPath="$PROJECT_DIR$/task_plan.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,7 +105,7 @@
       <workItem from="1793355994786" duration="16536000" />
       <workItem from="1793408270639" duration="12000" />
       <workItem from="1793427601938" duration="1332000" />
-      <workItem from="1793440976868" duration="14610000" />
+      <workItem from="1793440976868" duration="15223000" />
     </task>
     <task id="LOCAL-00001" summary="0731">
       <option name="closed" value="true" />
@@ -288,7 +267,23 @@
       <option name="project" value="LOCAL" />
       <updated>1793370100900</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="1029">
+      <option name="closed" value="true" />
+      <created>1793456373860</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1793456373860</updated>
+    </task>
+    <task id="LOCAL-00022" summary="1029">
+      <option name="closed" value="true" />
+      <created>1793456376723</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1793456376723</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
