@@ -1,0 +1,1 @@
+import{t as e}from"./request-B0b-noVB.js";var t=t=>e.get(`/articles/${t}`),n=t=>e.get(`/articles/by-title`,{params:{title:t}}),r=t=>e.post(`/articles/${t}/browse`);export{t as n,r,n as t};

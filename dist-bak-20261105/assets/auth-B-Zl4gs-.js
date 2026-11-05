@@ -1,0 +1,1 @@
+import{t as e}from"./request-B0b-noVB.js";var t=t=>e.post(`/user/login`,t),n=t=>e.post(`/user/login-code`,t),r=t=>e.post(`/user/register`,t),i=t=>e.post(`/user/send-code`,t);export{i,t as n,r,n as t};

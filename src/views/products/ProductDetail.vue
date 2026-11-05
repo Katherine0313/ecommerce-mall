@@ -38,6 +38,8 @@ const reviewSummary = ref({
 const reviewList = ref([])
 // 是否展开全部评价（默认只显示 3 条）
 const reviewExpanded = ref(false)
+// 详情区 Tab：评价 / 参数 / 详情
+const activeTab = ref('reviews')
 
 // 购买数量
 const quantity = ref(1)
@@ -69,6 +71,11 @@ const specsList = computed(() =>
 
 // ===== 商品评价 =====
 const reviewTotal = computed(() => Number(reviewSummary.value.totalCount) || 0)
+
+// 评价 Tab 标题带上条数，0 条时不显示数字
+const reviewTabLabel = computed(() =>
+  reviewTotal.value > 0 ? `商品评价 (${reviewTotal.value})` : '商品评价'
+)
 
 // 好评率文案：后端 goodRate 是 0~1 的比例
 const goodRateText = computed(
@@ -185,6 +192,7 @@ async function load(id) {
   productTags.value = []
   reviewList.value = []
   reviewExpanded.value = false
+  activeTab.value = 'reviews'
   reviewSummary.value = {
     totalCount: 0,
     avgRating: 0,
@@ -383,91 +391,88 @@ watch(() => route.params.id, load, { immediate: true })
             @close="previewVisible = false"
           />
 
-          <!-- 商品评价：放在商品参数之前（先给结论：评分/好评率），默认只展示 3 条 -->
-          <section v-if="reviewTotal > 0" class="block review-block">
-            <h2 class="block-title">
-              <span class="block-text">商品评价</span>
-              <span class="block-extra">{{ reviewTotal }} 条</span>
-            </h2>
-
-            <div class="review-summary">
-              <div class="review-score">
-                <span class="score-num">{{ reviewSummary.avgRating }}</span>
-                <span class="score-label">平均分</span>
-                <span class="score-good">{{ goodRateText }}</span>
-              </div>
-              <div class="score-bars">
-                <div v-for="item in scoreBars" :key="item.star" class="score-bar">
-                  <span class="bar-label">{{ item.star }}星</span>
-                  <span class="bar-track">
-                    <span class="bar-fill" :style="{ width: item.percent + '%' }"></span>
-                  </span>
-                  <span class="bar-count">{{ item.count }}</span>
+          <!-- 评价 / 参数 / 详情：Tab 切换，默认停在商品评价 -->
+          <el-tabs v-model="activeTab" class="block tab-block">
+            <!-- 1. 商品评价：默认只展示 3 条 -->
+            <el-tab-pane :label="reviewTabLabel" name="reviews">
+              <template v-if="reviewTotal > 0">
+                <div class="review-summary">
+                  <div class="review-score">
+                    <span class="score-num">{{ reviewSummary.avgRating }}</span>
+                    <span class="score-label">平均分</span>
+                    <span class="score-good">{{ goodRateText }}</span>
+                  </div>
+                  <div class="score-bars">
+                    <div v-for="item in scoreBars" :key="item.star" class="score-bar">
+                      <span class="bar-label">{{ item.star }}星</span>
+                      <span class="bar-track">
+                        <span class="bar-fill" :style="{ width: item.percent + '%' }"></span>
+                      </span>
+                      <span class="bar-count">{{ item.count }}</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            <div class="review-list">
-              <div v-for="item in visibleReviews" :key="item.id" class="review-item">
-                <div class="review-item-head">
-                  <span class="review-user">{{ item.userName }}</span>
-                  <span class="review-time">{{ item.createdAt }}</span>
+                <div class="review-list">
+                  <div v-for="item in visibleReviews" :key="item.id" class="review-item">
+                    <div class="review-item-head">
+                      <span class="review-user">{{ item.userName }}</span>
+                      <span class="review-time">{{ item.createdAt }}</span>
+                    </div>
+                    <div class="review-stars">
+                      <el-rate :value="item.rating" disabled size="small" />
+                      <span v-if="item.tag" class="review-tag">{{ item.tag }}</span>
+                      <span v-if="item.isVirtual === 1" class="review-virtual">系统评价</span>
+                    </div>
+                    <p class="review-content">{{ item.content }}</p>
+                    <div v-if="item.media.length" class="review-media">
+                      <el-image
+                        v-for="(m, idx) in item.media"
+                        :key="idx"
+                        :src="m.url"
+                        :preview-src-list="item.media.map((x) => x.url)"
+                        :initial-index="idx"
+                        preview-teleported
+                        hide-on-click-modal
+                        fit="cover"
+                        class="review-media-item"
+                      />
+                    </div>
+                    <!-- 评价视频：一条评价最多一个视频，单独一行播放器 -->
+                    <video v-if="item.videoUrl" class="review-video-player" :src="item.videoUrl"
+                           controls preload="none" object-fit="contain" />
+                    <div v-if="item.reply" class="review-reply">
+                      <span class="reply-label">商家回复：</span>{{ item.reply }}
+                    </div>
+                  </div>
                 </div>
-                <div class="review-stars">
-                  <el-rate :value="item.rating" disabled size="small" />
-                  <span v-if="item.tag" class="review-tag">{{ item.tag }}</span>
-                  <span v-if="item.isVirtual === 1" class="review-virtual">系统评价</span>
-                </div>
-                <p class="review-content">{{ item.content }}</p>
-                <div v-if="item.media.length" class="review-media">
-                  <el-image
-                    v-for="(m, idx) in item.media"
-                    :key="idx"
-                    :src="m.url"
-                    :preview-src-list="item.media.map((x) => x.url)"
-                    :initial-index="idx"
-                    preview-teleported
-                    hide-on-click-modal
-                    fit="cover"
-                    class="review-media-item"
-                  />
-                </div>
-                <!-- 评价视频：一条评价最多一个视频，单独一行播放器 -->
-                <video v-if="item.videoUrl" class="review-video-player" :src="item.videoUrl"
-                       controls preload="none" object-fit="contain" />
-                <div v-if="item.reply" class="review-reply">
-                  <span class="reply-label">商家回复：</span>{{ item.reply }}
-                </div>
-              </div>
-            </div>
 
-            <div v-if="reviewTotal > 3" class="review-more" @click="reviewExpanded = !reviewExpanded">
-              {{ reviewExpanded ? '收起评价' : '查看全部评价' }}
-            </div>
-          </section>
+                <div v-if="reviewTotal > 3" class="review-more" @click="reviewExpanded = !reviewExpanded">
+                  {{ reviewExpanded ? '收起评价' : '查看全部评价' }}
+                </div>
+              </template>
+              <div v-else class="tab-empty">暂无评价</div>
+            </el-tab-pane>
 
-          <!-- 商品参数 -->
-          <section v-if="specsList.length" class="block">
-            <h2 class="block-title">
-              <span class="block-text">商品参数</span>
-            </h2>
-            <table class="specs-table">
-              <tbody>
-                <tr v-for="(s, i) in specsList" :key="i">
-                  <td class="spec-name">{{ s.name }}</td>
-                  <td class="spec-value">{{ s.value }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </section>
+            <!-- 2. 商品参数 -->
+            <el-tab-pane label="商品参数" name="specs">
+              <table v-if="specsList.length" class="specs-table">
+                <tbody>
+                  <tr v-for="(s, i) in specsList" :key="i">
+                    <td class="spec-name">{{ s.name }}</td>
+                    <td class="spec-value">{{ s.value }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div v-else class="tab-empty">暂无参数</div>
+            </el-tab-pane>
 
-          <!-- 图文详情：body 富文本；img 的 src 是相对路径 /image/body/xxx，同源直接可用 -->
-          <section v-if="product.body" class="block detail-block">
-            <h2 class="block-title">
-              <span class="block-text">图文详情</span>
-            </h2>
-            <div class="detail-body" v-html="product.body"></div>
-          </section>
+            <!-- 3. 商品详情：body 富文本；img 的 src 是相对路径 /image/body/xxx，同源直接可用 -->
+            <el-tab-pane label="商品详情" name="detail">
+              <div v-if="product.body" class="detail-body" v-html="product.body"></div>
+              <div v-else class="tab-empty">暂无详情</div>
+            </el-tab-pane>
+          </el-tabs>
 
         </div>
 
@@ -1017,6 +1022,22 @@ watch(() => route.params.id, load, { immediate: true })
   font-size: 18px;
   font-weight: 600;
   color: var(--text-primary);
+}
+
+/* ===== Tab 区块（评价 / 参数 / 详情） ===== */
+.tab-block {
+  padding-top: 8px;
+}
+
+.tab-block :deep(.el-tabs__header) {
+  margin-bottom: 16px;
+}
+
+.tab-empty {
+  padding: 32px 0;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-placeholder);
 }
 
 

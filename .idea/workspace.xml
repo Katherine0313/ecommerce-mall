@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2571bb5b-b0df-4e79-aaa5-0d3d847dd109" name="Changes" comment="1029">
-      <change beforePath="$PROJECT_DIR$/src/api/aftersale.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/aftersale.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/aftersales/AfterSaleDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/aftersales/AfterSaleDetail.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/user/OrderDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/user/OrderDetail.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/DefaultLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/layouts/DefaultLayout.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/UserLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/layouts/UserLayout.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/products/ProductDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/products/ProductDetail.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,26 +34,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "JavaScript Debug.index.html.executor": "Debug",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "master",
-    "javascript.preferred.runtime.type.id": "node",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/study/my-workspace/wechat-workspace/ecommerce-mall",
-    "list.type.of.created.stylesheet": "CSS",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "ts.external.directory.path": "D:\\Software\\WebStorm\\WebStorm 2026.1.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;JavaScript Debug.index.html.executor&quot;: &quot;Debug&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;javascript.preferred.runtime.type.id&quot;: &quot;node&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/study/my-workspace/wechat-workspace/ecommerce-mall&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;D:\\Software\\WebStorm\\WebStorm 2026.1.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\study\html-workspace\company-website\images\home" />
@@ -61,6 +63,7 @@
       <recent name="D:\study\html-workspace\company-website\templets\images" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\study\my-workspace\wechat-workspace\ecommerce-mall\src\views" />
       <recent name="D:\study\my-workspace\wechat-workspace\ecommerce-mall\src\views\products" />
       <recent name="D:\study\my-workspace\html-workspace\company-website\m" />
     </key>
@@ -110,7 +113,9 @@
       <workItem from="1793427601938" duration="1332000" />
       <workItem from="1793440976868" duration="16930000" />
       <workItem from="1793513848021" duration="685000" />
-      <workItem from="1793846651949" duration="1188000" />
+      <workItem from="1793846651949" duration="2057000" />
+      <workItem from="1793858130488" duration="592000" />
+      <workItem from="1793881919661" duration="3774000" />
     </task>
     <task id="LOCAL-00001" summary="0731">
       <option name="closed" value="true" />
@@ -320,7 +325,23 @@
       <option name="project" value="LOCAL" />
       <updated>1793850516442</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="1029">
+      <option name="closed" value="true" />
+      <created>1793856809935</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1793856809935</updated>
+    </task>
+    <task id="LOCAL-00028" summary="1029">
+      <option name="closed" value="true" />
+      <created>1793856813194</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1793856813194</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -2,9 +2,9 @@
 import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import { useUserStore } from '@/stores/user'
+import { useUserStore } from '@/stores/user.js'
 import { useCartStore } from '@/stores/cart.js'
-import { getArticleByTitle } from '@/api/article'
+import { getArticleByTitle } from '@/api/article.js'
 import {
   HomeFilled,
   List,
@@ -234,6 +234,7 @@ function searchByKeyword(word) {
 .layout {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 
 /* ===== 顶部工具条 ===== */

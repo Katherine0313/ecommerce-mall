@@ -7,7 +7,7 @@ const router = createRouter({
     {
       // 顶层布局：顶部导航 + 页脚，所有业务页面都在里面
       path: '/',
-      component: () => import('@/layouts/DefaultLayout.vue'),
+      component: () => import('@/views/layouts/DefaultLayout.vue'),
       children: [
         { path: '', name: 'home', component: () => import('@/views/Home.vue') },
         { path: 'products-list', name: 'products', component: () => import('@/views/products/ProductList.vue'), meta: { hideHeader: true } },
@@ -29,7 +29,7 @@ const router = createRouter({
         // 个人中心：二级布局（左侧菜单 + 右侧内容），嵌在 DefaultLayout 里
         {
           path: 'user',
-          component: () => import('@/layouts/UserLayout.vue'),
+          component: () => import('@/views/layouts/UserLayout.vue'),
           meta: { requiresAuth: true },
           children: [
             { path: '', name: 'user', component: () => import('@/views/user/Profile.vue') },
