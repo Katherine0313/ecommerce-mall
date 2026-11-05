@@ -2,23 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2571bb5b-b0df-4e79-aaa5-0d3d847dd109" name="Changes" comment="1029">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/findings.md" beforeDir="false" afterPath="$PROJECT_DIR$/findings.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/progress.md" beforeDir="false" afterPath="$PROJECT_DIR$/progress.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/api/aftersale.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/aftersale.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/order.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/order.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layouts/DefaultLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/DefaultLayout.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Home.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Login.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/aftersales/AfterSaleDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/aftersales/AfterSaleDetail.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/aftersales/ApplyAfterSale.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/aftersales/ApplyAfterSale.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/products/Place.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/products/Place.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/products/ProductDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/products/ProductDetail.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/user/OrderDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/user/OrderDetail.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/user/OrderList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/user/OrderList.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/user/Profile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/user/Profile.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/task_plan.md" beforeDir="false" afterPath="$PROJECT_DIR$/task_plan.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,7 +110,7 @@
       <workItem from="1793427601938" duration="1332000" />
       <workItem from="1793440976868" duration="16930000" />
       <workItem from="1793513848021" duration="685000" />
-      <workItem from="1793846651949" duration="595000" />
+      <workItem from="1793846651949" duration="1188000" />
     </task>
     <task id="LOCAL-00001" summary="0731">
       <option name="closed" value="true" />
@@ -318,7 +304,23 @@
       <option name="project" value="LOCAL" />
       <updated>1793458762191</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="1029">
+      <option name="closed" value="true" />
+      <created>1793850512815</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1793850512815</updated>
+    </task>
+    <task id="LOCAL-00026" summary="1029">
+      <option name="closed" value="true" />
+      <created>1793850516442</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1793850516442</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
