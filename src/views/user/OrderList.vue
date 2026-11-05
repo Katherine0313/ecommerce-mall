@@ -2,7 +2,7 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { getOrderList, cancelOrder, confirmOrder } from '@/api/order.js'
+import { getOrderList, cancelOrder, finishOrder } from '@/api/order.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -11,10 +11,9 @@ const loading = ref(true)
 const orders = ref([])
 const activeTab = ref('all')
 
-// 订单状态码（与后端 OrderStatusEnum 一致）
+// 订单状态码（与后端 OrderStatusEnum 一致；2 待确认收款已退役并入 3）
 const STATUS = {
   PENDING_PAY: 1,
-  PENDING_CONFIRM: 2,
   PENDING_SHIP: 3,
   SHIPPED: 4,
   FINISHED: 5,
@@ -94,7 +93,8 @@ function handleConfirm(order) {
     type: 'warning',
   })
     .then(() => {
-      confirmOrder(order.id)
+      // 确认收货 = 已发货(4) → 已完成(5)，对应后端 /finish
+      finishOrder(order.id)
         .then(() => {
           ElMessage.success('已确认收货')
           load()
@@ -107,9 +107,9 @@ function handleConfirm(order) {
 }
 
 // 售后入口：与后端 AfterSaleServiceImpl.create 的可申请状态保持一致
-// 仅退款支持 2/3/4，退货退款/换货支持 4/5；同一订单只能申请一次
+// 仅退款支持 3/4，退货退款/换货支持 4/5；同一订单只能申请一次
 function canApplyAfterSale(order) {
-  return [STATUS.PENDING_CONFIRM, STATUS.PENDING_SHIP, STATUS.SHIPPED, STATUS.FINISHED].includes(
+  return [STATUS.PENDING_SHIP, STATUS.SHIPPED, STATUS.FINISHED].includes(
     order.orderStatus
   ) && !order.afterSale
 }

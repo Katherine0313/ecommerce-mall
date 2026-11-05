@@ -12,7 +12,7 @@ export const getOrderList = (keyword) => request.get('/orders', { params: { keyw
 
 // 订单状态流转（状态码见后端 OrderStatusEnum）
 export const cancelOrder = (id) => request.put(`/orders/${id}/cancel`)
-export const confirmOrder = (id) => request.put(`/orders/${id}/confirm`)
+// 确认收货：已发货(4) → 已完成(5)
 export const finishOrder = (id) => request.put(`/orders/${id}/finish`)
 
 // 物流轨迹

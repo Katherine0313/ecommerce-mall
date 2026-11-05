@@ -12,10 +12,9 @@ const loading = ref(true)
 const member = ref(null)
 const orders = ref([])
 
-// 订单状态码（与后端 OrderStatusEnum 一致）
+// 订单状态码（与后端 OrderStatusEnum 一致；2 待确认收款已退役并入 3）
 const STATUS = {
   PENDING_PAY: 1,
-  PENDING_CONFIRM: 2,
   PENDING_SHIP: 3,
   SHIPPED: 4,
   FINISHED: 5,

@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { ElMessage, ElImageViewer } from 'element-plus'
 import { Medal, Lightning, Clock, Location, Discount } from '@element-plus/icons-vue'
 import { getProduct, getProductTags } from '@/api/product.js'
+import { getProductReviews, getReviewSummary } from '@/api/review.js'
 import { formatPrice } from '@/utils/format.js'
 import { savePendingAction, takePendingAction } from '@/utils/login-action.js'
 import StoreCard from '@/components/StoreCard.vue'
@@ -23,6 +24,20 @@ const error = ref('')
 const product = ref(null)
 // 商品标签（C 端只展示 status=1 的标签）
 const productTags = ref([])
+// 商品评价：列表 + 统计（公开只读，接口失败不影响详情页其他内容）
+const reviewSummary = ref({
+  totalCount: 0,
+  avgRating: 0,
+  goodRate: 0,
+  fiveStar: 0,
+  fourStar: 0,
+  threeStar: 0,
+  twoStar: 0,
+  oneStar: 0,
+})
+const reviewList = ref([])
+// 是否展开全部评价（默认只显示 3 条）
+const reviewExpanded = ref(false)
 
 // 购买数量
 const quantity = ref(1)
@@ -51,6 +66,70 @@ const totalPrice = computed(() => (price.value + Number(insuranceFee.value)).toF
 const specsList = computed(() =>
   (product.value?.specs || []).filter((s) => s?.name && s?.value)
 )
+
+// ===== 商品评价 =====
+const reviewTotal = computed(() => Number(reviewSummary.value.totalCount) || 0)
+
+// 好评率文案：后端 goodRate 是 0~1 的比例
+const goodRateText = computed(
+  () => `好评率 ${Math.round((Number(reviewSummary.value.goodRate) || 0) * 100)}%`
+)
+
+// 星级分布条：每条星级的条数与占比
+const scoreBars = computed(() => {
+  const s = reviewSummary.value
+  const total = reviewTotal.value
+  const list = [
+    { star: 5, count: Number(s.fiveStar) || 0 },
+    { star: 4, count: Number(s.fourStar) || 0 },
+    { star: 3, count: Number(s.threeStar) || 0 },
+    { star: 2, count: Number(s.twoStar) || 0 },
+    { star: 1, count: Number(s.oneStar) || 0 },
+  ]
+  return list.map((it) => ({
+    ...it,
+    percent: total ? Math.round((it.count / total) * 100) : 0,
+  }))
+})
+
+// 默认只展示 3 条，展开后展示全部
+const visibleReviews = computed(() =>
+  reviewExpanded.value ? reviewList.value : reviewList.value.slice(0, 3)
+)
+
+// 评价媒体 JSON：[{"url":"...","type":"image"}]
+function parseReviewMedia(images) {
+  if (!images) return []
+  try {
+    const arr = JSON.parse(images)
+    return Array.isArray(arr) ? arr.filter((m) => m && m.url) : []
+  } catch (e) {
+    return []
+  }
+}
+
+// 拉评价：辅助信息，失败就当没有评价，不影响详情页主体
+async function loadReviews(id) {
+  const [listRes, summaryRes] = await Promise.all([
+    getProductReviews(id, 1, 20).catch(() => null),
+    getReviewSummary(id).catch(() => null),
+  ])
+  reviewList.value = ((listRes && listRes.list) || []).map((item) => {
+    const media = parseReviewMedia(item.images)
+    // 一条评价最多一个视频：图片进九宫格，视频单独用 <video> 播
+    const video = media.find((m) => m.type === 'video')
+    return {
+      ...item,
+      // 后端给的是 yyyy-MM-dd HH:mm:ss，详情页只展示到天
+      createdAt: item.createdAt ? String(item.createdAt).slice(0, 10) : '',
+      media: media.filter((m) => m.type !== 'video'),
+      videoUrl: video ? video.url : '',
+    }
+  })
+  if (summaryRes) {
+    reviewSummary.value = summaryRes
+  }
+}
 
 // 图集：后端 products 表只有单个 image 字段，没有图集数组，
 // 这里从 body 富文本里解析出详情图当作图集（淘宝详情页也是把详情图收进图集）
@@ -104,6 +183,18 @@ async function load(id) {
   selectedInsurance.value = []
   currentIndex.value = 0
   productTags.value = []
+  reviewList.value = []
+  reviewExpanded.value = false
+  reviewSummary.value = {
+    totalCount: 0,
+    avgRating: 0,
+    goodRate: 0,
+    fiveStar: 0,
+    fourStar: 0,
+    threeStar: 0,
+    twoStar: 0,
+    oneStar: 0,
+  }
   try {
     // 标签是辅助信息，接口失败不影响商品详情展示
     const [data, tags] = await Promise.all([
@@ -112,6 +203,8 @@ async function load(id) {
     ])
     product.value = data
     productTags.value = (tags || []).filter((t) => t.status !== 0)
+    // 评价同样是辅助信息，失败不打断详情加载
+    loadReviews(id)
     // 详情富文本里常嵌多张原图，全量加载会卡住；
     // 给每个 <img> 补 loading="lazy"，浏览器原生懒加载只拉可视区图片
     if (data?.body) {
@@ -290,6 +383,69 @@ watch(() => route.params.id, load, { immediate: true })
             @close="previewVisible = false"
           />
 
+          <!-- 商品评价：放在商品参数之前（先给结论：评分/好评率），默认只展示 3 条 -->
+          <section v-if="reviewTotal > 0" class="block review-block">
+            <h2 class="block-title">
+              <span class="block-text">商品评价</span>
+              <span class="block-extra">{{ reviewTotal }} 条</span>
+            </h2>
+
+            <div class="review-summary">
+              <div class="review-score">
+                <span class="score-num">{{ reviewSummary.avgRating }}</span>
+                <span class="score-label">平均分</span>
+                <span class="score-good">{{ goodRateText }}</span>
+              </div>
+              <div class="score-bars">
+                <div v-for="item in scoreBars" :key="item.star" class="score-bar">
+                  <span class="bar-label">{{ item.star }}星</span>
+                  <span class="bar-track">
+                    <span class="bar-fill" :style="{ width: item.percent + '%' }"></span>
+                  </span>
+                  <span class="bar-count">{{ item.count }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="review-list">
+              <div v-for="item in visibleReviews" :key="item.id" class="review-item">
+                <div class="review-item-head">
+                  <span class="review-user">{{ item.userName }}</span>
+                  <span class="review-time">{{ item.createdAt }}</span>
+                </div>
+                <div class="review-stars">
+                  <el-rate :value="item.rating" disabled size="small" />
+                  <span v-if="item.tag" class="review-tag">{{ item.tag }}</span>
+                  <span v-if="item.isVirtual === 1" class="review-virtual">系统评价</span>
+                </div>
+                <p class="review-content">{{ item.content }}</p>
+                <div v-if="item.media.length" class="review-media">
+                  <el-image
+                    v-for="(m, idx) in item.media"
+                    :key="idx"
+                    :src="m.url"
+                    :preview-src-list="item.media.map((x) => x.url)"
+                    :initial-index="idx"
+                    preview-teleported
+                    hide-on-click-modal
+                    fit="cover"
+                    class="review-media-item"
+                  />
+                </div>
+                <!-- 评价视频：一条评价最多一个视频，单独一行播放器 -->
+                <video v-if="item.videoUrl" class="review-video-player" :src="item.videoUrl"
+                       controls preload="none" object-fit="contain" />
+                <div v-if="item.reply" class="review-reply">
+                  <span class="reply-label">商家回复：</span>{{ item.reply }}
+                </div>
+              </div>
+            </div>
+
+            <div v-if="reviewTotal > 3" class="review-more" @click="reviewExpanded = !reviewExpanded">
+              {{ reviewExpanded ? '收起评价' : '查看全部评价' }}
+            </div>
+          </section>
+
           <!-- 商品参数 -->
           <section v-if="specsList.length" class="block">
             <h2 class="block-title">
@@ -303,6 +459,14 @@ watch(() => route.params.id, load, { immediate: true })
                 </tr>
               </tbody>
             </table>
+          </section>
+
+          <!-- 图文详情：body 富文本；img 的 src 是相对路径 /image/body/xxx，同源直接可用 -->
+          <section v-if="product.body" class="block detail-block">
+            <h2 class="block-title">
+              <span class="block-text">图文详情</span>
+            </h2>
+            <div class="detail-body" v-html="product.body"></div>
           </section>
 
         </div>
@@ -855,6 +1019,188 @@ watch(() => route.params.id, load, { immediate: true })
   color: var(--text-primary);
 }
 
+
+/* ===== 商品评价 ===== */
+.block-extra {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-placeholder);
+}
+
+.review-summary {
+  display: flex;
+  align-items: center;
+  padding-bottom: 20px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.review-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 120px;
+  flex-shrink: 0;
+}
+
+.score-num {
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #ff5722;
+}
+
+.score-label {
+  font-size: 12px;
+  color: var(--text-placeholder);
+}
+
+.score-good {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--text-regular);
+}
+
+.score-bars {
+  flex: 1;
+  padding-left: 16px;
+}
+
+.score-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.bar-label {
+  width: 36px;
+  font-size: 12px;
+  color: var(--text-placeholder);
+  flex-shrink: 0;
+}
+
+.bar-track {
+  flex: 1;
+  height: 8px;
+  background: var(--bg-page);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  display: block;
+  height: 100%;
+  background: #ff5722;
+}
+
+.bar-count {
+  width: 40px;
+  text-align: right;
+  font-size: 12px;
+  color: var(--text-placeholder);
+  flex-shrink: 0;
+}
+
+.review-item {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.review-item:last-child {
+  border-bottom: none;
+}
+
+.review-item-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.review-user {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.review-time {
+  font-size: 12px;
+  color: var(--text-placeholder);
+}
+
+.review-stars {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.review-tag {
+  font-size: 12px;
+  color: #ff5722;
+}
+
+.review-virtual {
+  font-size: 12px;
+  color: var(--text-placeholder);
+  background: var(--bg-page);
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+
+.review-content {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-regular);
+}
+
+.review-media {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.review-media-item {
+  width: 80px;
+  height: 80px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* 评价视频播放器：宽度撑满，高度按 16:9 */
+.review-video-player {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  margin-top: 10px;
+  border-radius: 6px;
+  background: #f5f5f5;
+}
+
+.review-reply {
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: var(--bg-page);
+  border-radius: 6px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-regular);
+}
+
+.reply-label {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.review-more {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 14px;
+  color: #ff5722;
+  cursor: pointer;
+}
 
 /* ===== 商品参数 ===== */
 .specs-table {

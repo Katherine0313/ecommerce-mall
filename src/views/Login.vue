@@ -46,7 +46,7 @@ const validateConfirm = (rule, value, callback) => {
 const passwordRules = {
   username: [
     { required: true, message: '请输入用户名', trigger: 'blur' },
-    { pattern: /^[a-zA-Z0-9_]{3,30}$/, message: '用户名为 3-30 位字母、数字或下划线', trigger: 'blur' },
+    { pattern: /^[a-zA-Z0-9_]{6,16}$/, message: '用户名为 6-16 位字母、数字或下划线', trigger: 'blur' },
   ],
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },

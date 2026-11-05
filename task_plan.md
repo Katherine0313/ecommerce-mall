@@ -239,7 +239,10 @@ POST /api/demo-login?phone=13800138000
 ## 阶段五：P4 增强（按需，不排期）
 
 - 收藏：`/api/favorites` 系列（后端已就绪：列表 / check / 增 / 删，收藏幂等）
-- 评价：**等后端补「商品评价列表」接口**（现在只有 `POST /api/orders/{id}/review`）
+- 评价：✅ **已完成并已发版（2026-11-02）** —— 后端补了 `GET /api/reviews/product/{id}` + `/summary`，
+  商城详情页已接评价区（评分条 + 评价列表 + 商家回复 + 视频播放器），
+  顺序为**商品评价 → 商品参数 → 图文详情**；同时顺带补上了此前一直没渲染的图文详情 body。
+  已走 `release-mall.sh` 上线，同源代理 `www.xiaojiecpn.com/api/reviews/product/7` 实测 200 ✅
 - 售后：`/api/after-sales` 系列（后端已就绪）
 - 优惠券：领券中心 `/api/coupons/center`、我的券 `/api/coupons/mine`
 - 会员：`/api/member/profile`、`/api/member/levels`

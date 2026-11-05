@@ -15,6 +15,9 @@ export const getAfterSaleByOrder = (orderId) =>
 // 售后详情
 export const getAfterSale = (id) => request.get(`/after-sales/${id}`)
 
+// 售后变更记录（买家端不含商家内部备注）
+export const getAfterSaleLogs = (id) => request.get(`/after-sales/${id}/logs`)
+
 // 申请售后
 // 字段：orderId / orderItemId? / afterSaleType / reason / goodsStatus? /
 //       returnWay? / returnTimeSlot? / shipAddress? / remark / images[]

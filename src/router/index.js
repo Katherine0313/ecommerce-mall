@@ -14,6 +14,8 @@ const router = createRouter({
         { path: 'category/:id', name: 'category', component: () => import('@/views/products/ProductList.vue'), meta: { hideHeader: true } },
         { path: 'search', name: 'search', component: () => import('@/views/Search.vue') },
         { path: 'product/:id', name: 'product-detail', component: () => import('@/views/products/ProductDetail.vue'), meta: { hideHeader: true } },
+        // 文章详情：关于我们 / 隐私政策 / Banner 跳转文章都走这里
+        { path: 'article/:id', name: 'article-detail', component: () => import('@/views/article/ArticleDetail.vue') },
 
         // 购物车 / 结算 / 支付：独立页面（淘宝做法，不用弹窗），但在布局内，保留顶部导航和页脚
         { path: 'cart', name: 'cart', component: () => import('@/views/products/Cart.vue'), meta: { requiresAuth: true, hideHeader: true } },

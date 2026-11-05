@@ -2,7 +2,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { getOrder, cancelOrder, confirmOrder, getOrderLogistics } from '@/api/order.js'
+import { getOrder, cancelOrder, finishOrder, getOrderLogistics } from '@/api/order.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -58,7 +58,8 @@ function handleConfirm() {
     type: 'warning',
   })
     .then(() => {
-      confirmOrder(order.value.id)
+      // 确认收货 = 已发货(4) → 已完成(5)，对应后端 /finish
+      finishOrder(order.value.id)
         .then(() => {
           ElMessage.success('已确认收货')
           load()
@@ -172,7 +173,6 @@ onMounted(load)
         <div class="amount-row"><span>下单时间</span><span>{{ order.createdAt }}</span></div>
         <div v-if="order.payAt" class="amount-row"><span>支付时间</span><span>{{ order.payAt }}</span></div>
         <div v-if="order.shipAt" class="amount-row"><span>发货时间</span><span>{{ order.shipAt }}</span></div>
-        <div v-if="order.confirmAt" class="amount-row"><span>确认收货</span><span>{{ order.confirmAt }}</span></div>
         <div v-if="order.finishAt" class="amount-row"><span>完成时间</span><span>{{ order.finishAt }}</span></div>
         <div v-if="order.remark" class="amount-row"><span>买家备注</span><span>{{ order.remark }}</span></div>
       </section>

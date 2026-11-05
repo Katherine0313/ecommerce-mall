@@ -5,15 +5,50 @@ import {
 } from '@element-plus/icons-vue'
 import { getHome } from '@/api/home'
 import { getProducts } from '@/api/product'
+import { getBanners, reportBannerBrowse } from '@/api/banner'
 import ProductCard from '@/components/ProductCard.vue'
 
-// 首页轮播图：PC 端专用横幅，放在 public/swiper 下，构建时随 dist 一起发布
-const banners = [
-  { src: '/swiper/swiper1.webp', alt: '3C数码新品季 手机电脑智能设备一站购齐' },
-  { src: '/swiper/swiper2.webp', alt: '限时狂欢 电脑配件低至7折起' },
-  { src: '/swiper/swiper3.webp', alt: '影像装备焕新出发 相机镜头运动拍摄' },
-  { src: '/swiper/swiper4.webp', alt: '智能清洁 扫地机器人高效清扫' },
+// 首页轮播图：优先用后台配置的 Banner（position=11）；
+// 后台没配时回落到 public/swiper 下的静态图，保证首页不至于空白
+const FALLBACK_BANNERS = [
+  { src: '/swiper/swiper1.webp', alt: '3C数码新品季 手机电脑智能设备一站购齐', link: '/products-list' },
+  { src: '/swiper/swiper2.webp', alt: '限时狂欢 电脑配件低至7折起', link: '/products-list' },
+  { src: '/swiper/swiper3.webp', alt: '影像装备焕新出发 相机镜头运动拍摄', link: '/products-list' },
+  { src: '/swiper/swiper4.webp', alt: '智能清洁 扫地机器人高效清扫', link: '/products-list' },
 ]
+const banners = ref([])
+
+// Banner 跳转：商品 → 商品详情，文章 → 文章详情，外部链接 → 原地址
+function bannerLink(b) {
+  if (b.linkType === 1) return `/product/${b.linkValue}`
+  if (b.linkType === 2) return `/article/${b.linkValue}`
+  if (b.linkType === 3) return b.linkValue
+  return ''
+}
+
+function loadBanners() {
+  getBanners(11)
+    .then((list) => {
+      const arr = list || []
+      // 一条 Banner 最多 4 张图：展开成多个轮播项，images 为空时回落到单图 image
+      banners.value = arr.length
+        ? arr.flatMap((b) => {
+            const urls = Array.isArray(b.images) && b.images.length ? b.images : [b.image]
+            return urls
+              .filter(Boolean)
+              .map((src) => ({ id: b.id, src, alt: b.title || '', link: bannerLink(b) }))
+          })
+        : FALLBACK_BANNERS
+    })
+    .catch(() => {
+      banners.value = FALLBACK_BANNERS
+    })
+}
+
+// 点击统计：后台能看每张 Banner 的点击量
+function handleBannerClick(b) {
+  if (b.id) reportBannerBrowse(b.id).catch(() => {})
+}
 
 // 猜你喜欢模块：6 行 × 6 列 = 36 个商品为 1 页
 const PAGE_SIZE = 40
@@ -55,6 +90,9 @@ const pageProducts = computed(() => {
 })
 
 onMounted(async () => {
+  // 轮播图与下面两个接口互不依赖，任一失败不影响其余渲染
+  loadBanners()
+
   // 两个接口互不依赖，任一失败不影响其余渲染
   const [homeRes, allRes] = await Promise.allSettled([
     getHome(12),
@@ -130,10 +168,19 @@ onMounted(async () => {
         <div class="banner">
           <div class="banner-wrap">
             <el-carousel class="banner-carousel" height="100%" :interval="5000" arrow="hover">
-              <el-carousel-item v-for="(b, i) in banners" :key="b.src">
-                <router-link to="/products-list" class="banner-link">
+              <el-carousel-item v-for="(b, i) in banners" :key="i">
+                <!-- 站内跳转走 router-link，外部链接用 a 标签新窗口打开 -->
+                <router-link v-if="b.link && b.link.startsWith('/')" :to="b.link" class="banner-link"
+                             @click="handleBannerClick(b)">
                   <img :src="b.src" :alt="b.alt" :loading="i === 0 ? 'eager' : 'lazy'" />
                 </router-link>
+                <a v-else-if="b.link" :href="b.link" target="_blank" rel="noopener" class="banner-link"
+                   @click="handleBannerClick(b)">
+                  <img :src="b.src" :alt="b.alt" :loading="i === 0 ? 'eager' : 'lazy'" />
+                </a>
+                <div v-else class="banner-link">
+                  <img :src="b.src" :alt="b.alt" :loading="i === 0 ? 'eager' : 'lazy'" />
+                </div>
               </el-carousel-item>
             </el-carousel>
           </div>

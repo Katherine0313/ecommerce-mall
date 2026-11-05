@@ -1,8 +1,10 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
 import { useUserStore } from '@/stores/user'
 import { useCartStore } from '@/stores/cart.js'
+import { getArticleByTitle } from '@/api/article'
 import {
   HomeFilled,
   List,
@@ -27,6 +29,18 @@ const logoUrl = '/image/zongjie.webp'
 
 function onCart() {
   router.push('/cart')
+}
+
+// 页脚的「关于我们 / 隐私政策」：内容存在后台文章表里，按标题取文章详情
+function openArticle(title) {
+  getArticleByTitle(title)
+    .then((article) => {
+      if (article?.id) router.push(`/article/${article.id}`)
+      else ElMessage.warning('该内容暂未配置')
+    })
+    .catch(() => {
+      ElMessage.warning('该内容暂未配置')
+    })
 }
 
 // 去登录页（登录页是独立路由）
@@ -195,6 +209,12 @@ function searchByKeyword(word) {
     <footer class="footer">
       <div class="container">
         <p>© 2026 杰米多多电子商务工作室 版权所有</p>
+        <!-- 站点说明：内容由后台文章维护，没有配置时提示暂未配置 -->
+        <p class="links">
+          <a @click.prevent="openArticle('关于我们')">关于我们</a>
+          <span class="divider">|</span>
+          <a @click.prevent="openArticle('隐私政策')">隐私政策</a>
+        </p>
         <!-- 备案信息：按工信部/公安备案要求展示，不可删除 -->
         <p class="filing">
           <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">粤ICP备2026115644号</a>
@@ -422,6 +442,24 @@ function searchByKeyword(word) {
   justify-content: center;
   flex-wrap: wrap;
   gap: 8px;
+}
+
+/* 站点说明入口：关于我们 / 隐私政策 */
+.links {
+  margin: 6px 0 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.links a {
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.links a:hover {
+  color: var(--color-primary);
 }
 
 .filing a:hover {

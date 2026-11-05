@@ -32,8 +32,8 @@ const shipAddress = ref('')
 const remark = ref('')
 const fileList = ref([])
 
-// 订单状态：2/3 未发货，4 已发货，5 已完成（与后端 OrderStatusEnum 一致）
-const orderStatusOk = computed(() => [2, 3, 4, 5].includes(order.value?.orderStatus))
+// 订单状态：3 未发货，4 已发货，5 已完成（与后端 OrderStatusEnum 一致）
+const orderStatusOk = computed(() => [3, 4, 5].includes(order.value?.orderStatus))
 const isShipped = computed(() => [4, 5].includes(order.value?.orderStatus))
 // 货物状态只在「已发货」时填写（对齐小程序端逻辑）
 const showGoodsStatus = computed(() => order.value?.orderStatus === 4)
@@ -48,7 +48,7 @@ const TYPE_OPTIONS = [
 const typeOptions = computed(() => {
   const status = order.value?.orderStatus
   let allowed = []
-  if (status === 2 || status === 3) allowed = ['only_refund']
+  if (status === 3) allowed = ['only_refund']
   else if (status === 4) allowed = ['only_refund', 'return_refund', 'exchange']
   else if (status === 5) allowed = ['return_refund', 'exchange']
 

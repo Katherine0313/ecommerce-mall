@@ -48,8 +48,9 @@ function loadProvinces() {
     .then((data) => {
       provinces.value = data
     })
-    .catch(() => {
-      // 数据缺失时保持空列表，不阻断页面
+    .catch((e) => {
+      // 数据缺失时保持空列表，不阻断页面，但留一条日志方便排查
+      console.warn('省份数据加载失败', e)
     })
 }
 
@@ -75,6 +76,15 @@ function onProvinceChange(val) {
     .then((data) => {
       cityData.value = data
       cityOptions.value = Object.keys(data)
+      // 直辖市（北京/天津/上海）的市级数据只有一个「市辖区」，
+      // 自动选中，避免选完省后还要再点一次市才能看到区
+      if (cityOptions.value.length === 1) {
+        city.value = cityOptions.value[0]
+        districtOptions.value = data[city.value] || []
+      }
+    })
+    .catch((e) => {
+      console.warn('地区数据加载失败', val, e)
     })
     .finally(() => {
       loading.value = false

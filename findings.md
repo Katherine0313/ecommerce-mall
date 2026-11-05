@@ -346,7 +346,8 @@ productCode, weight, volume, specs
 /api/login,/api/logout,/api/admin/info,/api/auth/captcha,/api/admin/system/**   → auth-service
 /api/home,/api/products/**,/api/categories/**,/api/tags/**,/api/favorites/**,
 /api/admin/products/**,...,/api/upload/**,/image/**                             → product-service
-/api/cart/**,/api/orders/**,/api/address/**,/api/coupons/**,/api/admin/orders/** → order-service
+/api/cart/**,/api/orders/**,/api/address/**,/api/coupons/**,/api/admin/orders/**,
+/api/admin/reviews/**,/api/reviews/**                                            → order-service
 /api/after-sales/**                                                           → aftersale-service
 /api/agent/**                                                                 → Python ai-service（静态地址）
 /ws/**                                                                        → order-service（WebSocket 来单提醒）
@@ -371,10 +372,12 @@ productCode, weight, volume, specs
 /api/home
 /api/tags  /api/tags/**
 /api/after-sales/status-constants
+/api/reviews  /api/reviews/**
 ```
 
 **其余所有 `/api/**` 都要求 `type=user` 的 JWT**（`/api/admin/**` 要求 `type=admin`）。
 购物车、订单、地址、收藏、售后、优惠券、会员资料——全部需要 user 令牌。
+`/api/reviews/**` 是 2026-11-02 新加的免登录只读路径（商品评价列表 + 统计）。
 
 ### 6.5 鉴权模型
 
@@ -416,7 +419,9 @@ JWT 由 `JwtUtil` 签发，`expire` 默认 **604800 秒（7 天）**，`secret` 
 | GET | `/api/orders`、`/api/orders/{id}` | 列表**只支持 keyword**，不支持按状态筛选 |
 | PUT | `/api/orders/{id}/pay`、`/confirm`、`/ship`、`/finish`、`/cancel` | 状态流转 |
 | DELETE | `/api/orders/{id}` | 软删 |
-| POST | `/api/orders/{id}/review` | 提交评价（**无评价列表接口**） |
+| POST | `/api/orders/{id}/review` | 提交评价（写入 `product_reviews`） |
+| GET | `/api/reviews/product/{id}` | **该商品可见评价列表**（分页，免登录）—— 2026-11-02 后端新增 |
+| GET | `/api/reviews/product/{id}/summary` | **评价统计**（总数/平均分/好评率/星级分布）—— 2026-11-02 后端新增 |
 | GET | `/api/favorites`、`/api/favorites/check?productId=` | |
 | POST/DELETE | `/api/favorites/{productId}` | 收藏/取消，幂等 |
 | GET/POST | `/api/after-sales`、`/api/after-sales/by-order`、`/{id}/submit-return` | |
@@ -457,7 +462,7 @@ JWT 由 `JwtUtil` 签发，`expire` 默认 **604800 秒（7 天）**，`secret` 
 | # | 缺口 | 状态 |
 |---|---|---|
 | 1 | **C 端非微信登录** | 🔴 唯一硬缺口，见下 |
-| 2 | 商品评价**列表**接口 | 🟡 确实没有，只有 `POST /api/orders/{id}/review` |
+| 2 | 商品评价**列表**接口 | ✅ **已解决**（2026-11-02 后端补了 `GET /api/reviews/product/{id}` + `/summary`，商城详情页已接入评价区） |
 | 3 | 搜索筛选/排序 | ✅ **已解决**——`/api/products/page` 已支持 `brand` / `minPrice` / `maxPrice` / `sort`（`default` / `price_asc` / `price_desc` / `newest`）。原 README 第七节「目前只有关键词 + 分类」的描述**已过时** |
 | 4 | 真实微信支付 | 🟡 仍是模拟状态流转（`payOrder` 只改状态） |
 | 5 | 订单列表按状态筛选 | 🟡 后端只支持 `keyword`，状态分组要前端过滤 |

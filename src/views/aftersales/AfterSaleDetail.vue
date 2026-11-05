@@ -5,6 +5,7 @@ import { ElMessage } from 'element-plus'
 import {
   getAfterSaleStatusConstants,
   getAfterSaleByOrder,
+  getAfterSaleLogs,
   submitAfterSaleReturn,
 } from '@/api/aftersale.js'
 import { formatPrice } from '@/utils/format.js'
@@ -19,6 +20,8 @@ const loading = ref(true)
 const loadingError = ref('')
 const detail = ref(null)
 const constants = ref(null)
+// 售后变更记录（after_sale_log）
+const logs = ref([])
 
 // ===== 回填退货物流（状态 returning 时）=====
 const submitting = ref(false)
@@ -93,6 +96,15 @@ async function load() {
     returnTimeSlot.value = ''
     courier.value = ''
     trackingNumber.value = ''
+    // 变更记录：失败不影响主流程
+    logs.value = []
+    if (data?.id) {
+      try {
+        logs.value = (await getAfterSaleLogs(data.id)) || []
+      } catch (e) {
+        console.warn('售后变更记录加载失败', e)
+      }
+    }
   } catch (e) {
     loadingError.value = e?.message || '售后信息加载失败'
   } finally {
@@ -185,6 +197,26 @@ onMounted(load)
               placement="top"
             >
               {{ node.label }}
+            </el-timeline-item>
+          </el-timeline>
+        </div>
+
+        <!-- 变更记录（售后流水） -->
+        <div v-if="logs.length" class="card-block">
+          <div class="block-title">变更记录</div>
+          <el-timeline>
+            <el-timeline-item
+              v-for="log in logs"
+              :key="log.id"
+              :timestamp="log.createdAt"
+              placement="top"
+              :type="log.afterStatus === 'rejected' ? 'danger' : 'primary'"
+            >
+              <div class="log-title">
+                {{ log.operateTypeDesc }}
+                <span class="log-actor">{{ log.userTypeDesc }}</span>
+              </div>
+              <div class="log-content">{{ log.content }}</div>
             </el-timeline-item>
           </el-timeline>
         </div>
@@ -446,6 +478,29 @@ onMounted(load)
 /* ===== 表单 ===== */
 .aftersale-form {
   max-width: 760px;
+}
+
+/* ===== 变更记录 ===== */
+.log-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.log-actor {
+  margin-left: 8px;
+  padding: 1px 8px;
+  border-radius: 10px;
+  background: var(--bg-hover);
+  font-size: 12px;
+  font-weight: normal;
+  color: var(--text-secondary);
+}
+
+.log-content {
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--text-secondary);
 }
 
 .field-select {

@@ -22,7 +22,7 @@
 | P1 | 商品浏览（首页改版 ✅ / 详情补齐 / 筛选 / 状态统一） | 🔶 **首页已完成，其余待做** |
 | P2 | 账号 + 购物车 | ⬜ 未开始（⚠ 阻塞于后端 demo 登录） |
 | P3 | 交易（下单 / 模拟支付 / 订单） | ⬜ 未开始 |
-| P4 | 增强（收藏 / 评价 / 售后 / 优惠券 / 会员 / AI 客服） | ⬜ 未开始 |
+| P4 | 增强（收藏 / 评价 / 售后 / 优惠券 / 会员 / AI 客服） | 🔶 **评价已完成（2026-11-02）**，其余待做 |
 | P5 | 部署 | ✅ 首版已上线，替换页面时重复「构建 + 发布」 |
 
 ---
@@ -124,6 +124,29 @@
 - [x] 新增 findings 第十一节「四仓库对照」+ 商城端可抄的小程序资产清单
 - [x] task_plan 新增 1.6「目录卫生」，并把阶段二 2.1 的首页改版加上小程序组件对照
 
+### P4 评价：商品详情页评价区（2026-11-02）
+
+- [x] 后端补了 C 端只读接口（`e-commerce-boot` order-service）：
+      `GET /api/reviews/product/{id}`（分页）+ `GET /api/reviews/product/{id}/summary`（统计），免登录
+- [x] 新增 `src/api/review.js`：`getProductReviews` / `getReviewSummary`（走 `@/utils/request`，baseURL 是 `/api`）
+- [x] `src/views/products/ProductDetail.vue` 加「商品评价」section，**插在「商品参数」之前**
+      —— 详情页三块顺序定为 **商品评价 → 商品参数 → 图文详情**
+- [x] 展示：平均分 + 好评率 + 星级分布条 + 评价列表（昵称 / 星级 / 标签 / 内容 / 晒图 / 商家回复 / 时间）
+- [x] 虚拟评价标「系统评价」标签、昵称「系统」；真实评价昵称由后端脱敏（手机号打码）
+- [x] **默认只展开前 3 条** + 「查看全部评价」按钮（接口一次拉 20 条，展开不再请求）
+- [x] 一条评价最多一个视频 → 单独一行 `<video controls preload="none">`，视频不进图片九宫格
+- [x] 评价接口失败 `.catch(() => null)` 兜住，**评价挂了不影响详情页其它内容**
+- [x] **顺带补上一直没渲染的图文详情 body**：模板加 `<section class="detail-body" v-html="product.body"></section>`
+      （`.detail-body` 的 CSS 早就写好了，只是没有对应 DOM；`v-html` 写法照 `ArticleDetail.vue` 既有做法，
+      body 是后台运营录入的富文本不是用户输入，风险可控）
+- [x] `npx vite build` 通过
+- [x] **发版**（2026-11-02）：`./deploy/release-mall.sh`（**在 `e-commerce-boot` 仓库根目录执行**；
+      ⚠️ 裸的 `release-web.sh` 发的是后台管理端 jiemids.com，不是商城 —— 2026-10-31 发错过一次）
+      → 已发到 `/www/wwwroot/xiaojiecpn.com`
+- [x] 线上只读验收：同源代理 `www.xiaojiecpn.com/api/reviews/product/7` → ✅ 200；
+      页面 `www.xiaojiecpn.com/product/7` → ✅ 200
+- [ ] 人工过一眼页面渲染 + 如有 EdgeOne 缓存需手动刷新
+
 ---
 
 ## 三、进行中
@@ -166,7 +189,11 @@
 - [ ] P2 账号 + 购物车（**等后端加 `POST /api/demo-login`**）
       —— API 层与公共组件可参考小程序端 `api/cart.js` / `api/order.js` / `components/*`
 - [ ] P3 交易链路（下单带 `idempotencyKey`、金额调 `/api/orders/quote`、订单状态按 code 分组）
-- [ ] P4 收藏 / 售后 / 优惠券 / 会员（后端都已就绪，前端直接接）/ 评价（等后端补列表）
+- [ ] P4 收藏 / 售后 / 优惠券 / 会员（后端都已就绪，前端直接接）
+- [x] P4 评价（2026-11-02 完成）：后端补 `GET /api/reviews/product/{id}` + `/summary`（免登录），
+      商城详情页加评价区（评分条 / 评价列表 / 商家回复 / 视频播放器），
+      顺序 **商品评价 → 商品参数 → 图文详情**；顺带补上一直没渲染的图文详情 body。
+      **2026-11-02 已发版**（`./deploy/release-mall.sh`，注意别用 `release-web.sh`）；线上只读验收 200 ✅
 - [ ] P5 每次发布走「构建 → `./deploy/release-mall.sh` → 清 **EdgeOne** 缓存 → curl 验证」
       —— 发布脚本在 `e-commerce-boot` 仓库，**必须用 `release-mall.sh`**，它写死了 `WEB_DIR=../ecommerce-mall` + `WEB_ROOT=/www/wwwroot/xiaojiecpn.com`；
       裸的 `release-web.sh` 默认发后台管理端到 jiemids.com（2026-10-31 已发错过一次，误把后台端重发到 www.jiemids.com）
