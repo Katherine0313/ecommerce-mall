@@ -199,7 +199,8 @@ onMounted(load)
           :timestamp="trace.time"
           :type="i === 0 ? 'primary' : ''"
         >
-          {{ trace.desc }}
+          <div class="trace-status">{{ trace.status }}</div>
+          <div class="trace-desc">{{ trace.desc }}</div>
         </el-timeline-item>
       </el-timeline>
       <el-empty v-else description="暂无物流信息" />
@@ -339,6 +340,19 @@ onMounted(load)
 .amount-row.total span:last-child {
   color: var(--color-primary);
   font-size: 18px;
+}
+
+/* ===== 物流轨迹 ===== */
+.trace-status {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.trace-desc {
+  margin-top: 2px;
+  font-size: 13px;
+  color: var(--text-regular);
 }
 
 /* ===== 底部操作 ===== */

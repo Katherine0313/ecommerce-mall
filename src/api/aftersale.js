@@ -27,6 +27,9 @@ export const createAfterSale = (data) => request.post('/after-sales', data)
 export const submitAfterSaleReturn = (id, data) =>
   request.post(`/after-sales/${id}/submit-return`, data)
 
+// 买家确认上门取件（退货退款 → 退款中；换货保持退货中）
+export const pickupAfterSale = (id) => request.post(`/after-sales/${id}/pickup-complete`)
+
 // 上传售后图片凭证（multipart），返回 { url }
 export const uploadAfterSaleImage = (file) => {
   const formData = new FormData()

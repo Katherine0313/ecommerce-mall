@@ -7,6 +7,7 @@ import {
   getAfterSaleByOrder,
   getAfterSaleLogs,
   submitAfterSaleReturn,
+  pickupAfterSale,
 } from '@/api/aftersale.js'
 import { formatPrice } from '@/utils/format.js'
 
@@ -51,7 +52,13 @@ const effectiveReturnWay = computed(() => {
   if (isReturnRefund.value) return detail.value?.returnWay || ''
   return returnWay.value
 })
-const needCourier = computed(() => effectiveReturnWay.value === 'self')
+const needCourier = computed(
+  () => needSubmitReturn.value && effectiveReturnWay.value === 'self'
+)
+// 上门取件：点一下即代表快递员已取走包裹，不再需要时段/单号
+const needPickup = computed(
+  () => needSubmitReturn.value && effectiveReturnWay.value === 'pickup'
+)
 
 const refundTotal = computed(() =>
   (detail.value?.items || []).reduce(
@@ -65,6 +72,7 @@ const TIMELINE = [
   { key: 'createdAt', label: '提交售后申请' },
   { key: 'reviewAt', label: '商家审核通过' },
   { key: 'returnAt', label: '提交退货信息' },
+  { key: 'shipAt', label: '商家补发换货' },
   { key: 'refundAt', label: '商家发起退款' },
   { key: 'refundedAt', label: '退款完成' },
   { key: 'exchangeAt', label: '商家发起换货' },
@@ -109,6 +117,20 @@ async function load() {
     loadingError.value = e?.message || '售后信息加载失败'
   } finally {
     loading.value = false
+  }
+}
+
+async function confirmPickup() {
+  if (submitting.value) return
+  submitting.value = true
+  try {
+    await pickupAfterSale(detail.value.id)
+    ElMessage.success('已确认上门取件，包裹已由快递员取走')
+    await load()
+  } catch (e) {
+    ElMessage.error(e?.message || '确认失败')
+  } finally {
+    submitting.value = false
   }
 }
 
@@ -246,6 +268,18 @@ onMounted(load)
               </el-select>
             </el-form-item>
 
+            <el-form-item
+              v-if="needPickup"
+              label="上门取件"
+            >
+              <div class="pickup-row">
+                <el-button type="primary" :loading="submitting" @click="confirmPickup">
+                  已上门取件
+                </el-button>
+                <span class="pickup-hint">快递员已取走包裹？点击即代表确认寄出</span>
+              </div>
+            </el-form-item>
+
             <template v-if="needCourier">
               <el-form-item label="快递公司" required>
                 <el-input v-model="courier" maxlength="30" placeholder="如：顺丰速运" />
@@ -256,7 +290,7 @@ onMounted(load)
             </template>
 
             <el-form-item>
-              <el-button type="primary" :loading="submitting" @click="submitReturn">
+              <el-button v-if="needCourier" type="primary" :loading="submitting" @click="submitReturn">
                 提交退货信息
               </el-button>
             </el-form-item>
@@ -283,6 +317,10 @@ onMounted(load)
             <el-descriptions-item label="实付金额">
               ¥{{ formatPrice(detail.payAmount) }}
             </el-descriptions-item>
+            <el-descriptions-item label="退款金额">
+              ¥{{ formatPrice(detail.refundAmount || refundTotal) }}
+              <span v-if="detail.refundNo"> · {{ detail.refundNo }}</span>
+            </el-descriptions-item>
             <el-descriptions-item v-if="detail.returnWay" label="退货方式">
               {{ RETURN_WAY_TEXT[detail.returnWay] || detail.returnWay }}
               <span v-if="detail.returnTimeSlot">
@@ -291,6 +329,10 @@ onMounted(load)
             </el-descriptions-item>
             <el-descriptions-item v-if="detail.shipAddress" label="换货收货地址">
               {{ detail.shipAddress }}
+            </el-descriptions-item>
+            <el-descriptions-item v-if="detail.pickupAt" label="上门取件">
+              {{ detail.pickupAt }}
+              <span v-if="detail.pickupNo"> · {{ detail.pickupNo }}</span>
             </el-descriptions-item>
             <el-descriptions-item v-if="detail.courier || detail.returnCourier" label="退货物流">
               {{ detail.returnCourierDesc || detail.returnCourier || detail.courierDesc || detail.courier }}
@@ -478,6 +520,17 @@ onMounted(load)
 /* ===== 表单 ===== */
 .aftersale-form {
   max-width: 760px;
+}
+
+.pickup-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.pickup-hint {
+  font-size: 13px;
+  color: var(--text-secondary);
 }
 
 /* ===== 变更记录 ===== */
