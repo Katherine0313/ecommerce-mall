@@ -591,7 +591,25 @@ watch(() => route.params.id, load, { immediate: true })
                 </span>
               </div>
             </div>
-
+            <!-- 服务保障 -->
+            <div class="assurance-row">
+              <span class="assurance-item">
+                <el-icon><Medal /></el-icon>
+                正品保证
+              </span>
+              <span class="assurance-item">
+                <el-icon><Lightning /></el-icon>
+                极速退款
+              </span>
+              <span class="assurance-item">
+                <el-icon><Clock /></el-icon>
+                七天无理由
+              </span>
+              <span class="assurance-item">
+                <el-icon><Location /></el-icon>
+                全国联保
+              </span>
+            </div>
             <!-- 规格选择：淘宝式，每维度一行平铺标签；选中红框，缺货置灰 -->
             <div class="spec-section" v-if="hasSpecs">
               <div class="spec-row" v-for="g in skuSpecs" :key="g.name">
@@ -612,9 +630,7 @@ watch(() => route.params.id, load, { immediate: true })
                   </button>
                 </div>
               </div>
-              <div class="spec-tip">
-                {{ selectedSpecText ? '已选：' + selectedSpecText : '请选择规格' }}
-              </div>
+
             </div>
 
             <!-- 基本信息 -->
@@ -637,26 +653,6 @@ watch(() => route.params.id, load, { immediate: true })
                   {{ soldOut ? '已售罄' : `${currentStock} 件` }}
                 </span>
               </div>
-            </div>
-
-            <!-- 服务保障 -->
-            <div class="assurance-row">
-              <span class="assurance-item">
-                <el-icon><Medal /></el-icon>
-                正品保证
-              </span>
-              <span class="assurance-item">
-                <el-icon><Lightning /></el-icon>
-                极速退款
-              </span>
-              <span class="assurance-item">
-                <el-icon><Clock /></el-icon>
-                七天无理由
-              </span>
-              <span class="assurance-item">
-                <el-icon><Location /></el-icon>
-                全国联保
-              </span>
             </div>
 
             <!-- 数量 -->
@@ -885,13 +881,6 @@ watch(() => route.params.id, load, { immediate: true })
   font-size: 13px;
 }
 
-.img-tip {
-  margin-top: 8px;
-  text-align: center;
-  font-size: 12px;
-  color: var(--text-placeholder);
-}
-
 /* ===== 标题 ===== */
 .title {
   font-size: 22px;
@@ -994,7 +983,7 @@ watch(() => route.params.id, load, { immediate: true })
 }
 
 .spec-row .row-label {
-  width: 40px;
+  width: 80px;
   flex-shrink: 0;
   line-height: 30px;
   color: var(--text-placeholder);
@@ -1038,11 +1027,6 @@ watch(() => route.params.id, load, { immediate: true })
   text-decoration: line-through;
 }
 
-.spec-tip {
-  padding-left: 56px;
-  font-size: 12px;
-  color: var(--text-placeholder);
-}
 
 /* ===== 基本信息 ===== */
 .info-card {
@@ -1054,13 +1038,13 @@ watch(() => route.params.id, load, { immediate: true })
 .info-row {
   display: flex;
   gap: 16px;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 2;
 }
 
 .info-label {
   color: var(--text-placeholder);
-  width: 40px;
+  width: 80px;
   flex-shrink: 0;
 }
 
@@ -1097,6 +1081,7 @@ watch(() => route.params.id, load, { immediate: true })
 .row-label {
   font-size: 13px;
   color: var(--text-regular);
+  width:80px;
 }
 
 /* ===== 增值保障 ===== */
