@@ -19,6 +19,9 @@ export const useCartStore = defineStore('cart', () => {
 
   const isLoggedIn = () => !!getToken()
 
+  // 购物车行身份：多规格用 skuId，旧数据/单规格用商品 ID
+  const rowKey = (item) => (item.skuId != null ? `s${item.skuId}` : `p${item.productId}`)
+
   // 从后端拉取购物车（打开购物车弹窗时调用）
   async function load() {
     if (!isLoggedIn()) {
@@ -40,19 +43,30 @@ export const useCartStore = defineStore('cart', () => {
   )
 
   // 加购：本地先更新，接口失败再回滚成后端真实数据
-  async function addItem(product, quantity = 1, insuranceDetail = [], insuranceFee = 0) {
+  // extra：{ skuId, specJson, price }，详情页选了规格时带上
+  async function addItem(product, quantity = 1, insuranceDetail = [], insuranceFee = 0, extra = {}) {
     const productId = product.id ?? product.productId
-    const exist = items.value.find((i) => i.productId === productId)
+    const skuId = extra.skuId ?? null
+    const specJson = extra.specJson || {}
+    const price = extra.price != null ? Number(extra.price) : Number(product.price) || 0
+    const exist = items.value.find((i) =>
+      skuId != null ? i.skuId === skuId : i.productId === productId && i.skuId == null
+    )
     if (exist) {
       exist.quantity += quantity
       exist.insuranceDetail = insuranceDetail
       exist.insuranceFee = insuranceFee
+      exist.skuId = skuId
+      exist.specJson = specJson
+      exist.price = price
     } else {
       items.value.push({
         productId,
+        skuId,
         name: product.name,
         image: product.image || '',
-        price: Number(product.price) || 0,
+        price,
+        specJson,
         quantity,
         insuranceDetail,
         insuranceFee,
@@ -60,42 +74,55 @@ export const useCartStore = defineStore('cart', () => {
     }
 
     try {
-      await addCartItem({ productId, quantity, insuranceDetail, insuranceFee })
+      await addCartItem({
+        productId,
+        skuId,
+        specJson: Object.keys(specJson).length ? JSON.stringify(specJson) : null,
+        quantity,
+        insuranceDetail,
+        insuranceFee,
+      })
     } catch (e) {
       await load()
       throw e
     }
   }
 
-  async function removeItem(productId) {
-    items.value = items.value.filter((i) => i.productId !== productId)
+  async function removeItem(productId, skuId) {
+    items.value = items.value.filter((i) =>
+      skuId != null ? i.skuId !== skuId : i.productId !== productId
+    )
     try {
-      await removeCartItem(productId)
+      await removeCartItem(productId, skuId)
     } catch {
       await load()
     }
   }
 
-  async function updateQuantity(productId, quantity) {
-    const exist = items.value.find((i) => i.productId === productId)
+  async function updateQuantity(productId, skuId, quantity) {
+    const exist = items.value.find((i) =>
+      skuId != null ? i.skuId === skuId : i.productId === productId && i.skuId == null
+    )
     if (!exist) return
     const qty = Math.max(1, quantity)
     exist.quantity = qty
     try {
-      await updateCartItem(productId, { quantity: qty })
+      await updateCartItem(productId, { quantity: qty, skuId: skuId ?? exist.skuId ?? null })
     } catch {
       await load()
     }
   }
 
-  async function clear(productIds) {
-    if (productIds?.length) {
+  async function clear(productIds, skuIds) {
+    if (skuIds?.length) {
+      items.value = items.value.filter((i) => !skuIds.includes(i.skuId))
+    } else if (productIds?.length) {
       items.value = items.value.filter((i) => !productIds.includes(i.productId))
     } else {
       items.value = []
     }
     try {
-      await clearCart(productIds)
+      await clearCart(productIds, skuIds)
     } catch {
       await load()
     }
@@ -116,5 +143,6 @@ export const useCartStore = defineStore('cart', () => {
     updateQuantity,
     clear,
     resetLocal,
+    rowKey,
   }
 })

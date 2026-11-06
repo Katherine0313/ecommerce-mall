@@ -67,24 +67,70 @@ const refundTotal = computed(() =>
   )
 )
 
-// 时间线节点：只展示有时间的环节
-const TIMELINE = [
-  { key: 'createdAt', label: '提交售后申请' },
-  { key: 'reviewAt', label: '商家审核通过' },
-  { key: 'returnAt', label: '提交退货信息' },
-  { key: 'shipAt', label: '商家补发换货' },
-  { key: 'refundAt', label: '商家发起退款' },
-  { key: 'refundedAt', label: '退款完成' },
-  { key: 'exchangeAt', label: '商家发起换货' },
-  { key: 'exchangedAt', label: '换货完成' },
-  { key: 'rejectedAt', label: '商家拒绝售后' },
-]
-const timeline = computed(() =>
-  TIMELINE.filter((t) => detail.value?.[t.key]).map((t) => ({
-    label: t.label,
-    time: detail.value[t.key],
-  }))
-)
+// ===== 售后进度条（按售后类型动态生成步骤）=====
+// 步骤定义：仅退款 4 步，退货退款 / 换货 5 步
+const steps = computed(() => {
+  const d = detail.value
+  if (!d) return []
+  const type = d.afterSaleType
+  if (type === 'only_refund') {
+    return [
+      { key: 'createdAt', title: '提交申请', time: d.createdAt },
+      { key: 'reviewAt', title: '商家审核', time: d.reviewAt, reject: d.status === 'rejected' },
+      { key: 'refundAt', title: '退款处理', time: d.refundAt },
+      { key: 'refundedAt', title: '退款完成', time: d.refundedAt },
+    ]
+  }
+  if (type === 'return_refund') {
+    return [
+      { key: 'createdAt', title: '提交申请', time: d.createdAt },
+      { key: 'reviewAt', title: '商家审核', time: d.reviewAt, reject: d.status === 'rejected' },
+      { key: 'returnAt', title: '买家退货', time: d.returnAt },
+      { key: 'refundAt', title: '商家退款', time: d.refundAt },
+      { key: 'refundedAt', title: '退款完成', time: d.refundedAt },
+    ]
+  }
+  // exchange 换货
+  return [
+    { key: 'createdAt', title: '提交申请', time: d.createdAt },
+    { key: 'reviewAt', title: '商家审核', time: d.reviewAt, reject: d.status === 'rejected' },
+    { key: 'returnAt', title: '买家退货', time: d.returnAt },
+    { key: 'shipAt', title: '商家发货', time: d.shipAt },
+    { key: 'exchangedAt', title: '换货完成', time: d.exchangedAt },
+  ]
+})
+
+// 当前进度（0-based，el-steps 的 active）
+const stepCurrent = computed(() => {
+  const d = detail.value
+  if (!d) return 0
+  const status = d.status
+  const type = d.afterSaleType
+  if (status === 'rejected') return 1 // 拒绝停在「商家审核」并标红
+  if (status === 'reviewing') return 1
+  if (status === 'returning') return type === 'only_refund' ? 1 : 2
+  if (status === 'refunding') return type === 'only_refund' ? 2 : 3
+  if (status === 'exchanging') return 3
+  if (status === 'refunded' || status === 'exchanged') return steps.value.length
+  return 0
+})
+
+// 每步描述文字：已完成显示时间，进行中显示状态，否则「待处理」
+function stepDescription(step) {
+  const d = detail.value
+  if (!d) return ''
+  if (step.time) return step.time
+  const status = d.status
+  if (step.key === 'reviewAt') {
+    if (status === 'reviewing') return '审核中'
+    if (status === 'rejected') return d.rejectedAt || '不通过'
+    return '待处理'
+  }
+  if (step.key === 'returnAt' && status === 'returning') return '退货中'
+  if (step.key === 'refundAt' && status === 'refunding') return '退款中'
+  if (step.key === 'shipAt' && status === 'exchanging') return '发货中'
+  return '待处理'
+}
 
 const RETURN_WAY_TEXT = { pickup: '上门取件', self: '自行寄回' }
 const TIME_SLOT_TEXT = { morning: '上午 09:00 - 13:00', afternoon: '下午 13:00 - 19:00' }
@@ -208,19 +254,18 @@ onMounted(load)
           </div>
         </div>
 
-        <!-- 进度 -->
-        <div v-if="timeline.length" class="card-block">
-          <div class="block-title">处理进度</div>
-          <el-timeline>
-            <el-timeline-item
-              v-for="node in timeline"
-              :key="node.label"
-              :timestamp="node.time"
-              placement="top"
-            >
-              {{ node.label }}
-            </el-timeline-item>
-          </el-timeline>
+        <!-- 售后进度条 -->
+        <div class="card-block">
+          <div class="block-title">售后进度</div>
+          <el-steps :active="stepCurrent" align-center finish-status="success" class="aftersale-steps">
+            <el-step
+              v-for="step in steps"
+              :key="step.key"
+              :title="step.title"
+              :description="stepDescription(step)"
+              :status="step.reject ? 'error' : undefined"
+            />
+          </el-steps>
         </div>
 
         <!-- 变更记录（售后流水） -->
@@ -566,5 +611,37 @@ onMounted(load)
   justify-content: center;
   gap: var(--space-md);
   padding: var(--space-md) 0;
+}
+
+/* ===== 售后进度条（适配移动端）===== */
+.aftersale-steps {
+  padding: 8px 0 4px;
+}
+
+/* 移动端：缩小步骤标题/描述字号，允许换行，避免 5 步时被挤 */
+.aftersale-steps :deep(.el-step__title) {
+  font-size: 12px;
+  white-space: normal;
+  line-height: 1.4;
+}
+
+.aftersale-steps :deep(.el-step__description) {
+  font-size: 11px;
+  white-space: normal;
+  word-break: break-all;
+  line-height: 1.4;
+  padding-top: 2px;
+}
+
+/* 窄屏：让步骤图标缩小、间距收紧 */
+@media (max-width: 480px) {
+  .aftersale-steps :deep(.el-step__icon) {
+    width: 24px;
+    height: 24px;
+  }
+
+  .aftersale-steps :deep(.el-step__icon-inner) {
+    font-size: 12px !important;
+  }
 }
 </style>

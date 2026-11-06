@@ -6,6 +6,7 @@ import { Medal, Lightning, Clock, Location, Discount } from '@element-plus/icons
 import { getProduct, getProductTags } from '@/api/product.js'
 import { getProductReviews, getReviewSummary } from '@/api/review.js'
 import { formatPrice } from '@/utils/format.js'
+import { findSku, isSpecComplete, isValueSelectable, specText } from '@/utils/sku.js'
 import { savePendingAction, takePendingAction } from '@/utils/login-action.js'
 import StoreCard from '@/components/StoreCard.vue'
 import AddCartDialog from '@/components/AddCartDialog.vue'
@@ -46,7 +47,27 @@ const quantity = ref(1)
 // 增值保障选中状态（可选项由后端按商品属性返回，费用直接用后端算好的）
 const selectedInsurance = ref([]) // 已勾选的保障项 code
 
-const price = computed(() => Number(product.value?.price) || 0)
+// ===== 商品规格（淘宝式：详情页内联选择，不走弹窗）=====
+// 已选规格：{ 颜色: '曜石黑', 内存: '256G' }
+const selectedSpec = ref({})
+// 规格维度与 SKU 列表：后端 P1 未上线时为空数组，页面自动按单规格展示
+const skuSpecs = computed(() => (Array.isArray(product.value?.skuSpecs) ? product.value.skuSpecs : []))
+const skus = computed(() => (Array.isArray(product.value?.skus) ? product.value.skus : []))
+const hasSpecs = computed(() => skuSpecs.value.length > 0)
+const selectedSku = computed(() => findSku(skus.value, selectedSpec.value, skuSpecs.value))
+
+const price = computed(() => Number(selectedSku.value?.price ?? product.value?.price) || 0)
+const marketPrice = computed(() => {
+  const sku = selectedSku.value
+  if (sku && sku.marketPrice != null) return Number(sku.marketPrice)
+  return Number(product.value?.marketPrice) || 0
+})
+const currentStock = computed(() => {
+  const sku = selectedSku.value
+  if (sku && sku.stock != null) return Number(sku.stock)
+  return Number(product.value?.stock ?? 0)
+})
+const selectedSpecText = computed(() => specText(selectedSpec.value, skuSpecs.value))
 
 // 可选增值保障项：后端按商品属性算出（配件类、低价商品返回空数组）
 const insuranceOptions = computed(() =>
@@ -173,7 +194,40 @@ function openThumb(i) {
   previewVisible.value = true
 }
 
-const soldOut = computed(() => Number(product.value?.stock ?? 0) <= 0)
+// 多规格：只有选全了才判断所选 SKU 的库存；没选全不算售罄
+const soldOut = computed(() => {
+  if (hasSpecs.value) {
+    return selectedSku.value ? Number(selectedSku.value.stock) <= 0 : false
+  }
+  return Number(product.value?.stock ?? 0) <= 0
+})
+
+// 规格值是否可点：当前值始终可点，其余看有没有有货组合
+function canSelectValue(groupName, value) {
+  if (selectedSpec.value[groupName] === value) return true
+  return isValueSelectable(skus.value, selectedSpec.value, groupName, value)
+}
+
+// 点规格值：C 端单选，点别的值直接切换
+function selectSpec(groupName, value) {
+  if (!canSelectValue(groupName, value)) {
+    ElMessage.warning('该规格暂时缺货')
+    return
+  }
+  selectedSpec.value = { ...selectedSpec.value, [groupName]: value }
+  // 换规格后库存可能变小，数量超了就收到上限
+  if (quantity.value > currentStock.value) {
+    quantity.value = Math.max(1, currentStock.value)
+  }
+}
+
+// 多规格必须选全才能加购/下单
+function ensureSpecSelected() {
+  if (!hasSpecs.value || isSpecComplete(selectedSpec.value, skuSpecs.value)) return true
+  const miss = skuSpecs.value.filter((g) => !selectedSpec.value[g.name]).map((g) => g.name)
+  ElMessage.warning('请选择 ' + miss.join('、'))
+  return false
+}
 
 // 标签配色：后端 color 约定为 #RRGGBB，异常值回退主题色；背景用 8 位 hex 加透明度
 function tagStyle(tag) {
@@ -210,6 +264,13 @@ async function load(id) {
       getProductTags(id).catch(() => []),
     ])
     product.value = data
+    // 换商品时重置规格选择：只有一个值的维度自动选中
+    const specs = Array.isArray(data?.skuSpecs) ? data.skuSpecs : []
+    const autoSpec = {}
+    specs.forEach((g) => {
+      if (Array.isArray(g.values) && g.values.length === 1) autoSpec[g.name] = g.values[0]
+    })
+    selectedSpec.value = autoSpec
     productTags.value = (tags || []).filter((t) => t.status !== 0)
     // 评价同样是辅助信息，失败不打断详情加载
     loadReviews(id)
@@ -238,7 +299,12 @@ function resumePendingAddCart(currentId) {
     product.value,
     pending.quantity || 1,
     pending.insuranceDetail || [],
-    Number(pending.insuranceFee) || 0
+    Number(pending.insuranceFee) || 0,
+    {
+      skuId: pending.skuId ?? null,
+      specJson: pending.specJson || {},
+      price: pending.price ?? null,
+    }
   )
     .then(() => {
       ElMessage.success('已加入购物车')
@@ -259,6 +325,7 @@ const insuranceDetail = computed(() =>
 // 购买前校验：售罄 / 未登录
 // 未登录：记下「登录后要加购的商品」，跳登录页，登录成功跳回来自动加购
 function canBuy() {
+  if (!ensureSpecSelected()) return false
   if (soldOut.value) {
     ElMessage.warning('该商品已售罄')
     return false
@@ -270,6 +337,9 @@ function canBuy() {
       quantity: quantity.value,
       insuranceDetail: insuranceDetail.value,
       insuranceFee: Number(insuranceFee.value),
+      skuId: selectedSku.value?.id ?? null,
+      specJson: selectedSpec.value,
+      price: selectedSku.value?.price ?? null,
     })
     router.push({ path: '/login', query: { redirect: route.fullPath } })
     return false
@@ -293,7 +363,12 @@ function addCurrentToCart() {
     product.value,
     quantity.value,
     insuranceDetail.value,
-    Number(insuranceFee.value)
+    Number(insuranceFee.value),
+    {
+      skuId: selectedSku.value?.id ?? null,
+      specJson: selectedSpec.value,
+      price: selectedSku.value?.price ?? null,
+    }
   )
 }
 
@@ -502,17 +577,43 @@ watch(() => route.params.id, load, { immediate: true })
             <div class="price-box">
               <div class="price-row">
                 <span class="price">
-                  <span class="price-unit">¥</span>{{ formatPrice(product.price) }}
+                  <span class="price-unit">¥</span>{{ formatPrice(price) }}
+                  <span v-if="hasSpecs && !selectedSku" class="price-from">起</span>
                 </span>
                 <span v-if="product.promotionTag" class="promo-tag">{{ product.promotionTag }}</span>
               </div>
-              <div v-if="product.originalPrice || product.marketPrice" class="price-sub">
+              <div v-if="product.originalPrice || marketPrice" class="price-sub">
                 <span v-if="product.originalPrice" class="origin">
                   活动前 ¥{{ formatPrice(product.originalPrice) }}
                 </span>
-                <span v-if="product.marketPrice" class="market">
-                  市场价 ¥{{ formatPrice(product.marketPrice) }}
+                <span v-if="marketPrice" class="market">
+                  市场价 ¥{{ formatPrice(marketPrice) }}
                 </span>
+              </div>
+            </div>
+
+            <!-- 规格选择：淘宝式，每维度一行平铺标签；选中红框，缺货置灰 -->
+            <div class="spec-section" v-if="hasSpecs">
+              <div class="spec-row" v-for="g in skuSpecs" :key="g.name">
+                <span class="row-label">{{ g.name }}</span>
+                <div class="spec-values">
+                  <button
+                    type="button"
+                    class="spec-chip"
+                    v-for="v in g.values"
+                    :key="v"
+                    :class="{
+                      active: selectedSpec[g.name] === v,
+                      disabled: !canSelectValue(g.name, v),
+                    }"
+                    @click="selectSpec(g.name, v)"
+                  >
+                    {{ v }}
+                  </button>
+                </div>
+              </div>
+              <div class="spec-tip">
+                {{ selectedSpecText ? '已选：' + selectedSpecText : '请选择规格' }}
               </div>
             </div>
 
@@ -523,7 +624,7 @@ watch(() => route.params.id, load, { immediate: true })
                 <span class="info-value">{{ product.brand || '—' }}</span>
               </div>
               <div class="info-row">
-                <span class="info-label">规格</span>
+                <span class="info-label">购买方式</span>
                 <span class="info-value">官方标配</span>
               </div>
               <div class="info-row">
@@ -533,7 +634,7 @@ watch(() => route.params.id, load, { immediate: true })
               <div class="info-row">
                 <span class="info-label">库存</span>
                 <span class="info-value" :class="{ 'stock-out': soldOut }">
-                  {{ soldOut ? '已售罄' : `${product.stock} 件` }}
+                  {{ soldOut ? '已售罄' : `${currentStock} 件` }}
                 </span>
               </div>
             </div>
@@ -564,7 +665,7 @@ watch(() => route.params.id, load, { immediate: true })
               <el-input-number
                 v-model="quantity"
                 :min="1"
-                :max="Math.max(product.stock || 1, 1)"
+                :max="Math.max(currentStock || 1, 1)"
                 :disabled="soldOut"
                 size="small"
               />
@@ -847,6 +948,13 @@ watch(() => route.params.id, load, { immediate: true })
   font-weight: 600;
 }
 
+/* 多规格未选全时的「起」字 */
+.price-from {
+  margin-left: 2px;
+  font-size: 14px;
+  font-weight: 400;
+}
+
 /* 促销标签：白底红字，压在红色底图上更醒目 */
 .promo-tag {
   padding: 2px 8px;
@@ -870,6 +978,70 @@ watch(() => route.params.id, load, { immediate: true })
   text-decoration: line-through;
   color: rgba(255, 255, 255, 0.8);
   font-size: 14px;
+}
+
+/* ===== 规格选择（淘宝式内联）===== */
+.spec-section {
+  border-top: 1px solid var(--border-light);
+  padding: 12px 0 4px;
+}
+
+.spec-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.spec-row .row-label {
+  width: 40px;
+  flex-shrink: 0;
+  line-height: 30px;
+  color: var(--text-placeholder);
+}
+
+.spec-values {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* 规格标签：选中红框，缺货灰底划线不可点 */
+.spec-chip {
+  min-width: 54px;
+  height: 30px;
+  padding: 0 12px;
+  font-size: 13px;
+  color: var(--text-regular);
+  background: var(--bg-page);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+
+.spec-chip:hover:not(.disabled):not(.active) {
+  border-color: var(--color-primary-light);
+}
+
+.spec-chip.active {
+  color: #ff3b30;
+  background: #fff1f0;
+  border-color: #ff3b30;
+}
+
+.spec-chip.disabled {
+  color: var(--text-placeholder);
+  opacity: 0.55;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
+.spec-tip {
+  padding-left: 56px;
+  font-size: 12px;
+  color: var(--text-placeholder);
 }
 
 /* ===== 基本信息 ===== */

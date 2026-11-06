@@ -24,12 +24,12 @@
         <div class="cart-items">
           <div
             v-for="item in cartStore.items"
-            :key="item.productId"
+            :key="itemKey(item)"
             class="cart-item-card"
-            :class="{ selected: selectedIds.has(item.productId) }"
+            :class="{ selected: selectedIds.has(itemKey(item)) }"
           >
-            <div class="item-check" @click="toggleSelect(item.productId)">
-              <el-icon v-if="selectedIds.has(item.productId)" class="check-icon checked">
+            <div class="item-check" @click="toggleSelect(itemKey(item))">
+              <el-icon v-if="selectedIds.has(itemKey(item))" class="check-icon checked">
                 <CircleCheckFilled />
               </el-icon>
               <span v-else class="check-circle"></span>
@@ -40,7 +40,7 @@
             <div class="item-info">
               <div class="item-name">{{ item.name }}</div>
               <div class="item-meta">
-                <span class="item-badge">官方标配</span>
+                <span class="item-badge">{{ specLabel(item.specJson) || '官方标配' }}</span>
               </div>
               <div class="item-price">
                 <span class="price-symbol">￥</span>
@@ -52,12 +52,12 @@
             <div class="item-stepper">
               <button
                 class="step-btn"
-                @click="cartStore.updateQuantity(item.productId, Math.max(1, item.quantity - 1))"
+                @click="cartStore.updateQuantity(item.productId, item.skuId, Math.max(1, item.quantity - 1))"
               >
                 −
               </button>
               <span class="step-num">{{ item.quantity }}</span>
-              <button class="step-btn" @click="cartStore.updateQuantity(item.productId, item.quantity + 1)">
+              <button class="step-btn" @click="cartStore.updateQuantity(item.productId, item.skuId, item.quantity + 1)">
                 +
               </button>
             </div>
@@ -68,7 +68,7 @@
             </div>
 
             <div class="item-actions">
-              <el-button text class="action-btn" @click="cartStore.removeItem(item.productId)">
+              <el-button text class="action-btn" @click="cartStore.removeItem(item.productId, item.skuId)">
                 <el-icon><Delete /></el-icon>
                 删除
               </el-button>
@@ -163,6 +163,7 @@ import {
 import { useCartStore } from '@/stores/cart.js'
 import { useUserStore } from '@/stores/user.js'
 import { formatPrice } from '@/utils/format.js'
+import { specLabel } from '@/utils/sku.js'
 import StoreCard from '@/components/StoreCard.vue'
 
 const cartStore = useCartStore()
@@ -184,6 +185,9 @@ onMounted(() => {
 // ============ 选中逻辑 ============
 const selectedIds = ref(new Set())
 
+// 行身份：多规格用 skuId，单规格/旧数据用商品 ID
+const itemKey = (item) => cartStore.rowKey(item)
+
 function toggleSelect(id) {
   const next = new Set(selectedIds.value)
   if (next.has(id)) next.delete(id)
@@ -192,13 +196,13 @@ function toggleSelect(id) {
 }
 
 const isAllSelected = computed(
-  () => cartStore.items.length > 0 && cartStore.items.every((i) => selectedIds.value.has(i.productId))
+  () => cartStore.items.length > 0 && cartStore.items.every((i) => selectedIds.value.has(itemKey(i)))
 )
 
 function toggleSelectAll() {
   selectedIds.value = isAllSelected.value
     ? new Set()
-    : new Set(cartStore.items.map((i) => i.productId))
+    : new Set(cartStore.items.map((i) => itemKey(i)))
 }
 
 // ============ 批量删除 ============
@@ -213,15 +217,16 @@ async function handleBatchDelete() {
     return // 用户取消
   }
 
-  const ids = [...selectedIds.value]
-  for (const id of ids) await cartStore.removeItem(id)
+  for (const item of selectedItems.value) {
+    await cartStore.removeItem(item.productId, item.skuId)
+  }
   selectedIds.value = new Set()
   ElMessage.success('已删除')
 }
 
 // ============ 计算属性 ============
 const selectedItems = computed(() =>
-  cartStore.items.filter((i) => selectedIds.value.has(i.productId))
+  cartStore.items.filter((i) => selectedIds.value.has(itemKey(i)))
 )
 
 const selectedCount = computed(() =>

@@ -59,7 +59,7 @@
             <div class="item-info">
               <div class="item-name">{{ item.name }}</div>
               <div class="item-meta">
-                <span class="item-badge">官方标配</span>
+                <span class="item-badge">{{ specLabel(item.specJson) || '官方标配' }}</span>
               </div>
               <div class="item-price">
                 <span class="price-symbol">￥</span>
@@ -156,6 +156,7 @@ import { useCartStore } from '@/stores/cart.js'
 import { getAddressList } from '@/api/address.js'
 import { createOrder } from '@/api/order.js'
 import { formatPrice } from '@/utils/format.js'
+import { specLabel } from '@/utils/sku.js'
 import StoreCard from '@/components/StoreCard.vue'
 import Address from './Address.vue'
 
@@ -290,17 +291,26 @@ async function handlePay() {
       detailAddress: defaultAddress.value.detailAddress,
       remark: '',
       idempotencyKey: newIdempotencyKey(),
-      items: checkedItems.value.map((i) => ({
-        productId: i.productId,
-        quantity: i.quantity,
-        // 后端 OrderItemDTO.insuranceDetail 是 JSON 字符串
-        insuranceDetail: JSON.stringify(i.insuranceDetail || []),
-        insuranceFee: i.insuranceFee || 0,
-      })),
+      items: checkedItems.value.map((i) => {
+        const row = {
+          productId: i.productId,
+          quantity: i.quantity,
+          // 后端 OrderItemDTO.insuranceDetail 是 JSON 字符串
+          insuranceDetail: JSON.stringify(i.insuranceDetail || []),
+          insuranceFee: i.insuranceFee || 0,
+        }
+        // 详情页选过规格的带 skuId + 规格快照，订单明细据此锁价
+        if (i.skuId != null) {
+          row.skuId = i.skuId
+          row.specJson =
+            typeof i.specJson === 'string' ? i.specJson : JSON.stringify(i.specJson || {})
+        }
+        return row
+      }),
     })
 
     // 下单成功：移出购物车，跳支付结果页
-    for (const item of checkedItems.value) await cartStore.removeItem(item.productId)
+    for (const item of checkedItems.value) await cartStore.removeItem(item.productId, item.skuId)
     router.push(`/pay/${order.id}`)
   } catch (e) {
     ElMessage.error(e?.message || '下单失败')

@@ -9,11 +9,13 @@ export const getCartCount = () => request.get('/cart/count')
 // 加入购物车：{ productId, quantity, insuranceDetail, insuranceFee }
 export const addCartItem = (data) => request.post('/cart', data)
 
-// 更新数量：{ quantity }
+// 更新数量：{ quantity, skuId }
 export const updateCartItem = (productId, data) => request.put(`/cart/${productId}`, data)
 
-// 移除某个商品
-export const removeCartItem = (productId) => request.delete(`/cart/${productId}`)
+// 移除某一行：多规格带 skuId，避免误删同商品其它规格
+export const removeCartItem = (productId, skuId) =>
+  request.delete(`/cart/${productId}`, { params: skuId != null ? { skuId } : {} })
 
-// 清空购物车；传 productIds 时只删这些商品
-export const clearCart = (productIds) => request.delete('/cart', { data: { productIds } })
+// 清空购物车；传 skuIds/productIds 时只删这些行
+export const clearCart = (productIds, skuIds) =>
+  request.delete('/cart', { data: { productIds, skuIds } })
