@@ -190,6 +190,7 @@ function searchByKeyword(word) {
               src="/image/zongjie.webp"
               fit="cover"
               alt="我的头像"
+              :preview-src-list="[]"
             />
             <template #dropdown>
               <el-dropdown-menu>

@@ -69,11 +69,6 @@ const CATEGORY_ICONS = {
 }
 const categoryIcon = (c) => CATEGORY_ICONS[c.name] || Goods
 
-// 二级分类平铺行（窄屏用）：把所有一级分类的二级子分类拉平
-// 触屏触发不了 hover 浮层，窄屏直接铺出来让用户点得到
-const subCategories = computed(() =>
-  categories.value.flatMap((c) => c.children || [])
-)
 // 合并后的商品流：recommend 优先置顶，其余商品去重后按原顺序补齐
 const productFlow = ref([])
 const page = ref(1)
@@ -168,19 +163,6 @@ onMounted(async () => {
               </div>
             </li>
           </ul>
-
-          <!-- 二级分类平铺行：窄屏专用。触屏触发不了 hover 浮层，
-               这里把二级分类按顺序铺成一条横滑行，一级分类在下面点 -->
-          <div v-if="subCategories.length" class="sub-chips">
-            <router-link
-              v-for="s in subCategories"
-              :key="s.id"
-              :to="`/category/${s.id}`"
-              class="sub-chip"
-            >
-              {{ s.name }}
-            </router-link>
-          </div>
         </div>
 
         <!-- 中间：Banner 轮播 -->
@@ -333,11 +315,6 @@ onMounted(async () => {
   font-size: 15px;
   line-height: 1;
   color: var(--text-placeholder);
-}
-
-/* 二级分类平铺行：窄屏专用，PC 端隐藏（PC 用 hover 浮层） */
-.sub-chips {
-  display: none;
 }
 
 /* ===== hover 展开的二级分类浮层（淘宝式） ===== */
@@ -563,7 +540,7 @@ onMounted(async () => {
     box-shadow: var(--shadow-sm);
   }
 
-  /* ===== 分类栏：小屏改成「一级分类横滑 + 二级分类横滑」双行 ===== */
+  /* ===== 分类栏：小屏只保留一级分类横滑一行，二级分类不进首页 ===== */
   .side-bar.l {
     width: 100%;
     /* 小屏分类栏占满整行 */
@@ -615,42 +592,7 @@ onMounted(async () => {
     display: none;
   }
 
-  /* 二级分类横滑行 */
-  .sub-chips {
-    display: flex;
-    gap: var(--space-sm);
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding: 0 8px 8px;
-    border-top: 1px solid var(--border-light);
-    margin-top: 4px;
-  }
-
-  .sub-chips::-webkit-scrollbar {
-    display: none;
-  }
-
-  .sub-chip {
-    flex: 0 0 auto;
-    scroll-snap-align: start;
-    padding: 5px 12px;
-    font-size: 12px;
-    color: var(--text-regular);
-    background: var(--bg-hover);
-    border-radius: 999px;
-    white-space: nowrap;
-    /* 触控目标不小于 44px */
-    min-height: 44px;
-    display: inline-flex;
-    align-items: center;
-  }
-
-  .sub-chip:active {
-    background: var(--color-primary-bg);
-    color: var(--color-primary);
-  }
+  /* 二级分类在窄屏不展示，首页只保留一级分类入口；分类页再展开子分类 */
 
   /* hover 浮层在触屏上没有意义，直接不渲染 */
   .sub-panel {
