@@ -37,6 +37,7 @@ const router = createRouter({
             { path: '', name: 'user', component: () => import('@/views/user/Profile.vue') },
             { path: 'orders', name: 'user-orders', component: () => import('@/views/user/OrderList.vue') },
             { path: 'orders/:id', name: 'user-order-detail', component: () => import('@/views/user/OrderDetail.vue') },
+            { path: 'aftersales', name: 'user-aftersales', component: () => import('@/views/user/AfterSaleList.vue') },
             { path: 'personal-info', name: 'user-personal-info', component: () => import('@/views/user/PersonalInfo.vue') },
             { path: 'addresses', name: 'user-addresses', component: () => import('@/views/user/AddressList.vue') },
             { path: 'favorites', name: 'user-favorites', component: () => import('@/views/user/Favorites.vue') },

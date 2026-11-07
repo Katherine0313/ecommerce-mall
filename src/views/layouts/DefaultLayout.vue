@@ -5,6 +5,7 @@ import { ElMessage } from 'element-plus'
 import { useUserStore } from '@/stores/user.js'
 import { useCartStore } from '@/stores/cart.js'
 import { getArticleByTitle } from '@/api/article.js'
+import { getProfile } from '@/api/user.js'
 import {
   HomeFilled,
   List,
@@ -29,6 +30,27 @@ const HOT_KEYWORDS = ['手机', '笔记本', '平板', '耳机', '手表', '相�
 // 站点 Logo：后端 /image 静态目录托管（与 StoreCard 同源）
 const logoUrl = '/image/zongjie.webp'
 // 购物车是独立页面（/cart），头部入口直接跳路由
+
+// 登录后头像：从后端拉用户资料，没设置过头像时回退到站点 logo
+const avatarUrl = ref(logoUrl)
+
+function loadAvatar() {
+  if (!userStore.isLoggedIn) {
+    avatarUrl.value = logoUrl
+    return
+  }
+  getProfile()
+    .then((profile) => {
+      avatarUrl.value = profile?.avatar || logoUrl
+    })
+    .catch(() => {
+      // 拉取失败不影响头部，用默认头像
+      avatarUrl.value = logoUrl
+    })
+}
+
+// 登录/登出时重新拉取；首屏已登录也立即拉
+watch(() => userStore.isLoggedIn, loadAvatar, { immediate: true })
 
 // 窄屏底部 Tab：只有详情页不显示（它自己有一个底部固定购买栏，两个叠一起会打架）
 const showTabBar = computed(() => !route.meta.hideTabBar)
@@ -187,7 +209,7 @@ function searchByKeyword(word) {
           <el-dropdown v-if="userStore.isLoggedIn" trigger="click" @command="onCommand">
             <el-image
               class="avatar"
-              src="/image/zongjie.webp"
+              :src="avatarUrl"
               fit="cover"
               alt="我的头像"
               :preview-src-list="[]"

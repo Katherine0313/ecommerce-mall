@@ -8,3 +8,7 @@ export const getCouponCenter = () => request.get('/coupons/center')
 
 // 领取优惠券
 export const claimCoupon = (templateId) => request.post(`/coupons/${templateId}/claim`)
+
+// 商品详情页“国家补贴”横幅；没有可领模板时返回 null，未登录 claimed 恒为 false
+export const getProductSubsidy = (productId) =>
+  request.get(`/coupons/product/${productId}/subsidy`)

@@ -4,13 +4,14 @@ import { useRoute, useRouter } from 'vue-router'
 import { ElMessage, ElImageViewer } from 'element-plus'
 import { Medal, Lightning, Clock, Location, Discount } from '@element-plus/icons-vue'
 import { getProduct, getProductTags } from '@/api/product.js'
-import { getProductReviews, getReviewSummary } from '@/api/review.js'
+import { getProductSubsidy, claimCoupon } from '@/api/coupon.js'
 import { formatPrice } from '@/utils/format.js'
 import { findSku, isSpecComplete, isValueSelectable, specText } from '@/utils/sku.js'
 import { savePendingAction, takePendingAction } from '@/utils/login-action.js'
 import StoreCard from '@/components/StoreCard.vue'
 import AddCartDialog from '@/components/AddCartDialog.vue'
 import Settlement from './Settlement.vue'
+import ProductReview from './ProductReview.vue'
 import { useCartStore } from '@/stores/cart.js'
 import { useUserStore } from '@/stores/user.js'
 
@@ -25,22 +26,13 @@ const error = ref('')
 const product = ref(null)
 // 商品标签（C 端只展示 status=1 的标签）
 const productTags = ref([])
-// 商品评价：列表 + 统计（公开只读，接口失败不影响详情页其他内容）
-const reviewSummary = ref({
-  totalCount: 0,
-  avgRating: 0,
-  goodRate: 0,
-  fiveStar: 0,
-  fourStar: 0,
-  threeStar: 0,
-  twoStar: 0,
-  oneStar: 0,
-})
-const reviewList = ref([])
-// 是否展开全部评价（默认只显示 3 条）
-const reviewExpanded = ref(false)
+// 商品评价条数：由 ProductReview 组件加载后透上来，用于 Tab 标题
+const reviewTotal = ref(0)
 // 详情区 Tab：评价 / 参数 / 详情
 const activeTab = ref('reviews')
+// 国家补贴横幅：后端没有可领模板时为 null，前端不渲染
+const subsidy = ref(null)
+const claimingSubsidy = ref(false)
 
 // 购买数量
 const quantity = ref(1)
@@ -91,71 +83,17 @@ const specsList = computed(() =>
 )
 
 // ===== 商品评价 =====
-const reviewTotal = computed(() => Number(reviewSummary.value.totalCount) || 0)
-
 // 评价 Tab 标题带上条数，0 条时不显示数字
 const reviewTabLabel = computed(() =>
   reviewTotal.value > 0 ? `商品评价 (${reviewTotal.value})` : '商品评价'
 )
 
-// 好评率文案：后端 goodRate 是 0~1 的比例
-const goodRateText = computed(
-  () => `好评率 ${Math.round((Number(reviewSummary.value.goodRate) || 0) * 100)}%`
-)
-
-// 星级分布条：每条星级的条数与占比
-const scoreBars = computed(() => {
-  const s = reviewSummary.value
-  const total = reviewTotal.value
-  const list = [
-    { star: 5, count: Number(s.fiveStar) || 0 },
-    { star: 4, count: Number(s.fourStar) || 0 },
-    { star: 3, count: Number(s.threeStar) || 0 },
-    { star: 2, count: Number(s.twoStar) || 0 },
-    { star: 1, count: Number(s.oneStar) || 0 },
-  ]
-  return list.map((it) => ({
-    ...it,
-    percent: total ? Math.round((it.count / total) * 100) : 0,
-  }))
-})
-
-// 默认只展示 3 条，展开后展示全部
-const visibleReviews = computed(() =>
-  reviewExpanded.value ? reviewList.value : reviewList.value.slice(0, 3)
-)
-
-// 评价媒体 JSON：[{"url":"...","type":"image"}]
-function parseReviewMedia(images) {
-  if (!images) return []
+// 国家补贴横幅：公共只读，失败就当没有活动，不影响详情加载
+async function loadSubsidy(id) {
   try {
-    const arr = JSON.parse(images)
-    return Array.isArray(arr) ? arr.filter((m) => m && m.url) : []
+    subsidy.value = await getProductSubsidy(id)
   } catch (e) {
-    return []
-  }
-}
-
-// 拉评价：辅助信息，失败就当没有评价，不影响详情页主体
-async function loadReviews(id) {
-  const [listRes, summaryRes] = await Promise.all([
-    getProductReviews(id, 1, 20).catch(() => null),
-    getReviewSummary(id).catch(() => null),
-  ])
-  reviewList.value = ((listRes && listRes.list) || []).map((item) => {
-    const media = parseReviewMedia(item.images)
-    // 一条评价最多一个视频：图片进九宫格，视频单独用 <video> 播
-    const video = media.find((m) => m.type === 'video')
-    return {
-      ...item,
-      // 后端给的是 yyyy-MM-dd HH:mm:ss，详情页只展示到天
-      createdAt: item.createdAt ? String(item.createdAt).slice(0, 10) : '',
-      media: media.filter((m) => m.type !== 'video'),
-      videoUrl: video ? video.url : '',
-    }
-  })
-  if (summaryRes) {
-    reviewSummary.value = summaryRes
+    subsidy.value = null
   }
 }
 
@@ -244,19 +182,8 @@ async function load(id) {
   selectedInsurance.value = []
   currentIndex.value = 0
   productTags.value = []
-  reviewList.value = []
-  reviewExpanded.value = false
   activeTab.value = 'reviews'
-  reviewSummary.value = {
-    totalCount: 0,
-    avgRating: 0,
-    goodRate: 0,
-    fiveStar: 0,
-    fourStar: 0,
-    threeStar: 0,
-    twoStar: 0,
-    oneStar: 0,
-  }
+  subsidy.value = null
   try {
     // 标签是辅助信息，接口失败不影响商品详情展示
     const [data, tags] = await Promise.all([
@@ -272,8 +199,8 @@ async function load(id) {
     })
     selectedSpec.value = autoSpec
     productTags.value = (tags || []).filter((t) => t.status !== 0)
-    // 评价同样是辅助信息，失败不打断详情加载
-    loadReviews(id)
+    // 国家补贴横幅：有模板才显示，没有就整块隐藏
+    loadSubsidy(id)
     // 详情富文本里常嵌多张原图，全量加载会卡住；
     // 给每个 <img> 补 loading="lazy"，浏览器原生懒加载只拉可视区图片
     if (data?.body) {
@@ -396,9 +323,25 @@ function buyNow() {
     })
 }
 
-// 国家补贴活动暂未接入后端，先给提示占位
-function claimSubsidy() {
-  ElMessage.info('国家补贴活动即将上线')
+// 领取国家补贴：本质是领一张「国家补贴」折扣券，领取后到结算页手动勾选使用
+async function claimSubsidy() {
+  const item = subsidy.value
+  if (!item || claimingSubsidy.value) return
+  // 游客先登录，登录后回到本页再点领取
+  if (!userStore.isLoggedIn) {
+    router.push({ path: '/login', query: { redirect: route.fullPath } })
+    return
+  }
+  claimingSubsidy.value = true
+  try {
+    await claimCoupon(item.templateId)
+    subsidy.value = { ...item, claimed: true }
+    ElMessage.success('领取成功，可在结算页选择使用')
+  } catch (e) {
+    ElMessage.error(e?.message || '领取失败')
+  } finally {
+    claimingSubsidy.value = false
+  }
 }
 
 watch(() => route.params.id, load, { immediate: true })
@@ -468,66 +411,9 @@ watch(() => route.params.id, load, { immediate: true })
 
           <!-- 评价 / 参数 / 详情：Tab 切换，默认停在商品评价 -->
           <el-tabs v-model="activeTab" class="block tab-block">
-            <!-- 1. 商品评价：默认只展示 3 条 -->
+            <!-- 1. 商品评价：抽成独立组件，自取自渲染；条数透上来显示在 Tab 标题 -->
             <el-tab-pane :label="reviewTabLabel" name="reviews">
-              <template v-if="reviewTotal > 0">
-                <div class="review-summary">
-                  <div class="review-score">
-                    <span class="score-num">{{ reviewSummary.avgRating }}</span>
-                    <span class="score-label">平均分</span>
-                    <span class="score-good">{{ goodRateText }}</span>
-                  </div>
-                  <div class="score-bars">
-                    <div v-for="item in scoreBars" :key="item.star" class="score-bar">
-                      <span class="bar-label">{{ item.star }}星</span>
-                      <span class="bar-track">
-                        <span class="bar-fill" :style="{ width: item.percent + '%' }"></span>
-                      </span>
-                      <span class="bar-count">{{ item.count }}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="review-list">
-                  <div v-for="item in visibleReviews" :key="item.id" class="review-item">
-                    <div class="review-item-head">
-                      <span class="review-user">{{ item.userName }}</span>
-                      <span class="review-time">{{ item.createdAt }}</span>
-                    </div>
-                    <div class="review-stars">
-                      <el-rate :value="Number(item.rating) || 0" disabled size="small" active-color="#ffb400"
-                        inactive-color="#dcdfe6" />
-                      <span v-if="item.tag" class="review-tag">{{ item.tag }}</span>
-                      <span v-if="item.isVirtual === 1" class="review-virtual">系统评价</span>
-                    </div>
-                    <p class="review-content">{{ item.content }}</p>
-                    <div v-if="item.media.length" class="review-media">
-                      <el-image
-                        v-for="(m, idx) in item.media"
-                        :key="idx"
-                        :src="m.url"
-                        :preview-src-list="item.media.map((x) => x.url)"
-                        :initial-index="idx"
-                        preview-teleported
-                        hide-on-click-modal
-                        fit="cover"
-                        class="review-media-item"
-                      />
-                    </div>
-                    <!-- 评价视频：一条评价最多一个视频，单独一行播放器 -->
-                    <video v-if="item.videoUrl" class="review-video-player" :src="item.videoUrl"
-                           controls preload="none" object-fit="contain" />
-                    <div v-if="item.reply" class="review-reply">
-                      <span class="reply-label">商家回复：</span>{{ item.reply }}
-                    </div>
-                  </div>
-                </div>
-
-                <div v-if="reviewTotal > 3" class="review-more" @click="reviewExpanded = !reviewExpanded">
-                  {{ reviewExpanded ? '收起评价' : '查看全部评价' }}
-                </div>
-              </template>
-              <div v-else class="tab-empty">暂无评价</div>
+              <ProductReview :product-id="route.params.id" @update:total="reviewTotal = $event" />
             </el-tab-pane>
 
             <!-- 2. 商品参数 -->
@@ -555,13 +441,20 @@ watch(() => route.params.id, load, { immediate: true })
         <!-- 右侧信息面板 -->
         <aside class="side-col">
           <div class="panel">
-            <!-- 国家补贴横幅 -->
-            <div class="subsidy-banner">
+            <!-- 国家补贴横幅：文案来自后台补贴券模板，没有可领模板不渲染 -->
+            <div v-if="subsidy" class="subsidy-banner">
               <div class="subsidy-left">
                 <el-icon class="subsidy-icon"><Discount /></el-icon>
-                <span>领取国家补贴15%</span>
+                <span>{{ subsidy.name }}</span>
               </div>
-              <el-button class="subsidy-btn" @click="claimSubsidy">立即领取</el-button>
+              <el-button
+                class="subsidy-btn"
+                :disabled="subsidy.claimed || claimingSubsidy"
+                :loading="claimingSubsidy"
+                @click="claimSubsidy"
+              >
+                {{ subsidy.claimed ? '已领取' : '立即领取' }}
+              </el-button>
             </div>
 
             <h1 class="title">{{ product.title || product.name }}</h1>
@@ -763,8 +656,11 @@ watch(() => route.params.id, load, { immediate: true })
   flex: 1;
   min-width: 0;
   position: sticky;
-  top: 76px;
-  /* 高度交给 flex stretch 撑满；写死 height:100% 会解析失败并破坏吸顶 */
+  top: 20px;
+  /* 关键：父容器 align-items:stretch 会把本元素拉到和容器等高，
+     吸顶元素与容器等高就没有滚动空间，sticky 形同失效；
+     必须 flex-start 让它按内容高度收缩，吸顶才生效 */
+  align-self: flex-start;
 }
 
 .panel {
@@ -1210,188 +1106,6 @@ watch(() => route.params.id, load, { immediate: true })
 }
 
 
-/* ===== 商品评价 ===== */
-.block-extra {
-  font-size: 13px;
-  font-weight: 400;
-  color: var(--text-placeholder);
-}
-
-.review-summary {
-  display: flex;
-  align-items: center;
-  padding-bottom: 20px;
-  margin-bottom: 8px;
-  border-bottom: 1px solid var(--border-light);
-}
-
-.review-score {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 120px;
-  flex-shrink: 0;
-}
-
-.score-num {
-  font-size: 40px;
-  font-weight: 700;
-  line-height: 1.1;
-  color: #ff5722;
-}
-
-.score-label {
-  font-size: 12px;
-  color: var(--text-placeholder);
-}
-
-.score-good {
-  margin-top: 6px;
-  font-size: 12px;
-  color: var(--text-regular);
-}
-
-.score-bars {
-  flex: 1;
-  padding-left: 16px;
-}
-
-.score-bar {
-  display: flex;
-  align-items: center;
-  margin-bottom: 6px;
-}
-
-.bar-label {
-  width: 36px;
-  font-size: 12px;
-  color: var(--text-placeholder);
-  flex-shrink: 0;
-}
-
-.bar-track {
-  flex: 1;
-  height: 8px;
-  background: var(--bg-page);
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.bar-fill {
-  display: block;
-  height: 100%;
-  background: #ff5722;
-}
-
-.bar-count {
-  width: 40px;
-  text-align: right;
-  font-size: 12px;
-  color: var(--text-placeholder);
-  flex-shrink: 0;
-}
-
-.review-item {
-  padding: 16px 0;
-  border-bottom: 1px solid var(--border-light);
-}
-
-.review-item:last-child {
-  border-bottom: none;
-}
-
-.review-item-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.review-user {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.review-time {
-  font-size: 12px;
-  color: var(--text-placeholder);
-}
-
-.review-stars {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 6px;
-}
-
-.review-tag {
-  font-size: 12px;
-  color: #ff5722;
-}
-
-.review-virtual {
-  font-size: 12px;
-  color: var(--text-placeholder);
-  background: var(--bg-page);
-  border-radius: 4px;
-  padding: 1px 6px;
-}
-
-.review-content {
-  margin: 8px 0 0;
-  font-size: 14px;
-  line-height: 1.7;
-  color: var(--text-regular);
-}
-
-.review-media {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.review-media-item {
-  width: 80px;
-  height: 80px;
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-/* 评价视频播放器：宽度撑满，高度按 16:9 */
-.review-video-player {
-  display: block;
-  width: 100%;
-  max-width: 420px;
-  margin-top: 10px;
-  border-radius: 6px;
-  background: #f5f5f5;
-}
-
-.review-reply {
-  margin-top: 10px;
-  padding: 10px 12px;
-  background: var(--bg-page);
-  border-radius: 6px;
-  font-size: 13px;
-  line-height: 1.7;
-  color: var(--text-regular);
-}
-
-.reply-label {
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.review-more {
-  margin-top: 16px;
-  text-align: center;
-  font-size: 14px;
-  color: #ff5722;
-  cursor: pointer;
-}
-
 /* ===== 商品参数 ===== */
 .specs-table {
   width: 100%;
@@ -1532,30 +1246,6 @@ watch(() => route.params.id, load, { immediate: true })
   /* 增值保障卡片改 2 列（3 列在窄屏太挤） */
   .insurance-cards {
     grid-template-columns: repeat(2, 1fr);
-  }
-
-  /* 评价统计区竖排 */
-  .review-summary {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-
-  .review-score {
-    width: 100%;
-    flex-direction: row;
-    justify-content: center;
-    gap: 12px;
-  }
-
-  .score-bars {
-    padding-left: 0;
-  }
-
-  /* 评价媒体小图缩小 */
-  .review-media-item {
-    width: 70px;
-    height: 70px;
   }
 
   /* 区块内边距收紧 */

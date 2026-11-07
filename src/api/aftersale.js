@@ -8,6 +8,12 @@ export const getAfterSaleStatusConstants = () => request.get('/after-sales/statu
 // 我的售后列表（可选 status / search / startDate / endDate / dateField）
 export const getAfterSaleList = (params = {}) => request.get('/after-sales', { params })
 
+// 我的售后分页列表（含商品明细）
+export const getAfterSalePage = (params = {}) => request.get('/after-sales/page', { params })
+
+// 我的售后各状态数量（Tab 角标）
+export const getAfterSaleCounts = () => request.get('/after-sales/counts')
+
 // 按订单查售后单（判断订单是否已申请售后，无则返回 null）
 export const getAfterSaleByOrder = (orderId) =>
   request.get('/after-sales/by-order', { params: { orderId } })

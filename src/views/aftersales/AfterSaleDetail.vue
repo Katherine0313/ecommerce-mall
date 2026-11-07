@@ -407,20 +407,33 @@ onMounted(load)
           </div>
         </div>
 
-        <!-- 售后商品 -->
+        <!-- 售后商品（与电商后台一致：名称/图片/单价/增值保障/数量/单品小计） -->
         <div class="card-block">
           <div class="block-title">售后商品</div>
-          <div class="goods-list">
-            <div v-for="(item, index) in detail.items || []" :key="index" class="goods-item">
-              <img class="goods-img" :src="item.image" :alt="item.productName" loading="lazy" />
-              <div class="goods-info">
-                <p class="goods-name">{{ item.productName }}</p>
-                <p class="goods-meta">
-                  <span>¥{{ formatPrice(item.salesPrice) }}</span>
-                  <span>×{{ item.quantity }}</span>
-                </p>
+          <div class="goods-table">
+            <div class="goods-row goods-row--head">
+              <span class="col-goods">商品信息</span>
+              <span class="col-num">单价</span>
+              <span class="col-num">增值保障</span>
+              <span class="col-num">数量</span>
+              <span class="col-num">单品小计</span>
+            </div>
+            <div v-for="(item, index) in detail.items || []" :key="index" class="goods-row">
+              <div class="col-goods">
+                <img class="goods-img" :src="item.image" :alt="item.productName" loading="lazy" />
+                <div class="goods-info">
+                  <p class="goods-name">{{ item.productName }}</p>
+                  <p v-if="item.insuranceDetail" class="goods-insurance">
+                    {{ item.insuranceDetail }}
+                  </p>
+                </div>
               </div>
-              <span class="goods-refund">¥{{ formatPrice(item.refundAmount) }}</span>
+              <span class="col-num">¥{{ formatPrice(item.salesPrice) }}</span>
+              <span class="col-num">
+                {{ Number(item.insuranceFee) > 0 ? '¥' + formatPrice(item.insuranceFee) : '—' }}
+              </span>
+              <span class="col-num">×{{ item.quantity }}</span>
+              <span class="col-num goods-refund">¥{{ formatPrice(item.refundAmount) }}</span>
             </div>
           </div>
           <div class="refund-total">
@@ -488,16 +501,44 @@ onMounted(load)
 }
 
 /* ===== 商品 ===== */
-.goods-list {
+.goods-table {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
 }
 
-.goods-item {
+.goods-row {
+  display: grid;
+  grid-template-columns: 1fr 90px 90px 70px 100px;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+}
+
+.goods-row + .goods-row {
+  border-top: 1px solid var(--border-light);
+}
+
+.goods-row--head {
+  padding: 8px var(--space-md);
+  background: var(--bg-soft, #fafbfc);
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.col-goods {
   display: flex;
   align-items: center;
   gap: var(--space-md);
+  min-width: 0;
+}
+
+.col-num {
+  text-align: right;
+  font-size: 13px;
+  color: var(--text-regular);
 }
 
 .goods-img {
@@ -520,16 +561,15 @@ onMounted(load)
   color: var(--text-primary);
 }
 
-.goods-meta {
-  display: flex;
-  gap: var(--space-md);
+.goods-insurance {
   margin: 0;
-  font-size: 13px;
+  font-size: 12px;
   color: var(--text-secondary);
 }
 
 .goods-refund {
   font-size: 14px;
+  font-weight: 600;
   color: var(--text-primary);
 }
 
@@ -664,9 +704,22 @@ onMounted(load)
     max-width: 100%;
   }
 
-  /* 商品行：图片缩小 */
-  .goods-item {
-    gap: var(--space-sm);
+  /* 商品行：窄屏改两行布局（商品信息一行，价格一行），隐藏表头 */
+  .goods-row--head {
+    display: none;
+  }
+
+  .goods-row {
+    grid-template-columns: 1fr auto;
+    gap: var(--space-sm) var(--space-md);
+  }
+
+  .goods-row .col-goods {
+    grid-column: 1 / -1;
+  }
+
+  .goods-row .col-num {
+    text-align: left;
   }
 
   .goods-img {

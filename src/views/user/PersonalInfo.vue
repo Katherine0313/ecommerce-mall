@@ -1,6 +1,6 @@
 <script setup>
 // 个人资料页（路由 /user/personal-info）
-// 可修改：头像、昵称、手机号；只读：用户名、注册时间；底部提供注销账号。
+// 可修改：头像、昵称、手机号；只读：用户名、注册时间；账号安全组提供注销账号。
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -191,9 +191,12 @@ onMounted(load)
   <div v-loading="loading" class="card page">
     <h2 class="section-title">个人资料</h2>
 
-    <!-- 头像 -->
-    <section class="block">
-      <h3 class="block-title">头像</h3>
+    <!-- ===== 头像 ===== -->
+    <section class="group">
+      <div class="group-head">
+        <h3 class="group-title">头像</h3>
+        <p class="group-desc">建议使用正方形图片，支持 jpg / png / webp。</p>
+      </div>
       <div class="avatar-row">
         <el-avatar class="profile-avatar" :size="72" :src="profile?.avatar" />
         <div class="avatar-actions">
@@ -207,70 +210,85 @@ onMounted(load)
           >
             <el-button type="primary" plain size="small" :loading="saving">更换头像</el-button>
           </el-upload>
-          <p class="tip">支持 jpg / png / webp</p>
+          <p class="tip">上传后立即生效</p>
         </div>
       </div>
     </section>
 
-    <!-- 昵称：未编辑时只读展示，点「修改」切换到输入框 -->
-    <section class="block">
-      <h3 class="block-title">昵称</h3>
-      <div v-if="!nameEditing" class="field-row">
-        <span class="field-value">{{ profile?.name || '未设置' }}</span>
-        <el-button link type="primary" @click="startEditName">修改</el-button>
+    <!-- ===== 昵称：未编辑时只读展示，点「修改」切换到输入框 ===== -->
+    <section class="group">
+      <div class="group-head">
+        <h3 class="group-title">昵称</h3>
+        <p class="group-desc">昵称会展示在订单、评价等场景。</p>
       </div>
-      <div v-else class="field-edit">
-        <el-input v-model="nameForm" placeholder="请输入昵称" maxlength="32" />
-        <el-button type="primary" :loading="saving" @click="saveName">保存</el-button>
-        <el-button @click="nameEditing = false">取消</el-button>
-      </div>
-    </section>
-
-    <!-- 用户名（注册时设定，不可改） -->
-    <section class="block">
-      <h3 class="block-title">用户名</h3>
-      <div class="field-row">
-        <span class="field-value">{{ profile?.username || '—' }}</span>
-        <span class="field-tip">用于登录，注册后不可修改</span>
+      <div class="group-body">
+        <div v-if="!nameEditing" class="field-row">
+          <span class="field-value">{{ profile?.name || '未设置' }}</span>
+          <el-button link type="primary" @click="startEditName">修改</el-button>
+        </div>
+        <div v-else class="field-edit">
+          <el-input v-model="nameForm" placeholder="请输入昵称" maxlength="32" />
+          <div class="group-foot">
+            <el-button type="primary" :loading="saving" @click="saveName">保存</el-button>
+            <el-button @click="nameEditing = false">取消</el-button>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- 手机号：未编辑时展示号码；编辑态分手机号 + 验证码两行，验证码按钮带倒计时 -->
-    <section class="block">
-      <h3 class="block-title">手机号</h3>
-      <div v-if="!phoneEditing" class="field-row">
-        <span class="field-value">{{ profile?.phone || '未绑定' }}</span>
-        <el-button link type="primary" @click="startEditPhone">
-          {{ profile?.phone ? '更换' : '绑定' }}
-        </el-button>
+    <!-- ===== 手机号：未编辑时展示号码；编辑态分手机号 + 验证码两行，验证码按钮带倒计时 ===== -->
+    <section class="group">
+      <div class="group-head">
+        <h3 class="group-title">手机号</h3>
+        <p class="group-desc">用于登录账号、接收订单与售后通知。</p>
       </div>
-      <div v-else class="field-edit column">
-        <el-input v-model="phoneForm" placeholder="请输入手机号" maxlength="11" />
-        <div class="code-row">
-          <el-input v-model="phoneCode" placeholder="6 位验证码" maxlength="6" />
-          <el-button :disabled="sending || countdown > 0" @click="sendCode">
-            {{ countdown > 0 ? `${countdown}s` : '获取验证码' }}
+      <div class="group-body">
+        <div v-if="!phoneEditing" class="field-row">
+          <span class="field-value">{{ profile?.phone || '未绑定' }}</span>
+          <el-button link type="primary" @click="startEditPhone">
+            {{ profile?.phone ? '更换' : '绑定' }}
           </el-button>
         </div>
-        <div class="field-edit">
-          <el-button type="primary" :loading="saving" @click="savePhone">保存</el-button>
-          <el-button @click="phoneEditing = false">取消</el-button>
+        <div v-else class="field-edit column">
+          <el-input v-model="phoneForm" placeholder="请输入手机号" maxlength="11" />
+          <div class="code-row">
+            <el-input v-model="phoneCode" placeholder="6 位验证码" maxlength="6" />
+            <el-button :disabled="sending || countdown > 0" @click="sendCode">
+              {{ countdown > 0 ? `${countdown}s` : '获取验证码' }}
+            </el-button>
+          </div>
+          <div class="group-foot">
+            <el-button type="primary" :loading="saving" @click="savePhone">保存</el-button>
+            <el-button @click="phoneEditing = false">取消</el-button>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- 注册时间 -->
-    <section class="block">
-      <h3 class="block-title">注册时间</h3>
-      <div class="field-row">
-        <span class="field-value">{{ profile?.createTime || '—' }}</span>
+    <!-- ===== 账号安全：只读信息 + 危险操作 ===== -->
+    <section class="group">
+      <div class="group-head">
+        <h3 class="group-title">账号安全</h3>
+        <p class="group-desc">用户名注册后不可修改；注销账号后数据无法恢复，请谨慎操作。</p>
       </div>
-    </section>
-
-    <!-- 危险操作：注销不可逆，点按钮后还有二次确认 -->
-    <section class="block danger">
-      <h3 class="block-title">账号安全</h3>
-      <el-button type="danger" plain @click="handleDeactivate">注销账号</el-button>
+      <div class="group-body">
+        <div class="field-row">
+          <span class="field-label">用户名</span>
+          <span class="field-value">{{ profile?.username || '—' }}</span>
+          <span class="field-tip">用于登录，注册后不可修改</span>
+        </div>
+        <div class="field-row">
+          <span class="field-label">注册时间</span>
+          <span class="field-value">{{ profile?.createTime || '—' }}</span>
+        </div>
+        <div class="field-row">
+          <span class="field-label">注销账号</span>
+          <span class="field-tip">注销后无法登录，订单数据仍会保留</span>
+          <el-button class="danger-btn" type="danger" plain size="small" @click="handleDeactivate">
+            注销账号
+          </el-button>
+        </div>
+      </div>
     </section>
   </div>
 </template>
@@ -278,18 +296,50 @@ onMounted(load)
 <style scoped>
 .page {
   padding: var(--space-lg);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-card);
 }
 
-/* 每个资料分组：靠上间距分隔，不画分割线 */
-.block {
+.page .section-title {
+  margin: 0 0 var(--space-md);
+}
+
+/* ===== 分组：标题 + 说明 + 内容，组间细线分隔 ===== */
+.group {
   margin-top: var(--space-lg);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--border-light);
 }
 
-/* 分组标题（头像 / 昵称 / 手机号…） */
-.block-title {
-  margin: 0 0 var(--space-sm);
-  font-size: 14px;
-  color: var(--text-regular);
+/* 第一组紧贴页面标题，不加分隔线 */
+.group:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.group-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.group-desc {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.group-body {
+  margin-top: var(--space-md);
+}
+
+/* 保存按钮固定在分组底部 */
+.group-foot {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
 }
 
 /* ===== 头像 ===== */
@@ -297,9 +347,10 @@ onMounted(load)
   display: flex;
   align-items: center;
   gap: var(--space-lg);
+  margin-top: var(--space-md);
 }
 
-/* 头像占位：默认灰底太闷，改成品牌浅橙 + 浅橙描边（同小程序头像的白环处理） */
+/* 头像占位：品牌浅橙底 + 浅橙描边 */
 .profile-avatar {
   --el-avatar-bg-color: var(--color-primary-bg);
   --el-avatar-text-color: var(--color-primary);
@@ -308,8 +359,15 @@ onMounted(load)
   color: var(--color-primary);
 }
 
-.avatar-actions .tip {
-  margin: 8px 0 0;
+.avatar-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.tip {
+  margin: 0;
   font-size: 12px;
   color: var(--text-secondary);
 }
@@ -318,8 +376,20 @@ onMounted(load)
 .field-row {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: var(--space-md);
   min-height: 32px;
+}
+
+.field-row + .field-row {
+  margin-top: var(--space-sm);
+}
+
+.field-label {
+  width: 96px;
+  flex-shrink: 0;
+  font-size: 13px;
+  color: var(--text-secondary);
 }
 
 .field-value {
@@ -334,32 +404,33 @@ onMounted(load)
 
 .field-edit {
   display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-}
-
-.field-edit.column {
   flex-direction: column;
-  align-items: stretch;
+  align-items: flex-start;
 }
 
 .field-edit .el-input {
+  width: 100%;
   max-width: 280px;
+}
+
+.field-edit.column {
+  width: 100%;
+  gap: var(--space-sm);
 }
 
 .code-row {
   display: flex;
   gap: var(--space-sm);
+  width: 100%;
+  max-width: 420px;
 }
 
 .code-row .el-input {
   max-width: 200px;
 }
 
-/* ===== 危险操作 ===== */
-.danger {
-  padding-top: var(--space-md);
-  border-top: 1px solid var(--border-light);
+.danger-btn {
+  margin-left: auto;
 }
 
 /* ===== 窄屏（≤768px）适配 ===== */
@@ -368,14 +439,24 @@ onMounted(load)
     padding: var(--space-md) var(--space-sm);
   }
 
-  /* 头像行：竖排，头像与操作分开 */
+  .group {
+    margin-top: var(--space-md);
+    padding-top: var(--space-md);
+  }
+
   .avatar-row {
     gap: var(--space-md);
   }
 
-  /* 编辑态：输入框与按钮竖排，输入框占满整行 */
-  .field-edit {
-    flex-wrap: wrap;
+  /* 字段行：标签在上、值在下 */
+  .field-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .field-label {
+    width: auto;
   }
 
   .field-edit .el-input {
@@ -384,6 +465,7 @@ onMounted(load)
 
   .code-row {
     flex-wrap: wrap;
+    max-width: 100%;
   }
 
   .code-row .el-input {
@@ -392,10 +474,8 @@ onMounted(load)
     min-width: 0;
   }
 
-  /* 字段行：说明文字换行 */
-  .field-row {
-    flex-wrap: wrap;
-    gap: var(--space-sm);
+  .danger-btn {
+    margin-left: 0;
   }
 }
 </style>

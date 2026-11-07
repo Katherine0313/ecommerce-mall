@@ -64,18 +64,23 @@ onMounted(load)
     </el-empty>
 
     <div v-loading="loading" class="address-list">
-      <div v-for="address in addresses" :key="address.id" class="address-item">
-        <div class="address-main">
-          <p class="address-head">
-            <span class="consignee">{{ address.consignee }}</span>
-            <span class="phone">{{ address.phone }}</span>
-            <el-tag v-if="Number(address.isDefault) === 1" type="primary" size="small">
-              默认
-            </el-tag>
-          </p>
-          <p class="address-detail">{{ address.region }} {{ address.detailAddress }}</p>
+      <article
+        v-for="address in addresses"
+        :key="address.id"
+        class="address-card"
+        :class="{ 'is-default': Number(address.isDefault) === 1 }"
+      >
+        <div class="address-head">
+          <span class="consignee">{{ address.consignee }}</span>
+          <span class="phone">{{ address.phone }}</span>
+          <el-tag v-if="Number(address.isDefault) === 1" size="small" effect="light">
+            默认
+          </el-tag>
         </div>
-        <div class="address-actions">
+
+        <p class="address-detail text-ellipsis-2">{{ address.region }} {{ address.detailAddress }}</p>
+
+        <div class="address-foot">
           <el-button link type="primary" @click="openEdit(address)">编辑</el-button>
           <el-popconfirm
             title="确定删除该地址吗？"
@@ -89,7 +94,7 @@ onMounted(load)
             </template>
           </el-popconfirm>
         </div>
-      </div>
+      </article>
     </div>
 
     <!-- 复用商品页那个地址编辑弹窗 -->
@@ -100,66 +105,93 @@ onMounted(load)
 <style scoped>
 .page {
   padding: var(--space-lg);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-card);
 }
 
 .page-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
 }
 
 .page-head .section-title {
-  margin: 0 0 var(--space-md);
+  margin: 0;
 }
 
+/* ===== 地址卡列表：桌面 2 列，窄屏单列 ===== */
 .address-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+}
+
+.address-card {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.address-item {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
   padding: var(--space-md);
   border: 1px solid var(--border-light);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-card);
+  background: var(--bg-card);
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
-.address-main {
-  flex: 1;
-  min-width: 0;
+.address-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-card);
+}
+
+/* 默认地址：主色描边 + 左侧色条 */
+.address-card.is-default {
+  border-color: var(--color-primary);
+  box-shadow: inset 3px 0 0 var(--color-primary);
+}
+
+.address-card.is-default:hover {
+  border-color: var(--color-primary);
+  box-shadow: inset 3px 0 0 var(--color-primary), var(--shadow-card);
 }
 
 .address-head {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: var(--space-sm);
-  margin: 0 0 6px;
+  margin-bottom: 8px;
+  padding-left: 4px;
 }
 
 .consignee {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--text-primary);
 }
 
 .phone {
   font-size: 13px;
-  color: var(--text-regular);
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
 }
 
 .address-detail {
-  margin: 0;
+  min-height: 42px;
+  margin: 0 0 var(--space-md);
+  padding-left: 4px;
   font-size: 13px;
-  color: var(--text-secondary);
+  line-height: 1.6;
+  color: var(--text-regular);
 }
 
-.address-actions {
+/* 操作按钮固定卡片底部 */
+.address-foot {
   display: flex;
-  gap: var(--space-xs);
-  flex-shrink: 0;
+  justify-content: flex-end;
+  gap: var(--space-md);
+  margin-top: auto;
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--border-light);
 }
 
 /* ===== 窄屏（≤768px）适配 ===== */
@@ -168,21 +200,26 @@ onMounted(load)
     padding: var(--space-md) var(--space-sm);
   }
 
-  /* 地址项竖排：信息一行，操作一行 */
-  .address-item {
+  .page-head {
     flex-wrap: wrap;
     gap: var(--space-sm);
-    padding: var(--space-sm);
   }
 
-  .address-main {
-    flex-basis: 100%;
+  .page-head .el-button {
+    margin-left: auto;
   }
 
-  .address-actions {
-    width: 100%;
-    justify-content: flex-end;
-    gap: var(--space-md);
+  .address-list {
+    grid-template-columns: 1fr;
+    gap: var(--space-sm);
+  }
+
+  .address-card {
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .address-detail {
+    min-height: 0;
   }
 }
 </style>

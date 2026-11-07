@@ -10,13 +10,31 @@ import ProductCard from '@/components/ProductCard.vue'
 
 // 首页轮播图：优先用后台配置的 Banner（position=11）；
 // 后台没配时回落到 public/swiper 下的静态图，保证首页不至于空白
+// categoryName：按分类名匹配首页分类树（含子串匹配，如「配件」命中「数码配件」），
+// 点击后进该分类的商品列表页
 const FALLBACK_BANNERS = [
-  { src: '/swiper/swiper1.webp', alt: '3C数码新品季 手机电脑智能设备一站购齐', link: '/products-list' },
-  { src: '/swiper/swiper2.webp', alt: '限时狂欢 电脑配件低至7折起', link: '/products-list' },
-  { src: '/swiper/swiper3.webp', alt: '影像装备焕新出发 相机镜头运动拍摄', link: '/products-list' },
-  { src: '/swiper/swiper4.webp', alt: '智能清洁 扫地机器人高效清扫', link: '/products-list' },
+  { src: '/swiper/swiper1.webp', alt: '手机', categoryName: '手机' },
+  { src: '/swiper/swiper2.webp', alt: '电脑', categoryName: '电脑' },
+  { src: '/swiper/swiper3.webp', alt: '相机', categoryName: '相机' },
+  { src: '/swiper/swiper4.webp', alt: '配件', categoryName: '配件' },
 ]
 const banners = ref([])
+
+// 兜底轮播的跳转：按分类名在分类树里找 id；找不到就去商品列表页
+function resolveCategoryLink(name) {
+  const exact = categories.value.find((c) => c.name === name)
+  const fuzzy = categories.value.find((c) => c.name?.includes(name))
+  const category = exact || fuzzy
+  return category ? `/category/${category.id}` : '/products-list'
+}
+
+// 实际渲染的轮播：后台有配置用后台的，否则用按分类解析过链接的兜底图。
+// 做成 computed，分类树晚于轮播到达时链接也能正确更新
+const displayBanners = computed(() =>
+  banners.value.length
+    ? banners.value
+    : FALLBACK_BANNERS.map((b) => ({ ...b, link: resolveCategoryLink(b.categoryName) }))
+)
 
 // Banner 跳转：商品 → 商品详情，文章 → 文章详情，外部链接 → 原地址
 function bannerLink(b) {
@@ -31,6 +49,7 @@ function loadBanners() {
     .then((list) => {
       const arr = list || []
       // 一条 Banner 最多 4 张图：展开成多个轮播项，images 为空时回落到单图 image
+      // 后台没配时保持空数组，模板走 displayBanners 的兜底轮播
       banners.value = arr.length
         ? arr.flatMap((b) => {
             const urls = Array.isArray(b.images) && b.images.length ? b.images : [b.image]
@@ -38,10 +57,10 @@ function loadBanners() {
               .filter(Boolean)
               .map((src) => ({ id: b.id, src, alt: b.title || '', link: bannerLink(b) }))
           })
-        : FALLBACK_BANNERS
+        : []
     })
     .catch(() => {
-      banners.value = FALLBACK_BANNERS
+      banners.value = []
     })
 }
 
@@ -169,7 +188,7 @@ onMounted(async () => {
         <div class="banner">
           <div class="banner-wrap">
             <el-carousel class="banner-carousel" height="100%" :interval="5000" arrow="hover">
-              <el-carousel-item v-for="(b, i) in banners" :key="i">
+              <el-carousel-item v-for="(b, i) in displayBanners" :key="i">
                 <!-- 站内跳转走 router-link，外部链接用 a 标签新窗口打开 -->
                 <router-link v-if="b.link && b.link.startsWith('/')" :to="b.link" class="banner-link"
                              @click="handleBannerClick(b)">

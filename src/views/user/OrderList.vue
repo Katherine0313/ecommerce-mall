@@ -1,52 +1,63 @@
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { getOrderList, cancelOrder, finishOrder } from '@/api/order.js'
+import { Search } from '@element-plus/icons-vue'
+import { getOrderPage, getOrderCounts, cancelOrder, finishOrder } from '@/api/order.js'
+import {
+  ORDER_STATUS,
+  ORDER_TABS,
+  ORDER_COUNT_FIELDS,
+  statusMeta,
+} from '@/constants/order.js'
 
 const route = useRoute()
 const router = useRouter()
 
+const PAGE_SIZE = 10
+
 const loading = ref(true)
 const orders = ref([])
-const activeTab = ref('all')
+const activeTab = ref(normalizeStatus(route.query.status))
+const page = ref(1)
+const total = ref(0)
+const counts = ref({})
+const keyword = ref(typeof route.query.keyword === 'string' ? route.query.keyword : '')
 
-// 订单状态码（与后端 OrderStatusEnum 一致；2 待确认收款已退役并入 3）
-const STATUS = {
-  PENDING_PAY: 1,
-  PENDING_SHIP: 3,
-  SHIPPED: 4,
-  FINISHED: 5,
-  CANCEL: 6,
+// 路由/参数上的 status 统一成数字；空值表示「全部」
+function normalizeStatus(value) {
+  if (value === undefined || value === null || value === '') return ''
+  const n = Number(value)
+  return Number.isNaN(n) || n === 0 ? '' : n
 }
 
-// 状态 tab：value 是 orderStatus，空字符串表示全部
-const TABS = [
-  { label: '全部', value: '' },
-  { label: '待付款', value: STATUS.PENDING_PAY },
-  { label: '待发货', value: STATUS.PENDING_SHIP },
-  { label: '待收货', value: STATUS.SHIPPED },
-  { label: '已完成', value: STATUS.FINISHED },
-  { label: '已取消', value: STATUS.CANCEL },
-]
-
-// 后端 GET /api/orders 不支持按状态筛选，这里拿全量后前端过滤
-const filtered = computed(() => {
-  if (!activeTab.value) return orders.value
-  return orders.value.filter((o) => o.orderStatus === activeTab.value)
-})
-
-// 每个 tab 的数量
+// 每个 tab 的数量（来自后端 /orders/counts，不再本地统计）
 function tabCount(value) {
-  if (!value) return orders.value.length
-  return orders.value.filter((o) => o.orderStatus === value).length
+  if (!value) return counts.value.all || 0
+  return counts.value[ORDER_COUNT_FIELDS[Number(value)]] || 0
+}
+
+function metaOf(order) {
+  return statusMeta(order.orderStatus, order.orderStatusDesc)
 }
 
 function load() {
   loading.value = true
-  getOrderList()
-    .then((list) => {
-      orders.value = list || []
+  getOrderPage({
+    status: activeTab.value === '' ? undefined : activeTab.value,
+    keyword: keyword.value.trim() || undefined,
+    page: page.value,
+    pageSize: PAGE_SIZE,
+  })
+    .then((data) => {
+      orders.value = data?.list || []
+      total.value = Number(data?.total || 0)
+      // 当前页被取消/删空时回退到最后一个有效页
+      const maxPage = Math.max(1, Math.ceil(total.value / PAGE_SIZE))
+      if (page.value > maxPage) {
+        page.value = maxPage
+        return load()
+      }
     })
     .catch((e) => {
       ElMessage.error(e?.message || '订单加载失败')
@@ -54,6 +65,21 @@ function load() {
     .finally(() => {
       loading.value = false
     })
+}
+
+function loadCounts() {
+  getOrderCounts()
+    .then((data) => {
+      counts.value = data || {}
+    })
+    .catch(() => {
+      // 角标失败不影响列表
+    })
+}
+
+function refresh() {
+  load()
+  loadCounts()
 }
 
 function goDetail(id) {
@@ -75,7 +101,7 @@ function handleCancel(order) {
       cancelOrder(order.id)
         .then(() => {
           ElMessage.success('订单已取消')
-          load()
+          refresh()
         })
         .catch((e) => {
           ElMessage.error(e?.message || '取消失败')
@@ -97,7 +123,7 @@ function handleConfirm(order) {
       finishOrder(order.id)
         .then(() => {
           ElMessage.success('已确认收货')
-          load()
+          refresh()
         })
         .catch((e) => {
           ElMessage.error(e?.message || '操作失败')
@@ -109,9 +135,11 @@ function handleConfirm(order) {
 // 售后入口：与后端 AfterSaleServiceImpl.create 的可申请状态保持一致
 // 仅退款支持 3/4，退货退款/换货支持 4/5；同一订单只能申请一次
 function canApplyAfterSale(order) {
-  return [STATUS.PENDING_SHIP, STATUS.SHIPPED, STATUS.FINISHED].includes(
-    order.orderStatus
-  ) && !order.afterSale
+  return (
+    [ORDER_STATUS.PENDING_SHIP, ORDER_STATUS.SHIPPED, ORDER_STATUS.FINISHED].includes(
+      order.orderStatus
+    ) && !order.afterSale
+  )
 }
 
 function goAfterSale(order) {
@@ -124,40 +152,89 @@ function goAfterSale(order) {
 
 // 订单卡片上按状态给操作按钮
 function actionsOf(order) {
-  if (order.orderStatus === STATUS.PENDING_PAY) {
+  if (order.orderStatus === ORDER_STATUS.PENDING_PAY) {
     return [
       { label: '取消订单', type: 'text', handler: handleCancel },
       { label: '去支付', type: 'primary', handler: handlePay },
     ]
   }
-  if (order.orderStatus === STATUS.SHIPPED) {
+  if (order.orderStatus === ORDER_STATUS.SHIPPED) {
+    // 闭环：售后处理中时置灰确认收货，避免一边售后一边完结订单
+    const inAfterSale = !!order.afterSale
     return [
       { label: '查看物流', type: 'text', handler: () => goDetail(order.id) },
-      { label: '确认收货', type: 'primary', handler: handleConfirm },
+      {
+        label: '确认收货',
+        type: 'primary',
+        disabled: inAfterSale,
+        disabledTip: inAfterSale ? '售后处理中，暂不能确认收货' : '',
+        handler: handleConfirm,
+      },
     ]
   }
   return [{ label: '查看详情', type: 'text', handler: () => goDetail(order.id) }]
 }
 
-// 支持从个人中心带 status 参数跳进来
+function handleTabChange(name) {
+  activeTab.value = normalizeStatus(name)
+  page.value = 1
+  load()
+}
+
+function handlePageChange(value) {
+  page.value = value
+  load()
+}
+
+function handleSearch() {
+  page.value = 1
+  load()
+}
+
+// 支持从个人中心带 status/keyword 参数跳进来
 watch(
-  () => route.query.status,
-  (value) => {
-    activeTab.value = value ? Number(value) : ''
-  },
-  { immediate: true }
+  () => [route.query.status, route.query.keyword],
+  ([status, word]) => {
+    const next = normalizeStatus(status)
+    const nextKeyword = typeof word === 'string' ? word : ''
+    if (next === activeTab.value && nextKeyword === keyword.value) return
+    activeTab.value = next
+    keyword.value = nextKeyword
+    page.value = 1
+    load()
+  }
 )
 
-onMounted(load)
+onMounted(refresh)
 </script>
 
 <template>
   <div class="card page">
-    <h2 class="section-title">我的订单</h2>
+    <div class="page-head">
+      <h2 class="section-title">我的订单</h2>
+      <el-input
+        v-model="keyword"
+        class="order-search"
+        placeholder="搜订单号 / 商品名称"
+        clearable
+        :prefix-icon="Search"
+        @keyup.enter="handleSearch"
+        @clear="handleSearch"
+      >
+        <template #append>
+          <el-button @click="handleSearch">搜索</el-button>
+        </template>
+      </el-input>
+    </div>
 
     <!-- 状态 tab -->
-    <el-tabs v-model="activeTab" class="order-tabs">
-      <el-tab-pane v-for="tab in TABS" :key="tab.label" :label="tab.label" :name="String(tab.value)">
+    <el-tabs v-model="activeTab" class="order-tabs" @tab-change="handleTabChange">
+      <el-tab-pane
+        v-for="tab in ORDER_TABS"
+        :key="tab.label"
+        :label="tab.label"
+        :name="tab.value"
+      >
         <template #label>
           <span class="tab-label">
             {{ tab.label }}
@@ -167,21 +244,24 @@ onMounted(load)
       </el-tab-pane>
     </el-tabs>
 
-    <el-empty v-if="!loading && !filtered.length" description="还没有相关订单" />
+    <el-empty v-if="!loading && !orders.length" description="还没有相关订单" />
 
     <div v-loading="loading" class="order-list">
-      <article v-for="order in filtered" :key="order.id" class="order-card">
-        <!-- 订单头 -->
+      <article v-for="order in orders" :key="order.id" class="order-card">
+        <!-- 订单头：订单号 / 下单时间 / 状态 -->
         <header class="order-head">
           <span class="order-no">订单号：{{ order.orderNo }}</span>
           <span class="order-time">{{ order.createdAt }}</span>
-          <el-tag class="order-status" type="warning" size="small">
-            {{ order.orderStatusDesc }}
-          </el-tag>
+          <span
+            class="order-status"
+            :style="{ color: metaOf(order).color, background: metaOf(order).bg }"
+          >
+            {{ metaOf(order).label }}
+          </span>
         </header>
 
         <!-- 商品行 -->
-        <div class="order-items">
+        <div class="order-items" @click="goDetail(order.id)">
           <div v-for="item in order.items || []" :key="item.orderItemId" class="order-item">
             <img class="item-img" :src="item.image" :alt="item.productName" loading="lazy" />
             <div class="item-info">
@@ -194,10 +274,10 @@ onMounted(load)
           </div>
         </div>
 
-        <!-- 订单尾：金额 + 操作 -->
+        <!-- 订单尾：件数 / 售后 / 实付 / 操作 -->
         <footer class="order-foot">
           <span class="order-count">共 {{ (order.items || []).length }} 件商品</span>
-          <!-- 可申请售后 → 申请售后；已申请 → 售后详情 -->
+
           <el-button
             v-if="order.afterSale || canApplyAfterSale(order)"
             type="text"
@@ -207,14 +287,18 @@ onMounted(load)
           >
             {{ order.afterSale ? '售后详情' : '申请售后' }}
           </el-button>
+
           <span class="order-total">
             实付 <strong>¥{{ order.payAmount }}</strong>
           </span>
+
           <div class="order-actions">
             <el-button
               v-for="action in actionsOf(order)"
               :key="action.label"
               :type="action.type"
+              :disabled="!!action.disabled"
+              :title="action.disabledTip || ''"
               size="small"
               @click="action.handler(order)"
             >
@@ -224,6 +308,19 @@ onMounted(load)
         </footer>
       </article>
     </div>
+
+    <div v-if="total" class="order-pager">
+      <span class="pager-total">共 {{ total }} 笔订单</span>
+      <el-pagination
+        v-if="total > PAGE_SIZE"
+        background
+        layout="prev, pager, next"
+        :current-page="page"
+        :page-size="PAGE_SIZE"
+        :total="total"
+        @current-change="handlePageChange"
+      />
+    </div>
   </div>
 </template>
 
@@ -232,8 +329,39 @@ onMounted(load)
   padding: var(--space-lg);
 }
 
+.page-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.page-head .section-title {
+  margin: 0;
+}
+
+.order-search {
+  width: 260px;
+  margin-left: auto;
+}
+
 .order-tabs {
+  margin-top: var(--space-md);
   margin-bottom: var(--space-md);
+}
+
+.order-pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+.pager-total {
+  font-size: 13px;
+  color: var(--text-secondary);
 }
 
 .tab-label {
@@ -247,7 +375,7 @@ onMounted(load)
   color: var(--color-primary);
 }
 
-/* ===== 订单卡片 ===== */
+/* ===== 订单卡片（京东式三段：头 / 商品 / 尾） ===== */
 .order-list {
   display: flex;
   flex-direction: column;
@@ -256,18 +384,30 @@ onMounted(load)
 
 .order-card {
   border: 1px solid var(--border-light);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-card);
   overflow: hidden;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
+.order-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-card);
+}
+
+/* 订单头 */
 .order-head {
   display: flex;
   align-items: center;
   gap: var(--space-md);
   padding: 10px var(--space-md);
-  background: var(--bg-hover);
+  background: var(--bg-soft);
+  border-bottom: 1px solid var(--border-light);
   font-size: 13px;
   color: var(--text-secondary);
+}
+
+.order-no {
+  color: var(--text-regular);
 }
 
 .order-time {
@@ -276,11 +416,16 @@ onMounted(load)
 
 .order-status {
   flex-shrink: 0;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
 }
 
-/* ===== 商品行 ===== */
+/* 商品行 */
 .order-items {
   padding: var(--space-sm) var(--space-md);
+  cursor: pointer;
 }
 
 .order-item {
@@ -288,6 +433,10 @@ onMounted(load)
   align-items: center;
   gap: var(--space-md);
   padding: 8px 0;
+}
+
+.order-item + .order-item {
+  border-top: 1px dashed var(--border-light);
 }
 
 .item-img {
@@ -305,21 +454,19 @@ onMounted(load)
 }
 
 .item-name {
-  margin: 0 0 4px;
+  margin: 0;
   font-size: 14px;
   color: var(--text-primary);
+  transition: color 0.15s;
 }
 
-.item-spec {
-  margin: 0;
-  font-size: 12px;
-  color: var(--text-secondary);
+.order-item:hover .item-name {
+  color: var(--color-primary);
 }
-
 
 .item-amount {
-  text-align: right;
   flex-shrink: 0;
+  text-align: right;
 }
 
 .item-amount .price {
@@ -332,10 +479,11 @@ onMounted(load)
   color: var(--text-secondary);
 }
 
-/* ===== 订单尾 ===== */
+/* 订单尾 */
 .order-foot {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: var(--space-md);
   padding: 10px var(--space-md);
   border-top: 1px solid var(--border-light);
@@ -346,6 +494,10 @@ onMounted(load)
   color: var(--text-secondary);
 }
 
+.aftersale-btn {
+  color: var(--status-aftersale);
+}
+
 .order-total {
   margin-left: auto;
   font-size: 13px;
@@ -353,6 +505,7 @@ onMounted(load)
 }
 
 .order-total strong {
+  font-family: var(--font-num);
   font-size: 18px;
   color: var(--color-primary);
 }
@@ -362,39 +515,20 @@ onMounted(load)
   gap: var(--space-sm);
 }
 
-/* ===== 窄屏（≤768px）适配 ===== */
+/* ===== 窄屏（≤768px） ===== */
 @media (max-width: 768px) {
   .page {
     padding: var(--space-md) var(--space-sm);
   }
 
-  /* 状态 tab 改横向滚动，6 个 tab 挤不下 */
-  .order-tabs :deep(.el-tabs__nav-wrap) {
-    overflow-x: auto;
+  .order-search {
+    width: 100%;
+    margin-left: 0;
   }
 
-  .order-tabs :deep(.el-tabs__nav-wrap::after) {
-    display: none;
-  }
-
-  .order-tabs :deep(.el-tabs__nav-scroll) {
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-
-  .order-tabs :deep(.el-tabs__nav-scroll::-webkit-scrollbar) {
-    display: none;
-  }
-
-  .order-tabs :deep(.el-tabs__nav) {
-    float: none;
-  }
-
-  /* 订单头：订单号与时间换行 */
   .order-head {
     flex-wrap: wrap;
-    gap: 6px var(--space-sm);
-    padding: 10px var(--space-sm);
+    gap: var(--space-sm);
   }
 
   .order-time {
@@ -405,25 +539,18 @@ onMounted(load)
     margin-left: auto;
   }
 
-  /* 商品行：图片缩小，给文字留空间 */
-  .order-items {
-    padding: var(--space-sm);
-  }
-
-  .order-item {
-    gap: var(--space-sm);
-  }
-
   .item-img {
     width: 60px;
     height: 60px;
   }
 
-  /* 订单尾：换行成两行，金额与操作各占一行 */
+  .order-items {
+    padding: var(--space-sm);
+  }
+
   .order-foot {
-    flex-wrap: wrap;
     gap: var(--space-sm);
-    padding: 10px var(--space-sm);
+    padding: var(--space-sm);
   }
 
   .order-total {
@@ -433,6 +560,16 @@ onMounted(load)
   .order-actions {
     width: 100%;
     justify-content: flex-end;
+  }
+
+  .order-pager {
+    justify-content: center;
+    gap: var(--space-sm);
+  }
+
+  .pager-total {
+    width: 100%;
+    text-align: center;
   }
 }
 </style>
