@@ -364,4 +364,44 @@ onMounted(load)
   padding-top: var(--space-md);
   border-top: 1px solid var(--border-light);
 }
+
+/* ===== 窄屏（≤768px）适配 ===== */
+@media (max-width: 768px) {
+  .page {
+    padding: var(--space-md) var(--space-sm);
+  }
+
+  /* 状态条：状态与订单号换行 */
+  .status-bar {
+    flex-wrap: wrap;
+    gap: 6px var(--space-sm);
+    padding: var(--space-sm);
+  }
+
+  .status-no {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  /* 商品行：图片缩小 */
+  .order-item {
+    gap: var(--space-sm);
+  }
+
+  .item-img {
+    width: 60px;
+    height: 60px;
+  }
+
+  /* 底部操作按钮占满整行，方便点击 */
+  .page-foot {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .page-foot .el-button {
+    width: 100%;
+    margin-left: 0;
+  }
+}
 </style>

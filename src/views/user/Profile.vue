@@ -338,4 +338,67 @@ onMounted(load)
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+/* ===== 窄屏（≤768px）适配 ===== */
+@media (max-width: 768px) {
+  /* 名片：竖排，头像与统计各占一行 */
+  .user-card {
+    gap: var(--space-md);
+    padding: var(--space-md);
+  }
+
+  .user-left {
+    gap: var(--space-sm);
+  }
+
+  .user-name {
+    font-size: 16px;
+  }
+
+  /* 统计项三等分铺开 */
+  .user-right {
+    width: 100%;
+    gap: var(--space-sm);
+    justify-content: space-around;
+  }
+
+  .stat-value {
+    font-size: 17px;
+  }
+
+  /* 区块内边距收紧 */
+  .block {
+    padding: var(--space-md) var(--space-sm);
+  }
+
+  /* 订单状态入口：4 个改 2×2 网格 */
+  .order-entries {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-sm);
+  }
+
+  .order-entry {
+    padding: var(--space-sm) 0;
+  }
+
+  .order-icon {
+    font-size: 22px;
+  }
+
+  /* 功能宫格：6 个改 3×2 网格 */
+  .function-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-sm);
+  }
+
+  .function-item {
+    padding: var(--space-sm) 0;
+    background: var(--bg-hover);
+  }
+
+  .function-icon {
+    font-size: 20px;
+  }
+}
 </style>

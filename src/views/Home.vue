@@ -68,6 +68,12 @@ const CATEGORY_ICONS = {
   智能家居: House,
 }
 const categoryIcon = (c) => CATEGORY_ICONS[c.name] || Goods
+
+// 二级分类平铺行（窄屏用）：把所有一级分类的二级子分类拉平
+// 触屏触发不了 hover 浮层，窄屏直接铺出来让用户点得到
+const subCategories = computed(() =>
+  categories.value.flatMap((c) => c.children || [])
+)
 // 合并后的商品流：recommend 优先置顶，其余商品去重后按原顺序补齐
 const productFlow = ref([])
 const page = ref(1)
@@ -162,6 +168,19 @@ onMounted(async () => {
               </div>
             </li>
           </ul>
+
+          <!-- 二级分类平铺行：窄屏专用。触屏触发不了 hover 浮层，
+               这里把二级分类按顺序铺成一条横滑行，一级分类在下面点 -->
+          <div v-if="subCategories.length" class="sub-chips">
+            <router-link
+              v-for="s in subCategories"
+              :key="s.id"
+              :to="`/category/${s.id}`"
+              class="sub-chip"
+            >
+              {{ s.name }}
+            </router-link>
+          </div>
         </div>
 
         <!-- 中间：Banner 轮播 -->
@@ -314,6 +333,11 @@ onMounted(async () => {
   font-size: 15px;
   line-height: 1;
   color: var(--text-placeholder);
+}
+
+/* 二级分类平铺行：窄屏专用，PC 端隐藏（PC 用 hover 浮层） */
+.sub-chips {
+  display: none;
 }
 
 /* ===== hover 展开的二级分类浮层（淘宝式） ===== */
@@ -515,6 +539,151 @@ onMounted(async () => {
   .guess-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
+  }
+
+  /* ===== 主体改竖排：轮播 → 分类 → 促销位 ===== */
+  /* 选择器必须带 .container，优先级(0,2,0) 才能覆盖上面的 .container .hero，
+     否则 height:350px 仍然生效，内容被 overflow:hidden 裁掉 */
+  .container .hero {
+    flex-direction: column;
+    height: auto; /* 小屏取消固定高度，高度由内容撑开 */
+    overflow: visible; /* 不裁剪二级分类浮层 */
+    gap: 12px;
+  }
+
+  /* 轮播：改固定比例，高度由宽度撑开（原来靠 hero 的 350px 撑） */
+  .banner {
+    width: 100%;
+    flex: none;
+  }
+
+  .banner-wrap {
+    aspect-ratio: 2 / 1;
+    height: auto;
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* ===== 分类栏：小屏改成「一级分类横滑 + 二级分类横滑」双行 ===== */
+  .side-bar.l {
+    width: 100%;
+    /* 小屏分类栏占满整行 */
+  }
+
+  /* 一级分类：竖排改成横滑，8 个分类一屏放不下 */
+  .cat-list {
+    display: flex;
+    gap: var(--space-sm);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 8px;
+  }
+
+  .cat-list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cat-item {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+
+  .cat-link {
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 68px;
+    padding: 8px 4px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    text-align: center;
+  }
+
+  .cat-icon {
+    font-size: 20px;
+  }
+
+  .cat-name {
+    flex: none;
+    white-space: normal;
+    line-height: 1.3;
+  }
+
+  /* 箭头在竖排布局里没意义了 */
+  .cat-arrow {
+    display: none;
+  }
+
+  /* 二级分类横滑行 */
+  .sub-chips {
+    display: flex;
+    gap: var(--space-sm);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0 8px 8px;
+    border-top: 1px solid var(--border-light);
+    margin-top: 4px;
+  }
+
+  .sub-chips::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sub-chip {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    padding: 5px 12px;
+    font-size: 12px;
+    color: var(--text-regular);
+    background: var(--bg-hover);
+    border-radius: 999px;
+    white-space: nowrap;
+    /* 触控目标不小于 44px */
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .sub-chip:active {
+    background: var(--color-primary-bg);
+    color: var(--color-primary);
+  }
+
+  /* hover 浮层在触屏上没有意义，直接不渲染 */
+  .sub-panel {
+    display: none;
+  }
+
+  /* ===== 促销位：4 张图改 2×2 网格，不再竖排 4 张（竖排会拉出 400px 高） ===== */
+  .side-bar.r {
+    width: 100%;
+    margin-top: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  /* 小屏图片按 16:9 自适应，不再写死 80px 高度 */
+  .side-img-link img {
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  /* 图片容器跟随栅格列宽，避免宽高比和实际宽度对不上留白 */
+  .side-img-link {
+    width: 100%;
+  }
+
+  /* ===== 猜你喜欢标题：装饰线缩短，避免把标题挤成两行 ===== */
+  .title-line {
+    width: 32px;
+  }
+
+  .title-text {
+    font-size: 17px;
   }
 }
 

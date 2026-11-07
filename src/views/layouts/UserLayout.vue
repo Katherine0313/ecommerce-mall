@@ -140,4 +140,64 @@ function onMenuClick(name) {
     padding-top: 0;
   }
 }
+
+/* ===== 窄屏（≤768px）：左侧菜单改横向滚动 chip 栏 ===== */
+@media (max-width: 768px) {
+  .user-layout {
+    gap: var(--space-md);
+    padding: var(--space-md) 0 var(--space-lg);
+  }
+
+  .side {
+    padding: var(--space-sm) 0;
+    border-radius: var(--radius-md);
+  }
+
+  .menu {
+    display: flex;
+    gap: var(--space-sm);
+    padding: 0 var(--space-sm);
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .menu::-webkit-scrollbar {
+    display: none;
+  }
+
+  .menu-group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    flex: 0 0 auto;
+  }
+
+  .menu-group + .menu-group {
+    margin-top: 0;
+    padding-top: 0;
+    padding-left: var(--space-sm);
+    border-left: 1px solid var(--border-light);
+  }
+
+  .group-title {
+    margin: 0;
+    padding: 0;
+    flex-shrink: 0;
+  }
+
+  .menu-item {
+    width: auto;
+    padding: 8px 12px;
+    border-radius: 999px;
+    white-space: nowrap;
+    text-align: center;
+    background: var(--bg-hover);
+    min-height: 36px;
+  }
+
+  .menu-item.active {
+    background: var(--color-primary-bg);
+  }
+}
 </style>

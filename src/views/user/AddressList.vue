@@ -161,4 +161,28 @@ onMounted(load)
   gap: var(--space-xs);
   flex-shrink: 0;
 }
+
+/* ===== 窄屏（≤768px）适配 ===== */
+@media (max-width: 768px) {
+  .page {
+    padding: var(--space-md) var(--space-sm);
+  }
+
+  /* 地址项竖排：信息一行，操作一行 */
+  .address-item {
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    padding: var(--space-sm);
+  }
+
+  .address-main {
+    flex-basis: 100%;
+  }
+
+  .address-actions {
+    width: 100%;
+    justify-content: flex-end;
+    gap: var(--space-md);
+  }
+}
 </style>

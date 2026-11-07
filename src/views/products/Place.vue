@@ -116,7 +116,7 @@ function onConfirm() {
 }
 
 /* 手机：三个下拉纵向排列 */
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .place-select {
     flex-direction: column;
   }

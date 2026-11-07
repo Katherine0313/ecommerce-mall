@@ -136,4 +136,29 @@ onMounted(load)
 .fav-remove {
   flex-shrink: 0;
 }
+
+/* ===== 窄屏（≤768px）适配 ===== */
+@media (max-width: 768px) {
+  .page {
+    padding: var(--space-md) var(--space-sm);
+  }
+
+  /* 收藏项：图片缩小，取消收藏按钮换行到下方独立一行 */
+  .fav-item {
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    padding: var(--space-sm) 0;
+  }
+
+  .fav-img {
+    width: 72px;
+    height: 72px;
+  }
+
+  .fav-remove {
+    width: 100%;
+    text-align: right;
+    min-height: 44px;
+  }
+}
 </style>

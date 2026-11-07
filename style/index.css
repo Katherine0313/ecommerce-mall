@@ -42,6 +42,19 @@
   --container-width: 1200px;
   --header-height: 80px;
 
+  /* 安全区（iPhone 刘海屏 / 底部横条） */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+
+  /* 移动端底部导航高度 */
+  --tabbar-height: 56px;
+
+  /* 移动端底部固定购买栏高度（8 上内边距 + 44 按钮 + 8 下内边距 + 1 边框）
+     布局层要按这个高度给页面留白，否则 footer 会被购买栏压住 */
+  --buybar-height: 61px;
+
   /* 层级 */
   --z-header: 100;
   --z-dropdown: 200;
@@ -238,6 +251,9 @@ table {
 }
 
 /* ---------- 4. 响应式 ---------- */
+/* 断点约定：mobile ≤768px / tablet 769~1024px / desktop >1024px
+   新增媒体查询只允许用这三档，档内可再细分（如 480px）但必须是移动档内 */
+
 @media (max-width: 768px) {
   .container {
     width: calc(100% - 24px);
@@ -251,5 +267,91 @@ table {
   .product-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
+  }
+
+  /* 通用横向滚动容器：比强行换行更省空间，移动端列表标准做法 */
+  .h-scroll {
+    display: flex;
+    gap: var(--space-sm);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .h-scroll > * {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+
+  /* 表单：标签与内容换行，不再并排（解决 label-width 110px 挤压输入框） */
+  .el-form-item {
+    display: block;
+  }
+  .el-form-item__label {
+    width: auto !important;
+    text-align: left;
+    padding-bottom: 4px;
+    line-height: 1.4;
+  }
+  .el-form-item__content {
+    margin-left: 0 !important;
+  }
+
+  /* 弹窗：固定像素宽改为按屏宽百分比 */
+  .el-dialog {
+    width: calc(100% - 24px) !important;
+    margin-top: 10vh !important;
+  }
+  .el-dialog__body {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  /* 抽屉：窄屏全屏升起（汉堡菜单除外，它用面板式宽度） */
+  .el-drawer.rtl,
+  .el-drawer.ltr:not(.menu-drawer-el) {
+    width: 100% !important;
+  }
+
+  /* 触控目标 ≥44px（移动端最小可点区域） */
+  .el-button,
+  .mobile-tabbar .tab-item,
+  .el-input__wrapper,
+  .el-textarea__inner {
+    min-height: 44px;
+  }
+
+  /* 输入框内部的文字垂直居中：min-height 撑高后默认还是偏上 */
+  .el-input__inner {
+    height: auto;
+    line-height: 1.4;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  /* 输入框字号 ≥16px，否则 iOS Safari 自动放大导致布局错乱 */
+  .el-input__inner,
+  .el-textarea__inner,
+  .el-select__wrapper {
+    font-size: 16px;
+  }
+
+  /* 描述列表：窄屏两列挤在一起，把表格改成块级堆叠（标签在上、内容在下） */
+  .el-descriptions__body .el-descriptions__table,
+  .el-descriptions__body tbody,
+  .el-descriptions__body tr,
+  .el-descriptions__body td {
+    display: block;
+    width: 100%;
+  }
+
+  /* 抽屉内容留出安全区 */
+  .el-drawer__body {
+    padding-bottom: calc(16px + var(--safe-bottom));
+  }
+
+  /* 弹窗底部按钮：窄屏竖排堆叠，避免按钮被挤扁 */
+  .el-dialog__footer .el-button {
+    flex: 1;
+    min-width: 0;
   }
 }

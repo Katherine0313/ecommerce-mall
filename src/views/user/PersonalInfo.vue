@@ -361,4 +361,41 @@ onMounted(load)
   padding-top: var(--space-md);
   border-top: 1px solid var(--border-light);
 }
+
+/* ===== 窄屏（≤768px）适配 ===== */
+@media (max-width: 768px) {
+  .page {
+    padding: var(--space-md) var(--space-sm);
+  }
+
+  /* 头像行：竖排，头像与操作分开 */
+  .avatar-row {
+    gap: var(--space-md);
+  }
+
+  /* 编辑态：输入框与按钮竖排，输入框占满整行 */
+  .field-edit {
+    flex-wrap: wrap;
+  }
+
+  .field-edit .el-input {
+    max-width: 100%;
+  }
+
+  .code-row {
+    flex-wrap: wrap;
+  }
+
+  .code-row .el-input {
+    max-width: 100%;
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* 字段行：说明文字换行 */
+  .field-row {
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+}
 </style>

@@ -3,7 +3,31 @@
   <component name="ChangeListManager">
     <list default="true" id="2571bb5b-b0df-4e79-aaa5-0d3d847dd109" name="Changes" comment="1029">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ProductCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ProductCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Home.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/aftersales/AfterSaleDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/aftersales/AfterSaleDetail.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/aftersales/ApplyAfterSale.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/aftersales/ApplyAfterSale.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/layouts/DefaultLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/layouts/DefaultLayout.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/layouts/UserLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/layouts/UserLayout.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/products/Address.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/products/Address.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/products/Cart.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/products/Cart.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/products/Paid.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/products/Paid.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/products/Place.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/products/Place.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/products/ProductDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/products/ProductDetail.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/products/ProductList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/products/ProductList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/products/Settlement.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/products/Settlement.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/user/AddressList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/user/AddressList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/user/Coupons.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/user/Coupons.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/user/Favorites.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/user/Favorites.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/user/Member.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/user/Member.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/user/OrderDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/user/OrderDetail.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/user/OrderList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/user/OrderList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/user/PersonalInfo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/user/PersonalInfo.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/user/Profile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/user/Profile.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/style/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/style/index.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +138,9 @@
       <workItem from="1793858130488" duration="592000" />
       <workItem from="1793881919661" duration="6033000" />
       <workItem from="1793950292430" duration="24000" />
-      <workItem from="1793951381345" duration="635000" />
+      <workItem from="1793951381345" duration="1144000" />
+      <workItem from="1794038541533" duration="6384000" />
+      <workItem from="1794050540289" duration="645000" />
     </task>
     <task id="LOCAL-00001" summary="0731">
       <option name="closed" value="true" />
@@ -412,7 +438,23 @@
       <option name="project" value="LOCAL" />
       <updated>1793950311438</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="1029">
+      <option name="closed" value="true" />
+      <created>1793952039084</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1793952039084</updated>
+    </task>
+    <task id="LOCAL-00039" summary="1029">
+      <option name="closed" value="true" />
+      <created>1793952042036</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1793952042036</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -193,4 +193,22 @@ async function handleDelete() {
 .footer-actions .el-button {
   min-width: 120px;
 }
+
+/* ===== 窄屏（≤768px）适配 ===== */
+@media (max-width: 768px) {
+  /* 表单标签已由全局规则改为上下排列，这里的左内边距同步去掉 */
+  .default-row {
+    padding-left: 0;
+  }
+
+  .footer-actions {
+    gap: var(--space-sm);
+  }
+
+  .footer-actions .el-button {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+  }
+}
 </style>

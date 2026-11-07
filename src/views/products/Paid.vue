@@ -189,7 +189,7 @@ onBeforeUnmount(() => clearInterval(timer))
 }
 
 .pay-header-left {
-  width:700px;
+  max-width: 700px;
   display: flex;
   align-items: baseline;
   gap: 12px;
@@ -219,7 +219,7 @@ onBeforeUnmount(() => clearInterval(timer))
 }
 
 .pay-left {
-  width: 700px;
+  max-width: 700px;
   min-width: 0;
 }
 
@@ -457,9 +457,17 @@ onBeforeUnmount(() => clearInterval(timer))
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .pay-body {
     display: block;
+  }
+  /* 窄屏解除 700px 上限，跟着容器走 */
+  .pay-left {
+    max-width: 100%;
+    width: 100%;
+  }
+  .pay-header-left {
+    max-width: 100%;
   }
   .pay-right {
     margin-top: 16px;
@@ -477,6 +485,33 @@ onBeforeUnmount(() => clearInterval(timer))
   }
   .goods-sub {
     margin-left: auto;
+  }
+  /* 支付方式竖排，避免 3 项在窄屏被压扁 */
+  .pay-methods {
+    flex-direction: column;
+  }
+  /* 按钮间的固定右边距在窄屏会挤掉按钮 */
+  .btn-confirm {
+    margin-right: 0;
+  }
+
+  /* 固定底栏会盖住页面末尾，给整页留出对应高度 */
+  .pay-page {
+    padding-bottom: calc(var(--buybar-height) + var(--safe-bottom));
+  }
+
+  /* 底部操作栏固定：支付倒计时与按钮始终可见 */
+  .pay-footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: var(--z-header);
+    margin: 0;
+    padding: 8px calc(12px + var(--safe-right)) calc(8px + var(--safe-bottom))
+      calc(12px + var(--safe-left));
+    background: #fff;
+    border-top: 1px solid var(--border-light);
   }
 }
 </style>

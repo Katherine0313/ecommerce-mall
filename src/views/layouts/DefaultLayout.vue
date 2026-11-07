@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { useUserStore } from '@/stores/user.js'
@@ -14,7 +14,10 @@ import {
   ShoppingCart,
   User,
   EditPen,
+  Fold,
+  Grid,
 } from '@element-plus/icons-vue'
+import MobileTabBar from '@/components/MobileTabBar.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -26,6 +29,26 @@ const HOT_KEYWORDS = ['手机', '笔记本', '平板', '耳机', '手表', '相�
 // 站点 Logo：后端 /image 静态目录托管（与 StoreCard 同源）
 const logoUrl = '/image/zongjie.webp'
 // 购物车是独立页面（/cart），头部入口直接跳路由
+
+// 窄屏底部 Tab：只有详情页不显示（它自己有一个底部固定购买栏，两个叠一起会打架）
+const showTabBar = computed(() => !route.meta.hideTabBar)
+
+// 窄屏汉堡菜单：顶部工具条隐藏了 5 个入口，这里用抽屉补回
+const menuVisible = ref(false)
+const MENU_LINKS = [
+  { label: '首页', path: '/', icon: HomeFilled },
+  { label: '全部商品', path: '/products-list', icon: Grid },
+  { label: '购物车', path: '/cart', icon: ShoppingCart },
+  { label: '我的订单', path: '/user/orders', icon: List },
+  { label: '我的收藏', path: '/user/favorites', icon: Star },
+  { label: '我的优惠券', path: '/user/coupons', icon: Ticket },
+  { label: '会员中心', path: '/user/member', icon: Medal },
+]
+
+function goMenu(path) {
+  menuVisible.value = false
+  if (route.path !== path) router.push(path)
+}
 
 function onCart() {
   router.push('/cart')
@@ -104,7 +127,15 @@ function searchByKeyword(word) {
 </script>
 
 <template>
-  <div class="layout">
+  <!-- 窄屏底部有固定 Tab（详情页是固定购买栏），用 layout--pad-bottom 给整页留出空间，
+       否则最下方的 footer 会被固定条盖住 -->
+  <div
+    class="layout"
+    :class="{
+      'layout--pad-bottom': showTabBar,
+      'layout--pad-buybar': route.meta.fixedBottomBar,
+    }"
+  >
     <!-- 顶部工具条（淘宝式）：登录状态 + 个人中心入口，滚动时随页面滚走 -->
     <div class="topbar">
       <div class="container topbar-inner">
@@ -143,6 +174,15 @@ function searchByKeyword(word) {
           <button type="button" class="topbar-link cart-entry" @click="onCart">
             <el-icon><ShoppingCart /></el-icon>购物车
           </button>
+          <!-- 窄屏汉堡菜单：补回被 topbar-extra 隐藏的 5 个入口 -->
+          <button
+            type="button"
+            class="topbar-link menu-toggle"
+            aria-label="打开菜单"
+            @click="menuVisible = true"
+          >
+            <el-icon><Fold /></el-icon>
+          </button>
           <!-- 登录后头像在右侧（点开是账户下拉菜单） -->
           <el-dropdown v-if="userStore.isLoggedIn" trigger="click" @command="onCommand">
             <el-image
@@ -163,6 +203,38 @@ function searchByKeyword(word) {
         </nav>
       </div>
     </div>
+
+    <!-- 窄屏汉堡菜单抽屉 -->
+    <el-drawer
+      v-model="menuVisible"
+      class="menu-drawer-el"
+      direction="ltr"
+      size="70%"
+      :with-header="false"
+    >
+      <div class="menu-drawer">
+        <div class="menu-drawer-title">全部功能</div>
+        <button
+          v-for="item in MENU_LINKS"
+          :key="item.path"
+          type="button"
+          class="menu-drawer-item"
+          @click="goMenu(item.path)"
+        >
+          <el-icon><component :is="item.icon" /></el-icon>
+          <span>{{ item.label }}</span>
+        </button>
+        <button
+          v-if="!userStore.isLoggedIn"
+          type="button"
+          class="menu-drawer-item"
+          @click="goMenu('/login')"
+        >
+          <el-icon><User /></el-icon>
+          <span>登录 / 注册</span>
+        </button>
+      </div>
+    </el-drawer>
 
     <!-- 大搜索栏头部：商品/购物车/结算等页面（meta.hideHeader）不显示，聚焦下单流程 -->
     <header v-if="!route.meta.hideHeader" class="header">
@@ -203,6 +275,9 @@ function searchByKeyword(word) {
     <main class="main">
       <router-view />
     </main>
+
+    <!-- 移动端底部 Tab 导航（≤768px 显示；详情页自己有底部购买栏，不叠） -->
+    <MobileTabBar v-if="showTabBar" />
 
     <!-- 全局购物车已改为独立页面（/cart），这里不再挂弹窗 -->
 
@@ -471,25 +546,141 @@ function searchByKeyword(word) {
   color: var(--border-color);
 }
 
-@media (max-width: 640px) {
-  /* 窄屏只保留购物车和头像，其余文字入口收起 */
-  .topbar-extra {
-    display: none;
-  }
+/* 汉堡按钮：PC 隐藏，只有窄屏用 */
+.menu-toggle {
+  display: none;
+  font-size: 16px;
+}
 
+/* 抽屉内容 */
+.menu-drawer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.menu-drawer-title {
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding: 4px 8px 12px;
+  border-bottom: 1px solid var(--border-light);
+  margin-bottom: 8px;
+}
+
+.menu-drawer-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 8px;
+  border: none;
+  background: none;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  color: var(--text-primary);
+  cursor: pointer;
+  text-align: left;
+}
+
+.menu-drawer-item:hover {
+  background: var(--bg-hover);
+  color: var(--color-primary);
+}
+
+@media (max-width: 768px) {
+  /* 窄屏只保留购物车和头像，其余文字入口收起（改由汉堡菜单 + 底部 Tab 提供） */
+
+  /* 头部压缩：logo 与搜索框同行一行，热门词隐藏。
+     原来 logo 行 + 搜索行 + 热门词行叠起来占 129px，占了视口 20%。 */
   .header-inner {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     height: auto;
-    gap: 10px;
+    gap: 8px;
     padding: 8px 10px;
   }
 
+  .logo {
+    font-size: 17px;
+    gap: 6px;
+  }
+
+  .logo-img {
+    width: 28px;
+    height: 28px;
+  }
+
+  /* 兔耳朵挂件跟着 logo 缩小 */
+  .bunny-ear {
+    width: 10px;
+    height: 18px;
+    top: -6px;
+  }
+
+  .ear-left {
+    left: 2px;
+  }
+
+  .ear-right {
+    right: 2px;
+  }
+
   .search-wrap {
-    order: 3;
-    flex-basis: 100%;
+    order: 0;
+    flex: 1;
+    min-width: 0;
     /* 窄屏恢复居中，不做右移 */
     position: static;
+  }
+
+  /* 热门搜索词在窄屏占一行高度且作用有限，隐藏 */
+  .hot-words {
+    display: none;
+  }
+
+  .topbar-extra{
+    display: none;
+  }
+
+  /* 汉堡按钮窄屏显示 */
+  .menu-toggle {
+    display: inline-flex;
+  }
+
+  /* 底部有固定条（Tab 导航 / 详情页购买栏），整页留出空间。
+     注意必须留给 .layout 而不是 .main —— footer 在 main 之外，
+     只给 main 加 padding 的话 footer 会被固定条盖住（备案链接点不到）。 */
+  .layout--pad-bottom {
+    padding-bottom: calc(var(--tabbar-height) + var(--safe-bottom));
+  }
+
+  /* 详情页：底部是固定购买栏（比 Tab 高 5px），按购买栏实际高度留白 */
+  .layout--pad-buybar {
+    padding-bottom: calc(var(--buybar-height) + var(--safe-bottom));
+  }
+
+  /* 顶部工具条与头部避让刘海屏 */
+  .topbar-inner,
+  .header-inner {
+    padding-left: calc(10px + var(--safe-left));
+    padding-right: calc(10px + var(--safe-right));
+  }
+
+  /* 顶部避让状态栏 / 刘海屏 */
+  .topbar {
+    padding-top: var(--safe-top);
+  }
+
+  /* 头部是 sticky 定位，避让要加在自身内边距上 */
+  .header {
+    padding-top: var(--safe-top);
+  }
+
+  /* 顶部工具条压缩高度，给小屏腾空间 */
+  .topbar-inner {
+    height: 38px;
   }
 }
 </style>

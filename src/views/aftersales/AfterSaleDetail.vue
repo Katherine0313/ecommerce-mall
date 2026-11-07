@@ -644,4 +644,63 @@ onMounted(load)
     font-size: 12px !important;
   }
 }
+
+/* ===== 窄屏（≤768px）适配 ===== */
+@media (max-width: 768px) {
+  .aftersale-page {
+    padding: var(--space-md) var(--space-sm) var(--space-xl);
+  }
+
+  .card-block {
+    padding: var(--space-sm);
+  }
+
+  .status-title {
+    font-size: 16px;
+  }
+
+  /* 售后进度：竖排（el-steps 竖向），5 步横向排挤不下 */
+  .aftersale-steps :deep(.el-steps--vertical) {
+    max-width: 100%;
+  }
+
+  /* 商品行：图片缩小 */
+  .goods-item {
+    gap: var(--space-sm);
+  }
+
+  .goods-img {
+    width: 60px;
+    height: 60px;
+  }
+
+  /* 表单控件占满整行 */
+  .field-select {
+    width: 100%;
+  }
+
+  /* 上门取件行竖排 */
+  .pickup-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  /* 凭证图片缩小 */
+  .evidence-img {
+    width: 72px;
+    height: 72px;
+  }
+
+  /* 底部按钮各占一半 */
+  .submit-bar {
+    gap: var(--space-sm);
+  }
+
+  .submit-bar .el-button {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+  }
+}
 </style>

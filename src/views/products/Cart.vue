@@ -143,6 +143,20 @@
         </div>
       </div>
     </div>
+
+    <!-- 窄屏底部结算栏：全选 + 合计 + 结算，滚动时始终可见 -->
+    <div v-if="cartStore.items.length" class="mobile-cart-bar">
+      <button type="button" class="mcb-select" @click="toggleSelectAll">
+        <el-icon v-if="isAllSelected" class="check-icon checked"><CircleCheckFilled /></el-icon>
+        <span v-else class="check-circle"></span>
+        <span>全选</span>
+      </button>
+      <div class="mcb-total">
+        <span>合计</span>
+        <strong>￥{{ finalTotal }}</strong>
+      </div>
+      <el-button class="mcb-settle" :disabled="!selectedCount" @click="handleSettlement">去支付</el-button>
+    </div>
   </div>
 </template>
 
@@ -273,7 +287,7 @@ function itemSubtotal(item) {
 }
 
 .cart-left {
-  width: 700px;
+  max-width: 700px;
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -703,6 +717,11 @@ function itemSubtotal(item) {
   color: var(--text-placeholder);
 }
 
+/* 窄屏底部结算栏：PC 隐藏，≤768px 由媒体查询开启 */
+.mobile-cart-bar {
+  display: none;
+}
+
 /* ===== 响应式 ===== */
 @media (max-width: 1000px) {
   .cart-wrapper {
@@ -718,9 +737,14 @@ function itemSubtotal(item) {
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .cart-wrapper {
     display: block;
+  }
+  /* 窄屏解除 700px 上限，跟着容器走 */
+  .cart-left {
+    max-width: 100%;
+    width: 100%;
   }
   .cart-header {
     display: none;
@@ -753,6 +777,62 @@ function itemSubtotal(item) {
   .cart-action-bar {
     flex-wrap: wrap;
     gap: 8px;
+  }
+
+  /* 固定底栏会盖住页面末尾，给整页留出对应高度 */
+  .cart-page {
+    padding-bottom: calc(var(--buybar-height) + var(--safe-bottom));
+  }
+
+  /* 结算卡里的按钮收进固定底栏，避免同一页出现两处结算入口 */
+  .cart-right .btn-row {
+    display: none;
+  }
+
+  .mobile-cart-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: var(--z-header);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px calc(12px + var(--safe-right)) calc(8px + var(--safe-bottom))
+      calc(12px + var(--safe-left));
+    background: #fff;
+    border-top: 1px solid var(--border-light);
+  }
+
+  .mcb-select {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 0 4px;
+    border: none;
+    background: none;
+    font-size: 13px;
+    color: var(--text-secondary);
+    cursor: pointer;
+  }
+
+  .mcb-total {
+    flex: 1;
+    text-align: right;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .mcb-total strong {
+    margin-left: 4px;
+    font-size: 19px;
+    font-weight: 700;
+    color: #ff4e2a;
+  }
+
+  .mcb-settle {
+    min-width: 96px;
   }
 }
 </style>

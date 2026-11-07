@@ -142,6 +142,18 @@
       </div>
     </div>
 
+    <!-- 窄屏底部提交栏：合计 + 返回/提交，滚动时始终可见 -->
+    <div class="mobile-settle-bar">
+      <div class="msb-total">
+        <span>合计</span>
+        <strong>￥{{ settlementTotal }}</strong>
+      </div>
+      <div class="msb-btns">
+        <el-button class="btn-return" @click="handleReturn">返回</el-button>
+        <el-button class="btn-pay" @click="handlePay">提交订单</el-button>
+      </div>
+    </div>
+
     <!-- 地址管理（抽屉） -->
     <Address ref="addressRef" @saved="fetchAddressList" />
   </div>
@@ -365,7 +377,7 @@ async function handlePay() {
 }
 
 .settle-left {
-  width: 700px;
+  max-width: 700px;
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -708,6 +720,11 @@ async function handlePay() {
   color: #fff;
 }
 
+/* 窄屏底部提交栏：PC 隐藏，≤768px 由媒体查询开启 */
+.mobile-settle-bar {
+  display: none;
+}
+
 /* ===== 响应式 ===== */
 @media (max-width: 1200px) {
   .settle-wrapper {
@@ -724,9 +741,14 @@ async function handlePay() {
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .settle-wrapper {
     display: block;
+  }
+  /* 窄屏解除 700px 上限，跟着容器走 */
+  .settle-left {
+    max-width: 100%;
+    width: 100%;
   }
   .settle-header {
     display: none;
@@ -752,6 +774,61 @@ async function handlePay() {
   }
   .item-subtotal {
     order: 6;
+  }
+
+  /* 固定底栏会盖住页面末尾，给整页留出对应高度 */
+  .settle-page {
+    padding-bottom: calc(var(--buybar-height) + var(--safe-bottom));
+  }
+
+  /* 结算卡里的按钮收进固定底栏，避免同一页出现两处提交入口 */
+  .settle-right .btn-row {
+    display: none;
+  }
+
+  .mobile-settle-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: var(--z-header);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px calc(12px + var(--safe-right)) calc(8px + var(--safe-bottom))
+      calc(12px + var(--safe-left));
+    background: #fff;
+    border-top: 1px solid var(--border-light);
+  }
+
+  .msb-total {
+    flex-shrink: 0;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .msb-total strong {
+    margin-left: 4px;
+    font-size: 19px;
+    font-weight: 700;
+    color: #ff4e2a;
+  }
+
+  .msb-btns {
+    display: flex;
+    flex: 1;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+
+  .msb-btns .btn-return,
+  .msb-btns .btn-pay {
+    width: auto;
+    flex: 0 0 auto;
+    min-width: 88px;
+  }
+  .settle-items{
+    display: none;
   }
 }
 </style>

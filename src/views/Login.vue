@@ -401,7 +401,7 @@ onUnmounted(() => clearInterval(countdownTimer))
   font-size: 23px;
   font-weight: 700;
   letter-spacing: 1px;
-  color: var(--mall-primary);
+  color: var(--color-primary);
   text-decoration: none;
   cursor: pointer;
 }
@@ -481,13 +481,13 @@ onUnmounted(() => clearInterval(countdownTimer))
 
 .login-tabs :deep(.el-tabs__item.is-active) {
   font-weight: 600;
-  color: var(--mall-primary);
+  color: var(--color-primary);
 }
 
 .login-tabs :deep(.el-tabs__active-bar) {
   height: 3px;
   border-radius: 3px;
-  background: var(--mall-primary);
+  background: var(--color-primary);
 }
 
 /* ===== 表单 ===== */
@@ -516,11 +516,22 @@ onUnmounted(() => clearInterval(countdownTimer))
 
 .login-card :deep(.el-input__wrapper.is-focus) {
   background: transparent !important;
-  box-shadow: 0 0 0 1px var(--mall-primary) inset;
+  box-shadow: 0 0 0 1px var(--color-primary) inset;
 }
 
 .login-card :deep(.el-input__inner) {
   height: 38px;
+}
+
+/* 窄屏：触控目标不小于 44px（全局规则只管 wrapper，这里 inner 也要跟着长） */
+@media (max-width: 768px) {
+  .login-card :deep(.el-input__inner) {
+    height: auto;
+    min-height: 44px;
+    line-height: 1.4;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
 }
 
 .login-card :deep(.el-input__prefix) {
@@ -559,13 +570,13 @@ onUnmounted(() => clearInterval(countdownTimer))
   border: none;
   border-radius: 10px;
   background: transparent;
-  color: var(--mall-primary);
+  color: var(--color-primary);
   font-size: 13px;
 }
 
 .code-btn:hover {
   background: var(--color-primary-bg);
-  color: var(--mall-primary);
+  color: var(--color-primary);
 }
 
 .code-btn.is-disabled {
@@ -580,7 +591,7 @@ onUnmounted(() => clearInterval(countdownTimer))
 }
 
 .mock-tip strong {
-  color: var(--mall-primary);
+  color: var(--color-primary);
   letter-spacing: 1px;
 }
 
@@ -615,7 +626,7 @@ onUnmounted(() => clearInterval(countdownTimer))
   padding: 0;
   margin-left: 2px;
   font-size: 12px;
-  color: var(--mall-primary);
+  color: var(--color-primary);
   cursor: pointer;
 }
 

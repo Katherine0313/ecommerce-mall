@@ -159,4 +159,25 @@ onMounted(load)
 .coupon-status {
   margin: 0;
 }
+
+/* ===== 窄屏（≤768px）适配 ===== */
+@media (max-width: 768px) {
+  .page {
+    padding: var(--space-md) var(--space-sm);
+  }
+
+  /* 券卡：左侧面额缩窄，面额字号减小 */
+  .coupon-left {
+    width: 104px;
+    padding: var(--space-sm);
+  }
+
+  .coupon-face {
+    font-size: 17px;
+  }
+
+  .coupon-right {
+    padding: var(--space-sm);
+  }
+}
 </style>

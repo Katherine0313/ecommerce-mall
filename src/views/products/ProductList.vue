@@ -1,6 +1,7 @@
 <script setup>
-import { ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, computed, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { Search } from '@element-plus/icons-vue'
 import { getProductPage, getCategories } from '@/api/product.js'
 import ProductCard from '@/components/ProductCard.vue'
 
@@ -8,6 +9,7 @@ import ProductCard from '@/components/ProductCard.vue'
 const PAGE_SIZE = 40
 
 const route = useRoute()
+const router = useRouter()
 
 const loading = ref(true)
 const loadingMore = ref(false)
@@ -17,6 +19,9 @@ const total = ref(0)
 const page = ref(1)
 const hasMore = ref(false)
 const categoryNames = ref({})
+const categoryTree = ref([])
+// 窄屏列表页没有顶部搜索栏（hideHeader），这里自己带一个
+const keyword = ref('')
 
 // 请求序号：路由快速切换时只应用最后一次请求的结果
 let loadSeq = 0
@@ -32,10 +37,28 @@ function flattenCategories(list, map = {}) {
 
 async function loadCategories() {
   try {
-    categoryNames.value = flattenCategories(await getCategories())
+    const list = await getCategories()
+    categoryTree.value = list || []
+    categoryNames.value = flattenCategories(list || [])
   } catch {
     // 分类名只用于标题，失败不影响商品展示
   }
+}
+
+// 二级分类横滑条（窄屏用）：一级分类在下面点，触屏触发不了 hover 浮层
+const subCategories = computed(() =>
+  categoryTree.value.flatMap((c) => c.children || [])
+)
+
+// 当前选中的分类 id（用于高亮）
+const activeCategoryId = computed(
+  () => route.params.id || route.query.categoryId || ''
+)
+
+// 窄屏搜索：提交到 /search 路由，搜索页有自己的结果展示
+function onSearch() {
+  const q = keyword.value.trim()
+  router.push({ path: '/search', query: q ? { keyword: q } : {} })
 }
 
 // 当前路由对应的筛选条件（分类 / 关键词）
@@ -98,7 +121,32 @@ watch(() => [route.params.id, route.query.categoryId, route.query.keyword], load
 </script>
 
 <template>
-  <div class="container">
+  <div class="container list-page">
+    <!-- 窄屏搜索栏：本页 hideHeader 没有顶部搜索框，窄屏自己带一个 -->
+    <form class="mobile-search" @submit.prevent="onSearch">
+      <el-input
+        v-model="keyword"
+        placeholder="搜索商品"
+        clearable
+        :prefix-icon="Search"
+        @clear="onSearch"
+      />
+      <el-button type="primary" native-type="submit">搜索</el-button>
+    </form>
+
+    <!-- 二级分类横滑条：窄屏用，触屏触发不了首页的 hover 浮层 -->
+    <div v-if="subCategories.length" class="sub-chips">
+      <router-link
+        v-for="s in subCategories"
+        :key="s.id"
+        :to="`/category/${s.id}`"
+        class="sub-chip"
+        :class="{ active: String(s.id) === String(activeCategoryId) }"
+      >
+        {{ s.name }}
+      </router-link>
+    </div>
+
     <h2 class="section-title">
       <template v-if="route.query.keyword">搜索“{{ route.query.keyword }}”</template>
       <template v-else-if="categoryNames[route.params.id || route.query.categoryId]">
@@ -127,6 +175,16 @@ watch(() => [route.params.id, route.query.categoryId, route.query.keyword], load
 </template>
 
 <style scoped>
+/* 窄屏搜索栏：PC 隐藏（PC 用顶部导航的搜索框） */
+.mobile-search {
+  display: none;
+}
+
+/* 二级分类横滑条：窄屏专用 */
+.sub-chips {
+  display: none;
+}
+
 .load-more {
   display: flex;
   justify-content: center;
@@ -136,5 +194,64 @@ watch(() => [route.params.id, route.query.categoryId, route.query.keyword], load
 .load-more-tip {
   color: #999;
   font-size: 14px;
+}
+
+/* ===== 窄屏（≤768px）适配 ===== */
+@media (max-width: 768px) {
+  .list-page {
+    padding-top: var(--space-md);
+  }
+
+  /* 搜索栏：窄屏本页没有顶部导航搜索框，这里补一个 */
+  .mobile-search {
+    display: flex;
+    gap: 8px;
+    margin-bottom: var(--space-sm);
+  }
+
+  .mobile-search .el-input {
+    flex: 1;
+  }
+
+  .mobile-search .el-button {
+    flex: none;
+  }
+
+  /* 二级分类横滑 */
+  .sub-chips {
+    display: flex;
+    gap: var(--space-sm);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-bottom: var(--space-sm);
+  }
+
+  .sub-chips::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sub-chip {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    padding: 6px 14px;
+    font-size: 13px;
+    color: var(--text-regular);
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 999px;
+    white-space: nowrap;
+    /* 触控目标不小于 44px */
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .sub-chip.active {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+    background: var(--color-primary-bg);
+  }
 }
 </style>

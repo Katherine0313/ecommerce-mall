@@ -495,7 +495,8 @@ watch(() => route.params.id, load, { immediate: true })
                       <span class="review-time">{{ item.createdAt }}</span>
                     </div>
                     <div class="review-stars">
-                      <el-rate :value="item.rating" disabled size="small" />
+                      <el-rate :value="Number(item.rating) || 0" disabled size="small" active-color="#ffb400"
+                        inactive-color="#dcdfe6" />
                       <span v-if="item.tag" class="review-tag">{{ item.tag }}</span>
                       <span v-if="item.isVirtual === 1" class="review-virtual">系统评价</span>
                     </div>
@@ -720,6 +721,17 @@ watch(() => route.params.id, load, { immediate: true })
 
     <!-- 加入购物车成功弹窗 -->
     <AddCartDialog ref="addCartDialogRef" />
+
+    <!-- 窄屏底部固定购买栏（PC 隐藏）：详情页在窄屏是上下堆叠，
+         加购/购买按钮在页面中段，滚动到底才能看到，这里固定到屏幕底部 -->
+    <div v-if="product && !soldOut" class="mobile-buy-bar">
+      <el-button class="mb-cart" size="large" :disabled="soldOut" @click="addToCart">
+        加入购物车
+      </el-button>
+      <el-button class="mb-buy" type="primary" size="large" :disabled="soldOut" @click="buyNow">
+        立即购买
+      </el-button>
+    </div>
   </div>
 </template>
 
@@ -1439,5 +1451,175 @@ watch(() => route.params.id, load, { immediate: true })
     width: 100%;
     position: static;
   }
+}
+
+/* 窄屏底部固定购买栏：PC 隐藏，窄屏由媒体查询开启 */
+.mobile-buy-bar {
+  display: none;
+}
+
+/* ===== 窄屏（≤768px）适配 ===== */
+@media (max-width: 768px) {
+  /* 图集：缩略图列改横向滚动，避免竖排 64px 宽挤掉主图 */
+  .gallery {
+    flex-direction: column;
+    padding: 0 12px;
+  }
+
+  .thumb-list {
+    width: 100%;
+    flex-direction: row;
+    max-height: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 4px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .thumb {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+
+  /* 面包屑换行，避免长商品名撑破容器 */
+  .breadcrumb {
+    font-size: 13px;
+    height: auto;
+    line-height: 1.6;
+    white-space: normal;
+  }
+
+  /* 信息面板去掉横向内边距 */
+  .panel {
+    padding: 0 12px;
+  }
+
+  .title {
+    font-size: 19px;
+  }
+
+  .price {
+    font-size: 26px;
+  }
+
+  .price-unit {
+    font-size: 17px;
+  }
+
+  /* 规格标签：行标签在上，标签流式换行 */
+  .spec-row {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .spec-row .row-label {
+    width: auto;
+    line-height: 1.6;
+  }
+
+  /* 规格/信息行标签不再固定 80px 宽 */
+  .info-label,
+  .row-label {
+    width: auto;
+    min-width: 64px;
+  }
+
+  .info-row {
+    gap: 10px;
+  }
+
+  /* 增值保障卡片改 2 列（3 列在窄屏太挤） */
+  .insurance-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* 评价统计区竖排 */
+  .review-summary {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .review-score {
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .score-bars {
+    padding-left: 0;
+  }
+
+  /* 评价媒体小图缩小 */
+  .review-media-item {
+    width: 70px;
+    height: 70px;
+  }
+
+  /* 区块内边距收紧 */
+  .block {
+    padding: 16px 12px;
+  }
+
+  /* 参数表：窄屏两列挤在一起，改成上下堆叠 */
+  .specs-table,
+  .specs-table tbody,
+  .specs-table tr,
+  .specs-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .specs-table tr + tr {
+    border-top: 1px solid var(--border-light);
+  }
+
+  .spec-name {
+    width: 100%;
+    padding: 8px 12px 0;
+    background: transparent;
+    font-weight: 600;
+  }
+
+  .spec-value {
+    padding: 2px 12px 10px;
+  }
+
+  /* 页内购买按钮在窄屏隐藏，统一由底部固定栏承接，避免同一页出现两套加购/购买入口；
+     宽屏无固定栏，保留页内按钮正常下单 */
+  .buy-row {
+    display: none;
+  }
+
+  /* 底部固定购买栏 */
+  .mobile-buy-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: var(--z-header);
+    display: flex;
+    gap: 10px;
+    padding: 8px calc(12px + var(--safe-right)) calc(8px + var(--safe-bottom))
+      calc(12px + var(--safe-left));
+    background: #fff;
+    border-top: 1px solid var(--border-light);
+  }
+
+  .mb-cart,
+  .mb-buy {
+    flex: 1;
+    margin: 0;
+  }
+
+  .mb-cart {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+
+  /* 页面底部留白由 DefaultLayout 的 .layout--pad-bottom 统一负责，
+     这里不再重复加 padding，否则会多出一段空白 */
 }
 </style>

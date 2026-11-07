@@ -243,4 +243,44 @@ onMounted(load)
 .item-threshold {
   font-size: 13px;
 }
+
+/* ===== 窄屏（≤768px）适配 ===== */
+@media (max-width: 768px) {
+  .page {
+    padding: var(--space-md) var(--space-sm);
+  }
+
+  .level-card {
+    padding: var(--space-md);
+  }
+
+  .level-head {
+    gap: var(--space-sm);
+  }
+
+  .level-icon {
+    font-size: 28px;
+  }
+
+  .level-name {
+    font-size: 17px;
+  }
+
+  /* 成长值进度头换行 */
+  .growth-head {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  /* 等级列表：门槛值换到下一行 */
+  .level-item {
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .level-info {
+    flex-basis: 100%;
+  }
+}
 </style>

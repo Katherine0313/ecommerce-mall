@@ -361,4 +361,78 @@ onMounted(load)
   display: flex;
   gap: var(--space-sm);
 }
+
+/* ===== 窄屏（≤768px）适配 ===== */
+@media (max-width: 768px) {
+  .page {
+    padding: var(--space-md) var(--space-sm);
+  }
+
+  /* 状态 tab 改横向滚动，6 个 tab 挤不下 */
+  .order-tabs :deep(.el-tabs__nav-wrap) {
+    overflow-x: auto;
+  }
+
+  .order-tabs :deep(.el-tabs__nav-wrap::after) {
+    display: none;
+  }
+
+  .order-tabs :deep(.el-tabs__nav-scroll) {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .order-tabs :deep(.el-tabs__nav-scroll::-webkit-scrollbar) {
+    display: none;
+  }
+
+  .order-tabs :deep(.el-tabs__nav) {
+    float: none;
+  }
+
+  /* 订单头：订单号与时间换行 */
+  .order-head {
+    flex-wrap: wrap;
+    gap: 6px var(--space-sm);
+    padding: 10px var(--space-sm);
+  }
+
+  .order-time {
+    margin-left: 0;
+  }
+
+  .order-status {
+    margin-left: auto;
+  }
+
+  /* 商品行：图片缩小，给文字留空间 */
+  .order-items {
+    padding: var(--space-sm);
+  }
+
+  .order-item {
+    gap: var(--space-sm);
+  }
+
+  .item-img {
+    width: 60px;
+    height: 60px;
+  }
+
+  /* 订单尾：换行成两行，金额与操作各占一行 */
+  .order-foot {
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    padding: 10px var(--space-sm);
+  }
+
+  .order-total {
+    margin-left: 0;
+  }
+
+  .order-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
 </style>

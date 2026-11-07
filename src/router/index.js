@@ -13,14 +13,16 @@ const router = createRouter({
         { path: 'products-list', name: 'products', component: () => import('@/views/products/ProductList.vue'), meta: { hideHeader: true } },
         { path: 'category/:id', name: 'category', component: () => import('@/views/products/ProductList.vue'), meta: { hideHeader: true } },
         { path: 'search', name: 'search', component: () => import('@/views/Search.vue') },
-        { path: 'product/:id', name: 'product-detail', component: () => import('@/views/products/ProductDetail.vue'), meta: { hideHeader: true } },
+        // 详情页 hideHeader：窄屏下自己有一个底部固定购买栏，不能再叠底部 Tab
+        { path: 'product/:id', name: 'product-detail', component: () => import('@/views/products/ProductDetail.vue'), meta: { hideHeader: true, hideTabBar: true, fixedBottomBar: true } },
         // 文章详情：关于我们 / 隐私政策 / Banner 跳转文章都走这里
         { path: 'article/:id', name: 'article-detail', component: () => import('@/views/article/ArticleDetail.vue') },
 
-        // 购物车 / 结算 / 支付：独立页面（淘宝做法，不用弹窗），但在布局内，保留顶部导航和页脚
-        { path: 'cart', name: 'cart', component: () => import('@/views/products/Cart.vue'), meta: { requiresAuth: true, hideHeader: true } },
-        { path: 'checkout', name: 'checkout', component: () => import('@/views/products/Settlement.vue'), meta: { requiresAuth: true, hideHeader: true } },
-        { path: 'pay/:orderId', name: 'pay', component: () => import('@/views/products/Paid.vue'), meta: { requiresAuth: true, hideHeader: true } },
+        // 购物车 / 结算 / 支付：独立页面（淘宝做法，不用弹窗），但在布局内，保留页脚。
+        // hideTabBar：这些页面自己带固定底部操作栏，再叠底部 Tab 会互相遮挡
+        { path: 'cart', name: 'cart', component: () => import('@/views/products/Cart.vue'), meta: { requiresAuth: true, hideHeader: true, hideTabBar: true } },
+        { path: 'checkout', name: 'checkout', component: () => import('@/views/products/Settlement.vue'), meta: { requiresAuth: true, hideHeader: true, hideTabBar: true } },
+        { path: 'pay/:orderId', name: 'pay', component: () => import('@/views/products/Paid.vue'), meta: { requiresAuth: true, hideHeader: true, hideTabBar: true } },
 
         // 售后：独立页面（申请 / 详情），不用弹窗
         { path: 'aftersales/apply/:orderId', name: 'aftersale-apply', component: () => import('@/views/aftersales/ApplyAfterSale.vue'), meta: { requiresAuth: true } },
