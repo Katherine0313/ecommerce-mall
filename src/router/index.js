@@ -24,8 +24,9 @@ const router = createRouter({
         { path: 'checkout', name: 'checkout', component: () => import('@/views/products/Settlement.vue'), meta: { requiresAuth: true, hideHeader: true, hideTabBar: true } },
         { path: 'pay/:orderId', name: 'pay', component: () => import('@/views/products/Paid.vue'), meta: { requiresAuth: true, hideHeader: true, hideTabBar: true } },
 
-        // AI 客服：独立全屏聊天页，自己带头部与底部输入框，不叠站点头尾
-        { path: 'ai-chat', name: 'ai-chat', component: () => import('@/views/ai/AiChat.vue'), meta: { requiresAuth: true, hideHeader: true, hideTabBar: true } },
+        // AI 客服：独立全屏聊天页，自己带头部与底部输入框，不叠站点头尾。
+        // 不要求登录，未登录用户以匿名身份（X-Anonymous-Id）使用。
+        { path: 'ai-chat', name: 'ai-chat', component: () => import('@/views/ai/AiChat.vue'), meta: { hideHeader: true, hideTabBar: true } },
 
         // 售后：独立页面（申请 / 详情），不用弹窗
         { path: 'aftersales/apply/:orderId', name: 'aftersale-apply', component: () => import('@/views/aftersales/ApplyAfterSale.vue'), meta: { requiresAuth: true } },

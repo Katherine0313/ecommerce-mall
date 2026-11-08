@@ -12,6 +12,7 @@ import {
   aiHandoff,
 } from '@/api/ai.js'
 import { getToken, removeToken } from '@/utils/token.js'
+import { getAnonymousId } from '@/utils/anonymous.js'
 import { formatPrice } from '@/utils/format'
 
 const router = useRouter()
@@ -141,11 +142,8 @@ function toLogin() {
 async function send(text) {
   const content = (typeof text === 'string' ? text : input.value).trim()
   if (!content || sending.value) return
+  // 登录态与匿名态均可使用 AI 聊天
   const token = getToken()
-  if (!token) {
-    toLogin()
-    return
-  }
 
   // 人工会话：不再走模型，直接把消息落库交给后台客服
   if (humanMode.value) {
@@ -183,12 +181,12 @@ async function send(text) {
 
   try {
     // SSE 是 POST，不能用 EventSource；手动带与 axios 拦截器一致的 Authorization 头
+    const headers = { 'Content-Type': 'application/json' }
+    if (token) headers.Authorization = `Bearer ${token}`
+    headers['X-Anonymous-Id'] = getAnonymousId()
     const res = await fetch('/api/mall/ai/chat/stream', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
+      headers,
       body: JSON.stringify({
         message: content,
         conversationId: activeId.value || undefined,
@@ -197,11 +195,14 @@ async function send(text) {
     })
 
     if (!res.ok) {
-      // 与 utils/request.js 拦截器行为对齐：401/403 清 token 回登录页
+      // 登录态下 401/403 清 token 回登录页；匿名态只提示错误
       if (res.status === 401 || res.status === 403) {
-        removeToken()
-        toLogin()
-        throw new Error('登录已过期，请重新登录')
+        if (token) {
+          removeToken()
+          toLogin()
+          throw new Error('登录已过期，请重新登录')
+        }
+        throw new Error('服务暂时不可用，请稍后再试')
       }
       if (res.status === 429) throw new Error('提问太频繁了，请稍后再试')
       throw new Error(`请求失败（${res.status}）`)
@@ -302,11 +303,6 @@ async function sendHuman(content) {
 }
 
 async function confirmHandoff(text) {
-  const token = getToken()
-  if (!token) {
-    toLogin()
-    return
-  }
   if (handoffLoading.value) return
   handoffLoading.value = true
   try {
@@ -563,12 +559,16 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .ai-chat {
+  /* 本路由 hideHeader + hideTabBar，页面上方只有 topbar(42px)，下方是 footer(~110px)，
+     再加上下边距 32px，共需扣减约 184px。用 190px 留一点余量避免贴边。
+     100dvh 替代 100vh，兼容移动端浏览器地址栏伸缩。 */
+  --ai-chat-offset: 190px;
   display: flex;
   gap: var(--space-md);
   max-width: var(--container-width);
   margin: var(--space-md) auto;
   padding: 0 10px;
-  height: calc(100vh - var(--header-height) - 220px);
+  height: calc(100dvh - var(--ai-chat-offset));
   min-height: 480px;
 }
 
@@ -688,8 +688,7 @@ onBeforeUnmount(() => {
 .handoff-card {
   display: flex;
   gap: var(--space-sm);
-  width: 300px;
-  max-width: 100%;
+  width: clamp(280px, 100%, 360px);
   padding: var(--space-md);
   background: var(--bg-card);
   border: 1px solid var(--border-light);
@@ -820,7 +819,7 @@ onBeforeUnmount(() => {
 }
 
 .bubble-wrap {
-  max-width: 78%;
+  max-width: clamp(260px, 78%, 720px);
   min-width: 0;
 }
 
@@ -927,8 +926,9 @@ onBeforeUnmount(() => {
 
 /* ===== 商品卡片 ===== */
 .product-cards {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  /* 窄屏单列，卡片宽度跟随气泡；宽屏（气泡≥640px）自动双列 */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: var(--space-sm);
   margin-top: var(--space-sm);
 }
@@ -936,8 +936,7 @@ onBeforeUnmount(() => {
 .product-card {
   display: flex;
   gap: var(--space-sm);
-  width: 300px;
-  max-width: 100%;
+  width: 100%;
   padding: var(--space-sm);
   background: var(--bg-card);
   border: 1px solid var(--border-light);
