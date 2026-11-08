@@ -43,12 +43,12 @@
         <div class="settle-items">
           <div
             v-for="item in settlementItems"
-            :key="item.productId"
+            :key="itemKey(item)"
             class="settle-item-card"
-            :class="{ selected: selectedKeys.includes(item.productId) }"
+            :class="{ selected: selectedKeys.includes(itemKey(item)) }"
           >
-            <div class="item-check" @click="toggleItem(item.productId)">
-              <el-icon v-if="selectedKeys.includes(item.productId)" class="check-icon checked">
+            <div class="item-check" @click="toggleItem(itemKey(item))">
+              <el-icon v-if="selectedKeys.includes(itemKey(item))" class="check-icon checked">
                 <CircleCheckFilled />
               </el-icon>
               <span v-else class="check-circle"></span>
@@ -70,12 +70,12 @@
             <div class="item-stepper">
               <button
                 class="step-btn"
-                @click="cartStore.updateQuantity(item.productId, Math.max(1, item.quantity - 1))"
+                @click="cartStore.updateQuantity(item.productId, item.skuId, Math.max(1, item.quantity - 1))"
               >
                 −
               </button>
               <span class="step-num">{{ item.quantity }}</span>
-              <button class="step-btn" @click="cartStore.updateQuantity(item.productId, item.quantity + 1)">
+              <button class="step-btn" @click="cartStore.updateQuantity(item.productId, item.skuId, item.quantity + 1)">
                 +
               </button>
             </div>
@@ -95,7 +95,7 @@
           <div v-if="checkedItems.length" class="checkout-thumbs">
             <img
               v-for="item in checkedItems"
-              :key="item.productId"
+              :key="itemKey(item)"
               :src="item.image"
               class="checkout-thumb"
               alt=""
@@ -183,10 +183,12 @@ const keys = ref([])
 // 已勾选的商品 ID
 const selectedKeys = ref([])
 
-// 独立结算页：待结算的商品 ID 从路由 query 读（/checkout?ids=1,2）
+// 独立结算页：待结算的商品从路由 query 读（/checkout?ids=s123,p45）
+// ids 是购物车行身份（rowKey：多规格 s{skuId}，单规格 p{productId}），必须保留字符串原样，
+// 不能 Number() 转换 —— 带前缀的 key 会变 NaN 被过滤光，导致空 keys 被弹回购物车
 onMounted(() => {
   const raw = typeof route.query.ids === 'string' ? route.query.ids : ''
-  keys.value = raw ? raw.split(',').map((v) => Number(v)).filter(Boolean) : []
+  keys.value = raw ? raw.split(',').filter(Boolean) : []
   selectedKeys.value = [...keys.value]
   if (!keys.value.length) {
     ElMessage.warning('没有要结算的商品')
@@ -197,6 +199,10 @@ onMounted(() => {
 })
 
 // ============ 选中逻辑 ============
+// 行身份与购物车页一致：多规格 s{skuId}，单规格/旧数据 p{productId}。
+// 不能用 productId 当 key —— 同商品多个 SKU 行会串行（选中/算价/全选全乱）
+const itemKey = (item) => cartStore.rowKey(item)
+
 function toggleItem(id) {
   const idx = selectedKeys.value.indexOf(id)
   if (idx > -1) selectedKeys.value.splice(idx, 1)
@@ -206,22 +212,22 @@ function toggleItem(id) {
 const isAllSelected = computed(
   () =>
     settlementItems.value.length > 0 &&
-    settlementItems.value.every((i) => selectedKeys.value.includes(i.productId))
+    settlementItems.value.every((i) => selectedKeys.value.includes(itemKey(i)))
 )
 
 function toggleSelectAll() {
   selectedKeys.value = isAllSelected.value
     ? []
-    : settlementItems.value.map((i) => i.productId)
+    : settlementItems.value.map((i) => itemKey(i))
 }
 
 // ============ 购物车商品 ============
 const settlementItems = computed(() =>
-  cartStore.items.filter((item) => keys.value.includes(item.productId))
+  cartStore.items.filter((item) => keys.value.includes(itemKey(item)))
 )
 
 const checkedItems = computed(() =>
-  settlementItems.value.filter((item) => selectedKeys.value.includes(item.productId))
+  settlementItems.value.filter((item) => selectedKeys.value.includes(itemKey(item)))
 )
 
 const checkedTotalCount = computed(() =>

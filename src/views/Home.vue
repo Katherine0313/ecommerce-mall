@@ -1,22 +1,31 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import {ref, computed, onMounted} from 'vue'
+import {useRouter} from 'vue-router'
 import {
   Iphone, Monitor, Cellphone, Headset, Watch, Camera, Box, House, Goods,
 } from '@element-plus/icons-vue'
-import { getHome } from '@/api/home'
-import { getProducts } from '@/api/product'
-import { getBanners, reportBannerBrowse } from '@/api/banner'
+import {getHome} from '@/api/home'
+import {getProducts} from '@/api/product'
+import {getBanners, reportBannerBrowse} from '@/api/banner'
 import ProductCard from '@/components/ProductCard.vue'
+import aiAvatar from '@/assets/ai-avatar.webp'
+
+const router = useRouter()
+
+// 悬浮 AI 客服入口：仅首页展示，点击进全屏 AI 对话页（未登录由路由守卫带去登录并回跳）
+function goAiChat() {
+  router.push('/ai-chat')
+}
 
 // 首页轮播图：优先用后台配置的 Banner（position=11）；
 // 后台没配时回落到 public/swiper 下的静态图，保证首页不至于空白
 // categoryName：按分类名匹配首页分类树（含子串匹配，如「配件」命中「数码配件」），
 // 点击后进该分类的商品列表页
 const FALLBACK_BANNERS = [
-  { src: '/swiper/swiper1.webp', alt: '手机', categoryName: '手机' },
-  { src: '/swiper/swiper2.webp', alt: '电脑', categoryName: '电脑' },
-  { src: '/swiper/swiper3.webp', alt: '相机', categoryName: '相机' },
-  { src: '/swiper/swiper4.webp', alt: '配件', categoryName: '配件' },
+  {src: '/swiper/swiper1.webp', alt: '手机', categoryName: '手机'},
+  {src: '/swiper/swiper2.webp', alt: '电脑', categoryName: '电脑'},
+  {src: '/swiper/swiper3.webp', alt: '相机', categoryName: '相机'},
+  {src: '/swiper/swiper4.webp', alt: '配件', categoryName: '配件'},
 ]
 const banners = ref([])
 
@@ -31,9 +40,9 @@ function resolveCategoryLink(name) {
 // 实际渲染的轮播：后台有配置用后台的，否则用按分类解析过链接的兜底图。
 // 做成 computed，分类树晚于轮播到达时链接也能正确更新
 const displayBanners = computed(() =>
-  banners.value.length
-    ? banners.value
-    : FALLBACK_BANNERS.map((b) => ({ ...b, link: resolveCategoryLink(b.categoryName) }))
+    banners.value.length
+        ? banners.value
+        : FALLBACK_BANNERS.map((b) => ({...b, link: resolveCategoryLink(b.categoryName)}))
 )
 
 // Banner 跳转：商品 → 商品详情，文章 → 文章详情，外部链接 → 原地址
@@ -46,27 +55,28 @@ function bannerLink(b) {
 
 function loadBanners() {
   getBanners(11)
-    .then((list) => {
-      const arr = list || []
-      // 一条 Banner 最多 4 张图：展开成多个轮播项，images 为空时回落到单图 image
-      // 后台没配时保持空数组，模板走 displayBanners 的兜底轮播
-      banners.value = arr.length
-        ? arr.flatMap((b) => {
-            const urls = Array.isArray(b.images) && b.images.length ? b.images : [b.image]
-            return urls
-              .filter(Boolean)
-              .map((src) => ({ id: b.id, src, alt: b.title || '', link: bannerLink(b) }))
-          })
-        : []
-    })
-    .catch(() => {
-      banners.value = []
-    })
+      .then((list) => {
+        const arr = list || []
+        // 一条 Banner 最多 4 张图：展开成多个轮播项，images 为空时回落到单图 image
+        // 后台没配时保持空数组，模板走 displayBanners 的兜底轮播
+        banners.value = arr.length
+            ? arr.flatMap((b) => {
+              const urls = Array.isArray(b.images) && b.images.length ? b.images : [b.image]
+              return urls
+                  .filter(Boolean)
+                  .map((src) => ({id: b.id, src, alt: b.title || '', link: bannerLink(b)}))
+            })
+            : []
+      })
+      .catch(() => {
+        banners.value = []
+      })
 }
 
 // 点击统计：后台能看每张 Banner 的点击量
 function handleBannerClick(b) {
-  if (b.id) reportBannerBrowse(b.id).catch(() => {})
+  if (b.id) reportBannerBrowse(b.id).catch(() => {
+  })
 }
 
 // 猜你喜欢模块：6 行 × 6 列 = 36 个商品为 1 页
@@ -93,10 +103,10 @@ const productFlow = ref([])
 const page = ref(1)
 // 右侧促销位：4 张固定图片（后端 /image/side-bar/ 目录托管，点击进商品列表）
 const sideBars = [
-  { src: '/image/side-bar/side-bar1.webp', alt: '促销活动 1' },
-  { src: '/image/side-bar/side-bar2.webp', alt: '促销活动 2' },
-  { src: '/image/side-bar/side-bar3.webp', alt: '促销活动 3' },
-  { src: '/image/side-bar/side-bar4.webp', alt: '促销活动 4' },
+  {src: '/image/side-bar/side-bar1.webp', alt: '促销活动 1'},
+  {src: '/image/side-bar/side-bar2.webp', alt: '促销活动 2'},
+  {src: '/image/side-bar/side-bar3.webp', alt: '促销活动 3'},
+  {src: '/image/side-bar/side-bar4.webp', alt: '促销活动 4'},
 ]
 
 const loading = ref(true)
@@ -154,13 +164,15 @@ onMounted(async () => {
           <div class="side-title">商品分类</div>
           <ul class="cat-list">
             <li
-              v-for="c in categories"
-              :key="c.id"
-              class="cat-item"
+                v-for="c in categories"
+                :key="c.id"
+                class="cat-item"
             >
               <router-link :to="`/category/${c.id}`" class="cat-link">
                 <!-- 父分类图标（Element Plus 图标集） -->
-                <el-icon class="cat-icon"><component :is="categoryIcon(c)" /></el-icon>
+                <el-icon class="cat-icon">
+                  <component :is="categoryIcon(c)" />
+                </el-icon>
                 <span class="cat-name">{{ c.name }}</span>
                 <!-- 有子分类才给展开箭头（淘宝同款） -->
                 <span v-if="c.children?.length" class="cat-arrow">›</span>
@@ -171,10 +183,10 @@ onMounted(async () => {
                 <div class="sub-head">{{ c.name }}</div>
                 <div class="sub-list">
                   <router-link
-                    v-for="s in c.children"
-                    :key="s.id"
-                    :to="`/category/${s.id}`"
-                    class="sub-item"
+                      v-for="s in c.children"
+                      :key="s.id"
+                      :to="`/category/${s.id}`"
+                      class="sub-item"
                   >
                     {{ s.name }}
                   </router-link>
@@ -209,10 +221,10 @@ onMounted(async () => {
         <!-- 右侧：促销位（4 张固定图片） -->
         <div class="side-bar r">
           <router-link
-            v-for="(s, i) in sideBars"
-            :key="s.src"
-            to="/products-list"
-            class="side-img-link"
+              v-for="(s, i) in sideBars"
+              :key="s.src"
+              to="/products-list"
+              class="side-img-link"
           >
             <img :src="s.src" :alt="s.alt" :loading="i === 0 ? 'eager' : 'lazy'" />
           </router-link>
@@ -220,30 +232,39 @@ onMounted(async () => {
       </div>
 
       <!-- 猜你喜欢：recommend 优先置顶，其余全量商品补齐，6 行 6 列一页 -->
-      <h2 class="section-title guess-title">
-        <span class="title-line"></span>
-        <span class="title-dot"></span>
-        <span class="title-text">猜你喜欢</span>
-        <span class="title-dot"></span>
-        <span class="title-line"></span>
-      </h2>
-      <div v-if="pageProducts.length" class="guess-grid">
-        <ProductCard v-for="p in pageProducts" :key="p.id" :product="p" />
-      </div>
-      <el-empty v-else description="暂无推荐商品" />
+      <div class="product-section">
+        <h2 class="section-title guess-title">
+          <span class="title-line"></span>
+          <span class="title-dot"></span>
+          <span class="title-text">猜你喜欢</span>
+          <span class="title-dot"></span>
+          <span class="title-line"></span>
+        </h2>
+        <div v-if="pageProducts.length" class="guess-grid">
+          <ProductCard v-for="p in pageProducts" :key="p.id" :product="p" />
+        </div>
+        <el-empty v-else description="暂无推荐商品" />
 
-      <!-- 分页：6 行 6 列 = 36 个商品一页 -->
-      <div v-if="totalPages > 1" class="guess-pager">
-        <el-pagination
-          layout="prev, pager, next, total"
-          background
-          :total="totalProducts"
-          :page-size="PAGE_SIZE"
-          :current-page="page"
-          @current-change="(p) => (page = p)"
-        />
+        <!-- 首页专属悬浮 AI 客服入口：其它页面不挂 -->
+        <button type="button" class="ai-float" aria-label="AI 客服" @click="goAiChat">
+          <img class="ai-float-avatar" :src="aiAvatar" alt="" />
+          <span class="ai-float-text">AI 客服</span>
+        </button>
+        <!-- 分页：6 行 6 列 = 36 个商品一页 -->
+        <div v-if="totalPages > 1" class="guess-pager">
+          <el-pagination
+              layout="prev, pager, next, total"
+              background
+              :total="totalProducts"
+              :page-size="PAGE_SIZE"
+              :current-page="page"
+              @current-change="(p) => (page = p)"
+          />
+        </div>
       </div>
+
     </template>
+
   </div>
 </template>
 
@@ -261,7 +282,7 @@ onMounted(async () => {
   /* 不写死高度：让轮播图按 2:1 比例撑开这一行，两侧侧栏跟着等高 */
   align-items: stretch;
   margin-top: 20px;
-  height:350px;
+  height: 350px;
 }
 
 .side-bar {
@@ -518,6 +539,48 @@ onMounted(async () => {
   margin: var(--space-lg) 0 var(--space-xl);
 }
 
+/* ===== 悬浮 AI 客服入口（仅首页） ===== */
+.product-section {
+  position: relative;
+}
+
+.ai-float {
+  position: absolute;
+  top: 100px;
+  right: -130px;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px 8px 8px;
+  border: 1px solid var(--border-light);
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ai-float:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+}
+
+.ai-float-avatar {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.ai-float-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+
 /* 窄屏逐级降列 */
 @media (max-width: 1200px) {
   .guess-grid {
@@ -532,6 +595,23 @@ onMounted(async () => {
 }
 
 @media (max-width: 768px) {
+  /* 悬浮按钮抬到底部 Tab 上方，避免被固定导航遮住 */
+  .ai-float {
+    position: absolute;
+    right: 20px;
+    top: -12px;
+  }
+
+
+  .ai-float-avatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .ai-float-text {
+    font-size: 13px;
+  }
+
   .guess-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
@@ -612,7 +692,6 @@ onMounted(async () => {
   }
 
   /* 二级分类在窄屏不展示，首页只保留一级分类入口；分类页再展开子分类 */
-
   /* hover 浮层在触屏上没有意义，直接不渲染 */
   .sub-panel {
     display: none;

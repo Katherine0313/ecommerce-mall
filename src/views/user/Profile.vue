@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { Medal, Location, Star, Ticket, User, Setting, RefreshLeft, Box } from '@element-plus/icons-vue'
+import { Medal, Location, Star, Ticket, User, Setting, RefreshLeft, Box, Service } from '@element-plus/icons-vue'
 import { getMemberProfile, getProfile } from '@/api/user.js'
 import { getOrderCounts } from '@/api/order.js'
 import { getAfterSaleCounts } from '@/api/aftersale.js'
@@ -31,6 +31,7 @@ const ORDER_ENTRIES = [
 ]
 
 const FUNCTIONS = [
+  { label: 'AI 客服', icon: Service, path: '/ai-chat' },
   { label: '收货地址', icon: Location, path: '/user/addresses' },
   { label: '我的收藏', icon: Star, path: '/user/favorites' },
   { label: '优惠券', icon: Ticket, path: '/user/coupons' },
