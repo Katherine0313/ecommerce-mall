@@ -54,3 +54,7 @@ __screenshots__/
 .trae-html-share-packages/
 .workbuddy/
 
+
+# 编辑器 / IDE / AI 工具（不要提交）
+.idea/
+.trae/
