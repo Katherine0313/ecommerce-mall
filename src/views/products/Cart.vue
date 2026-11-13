@@ -781,7 +781,9 @@ function itemSubtotal(item) {
 
   /* 固定底栏会盖住页面末尾，给整页留出对应高度 */
   .cart-page {
-    padding-bottom: calc(var(--buybar-height) + var(--safe-bottom));
+    padding-bottom: calc(
+      var(--buybar-height) + var(--safe-bottom) + var(--browser-ui-bottom, 0px)
+    );
   }
 
   /* 结算卡里的按钮收进固定底栏，避免同一页出现两处结算入口 */
@@ -793,7 +795,7 @@ function itemSubtotal(item) {
     position: fixed;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: var(--browser-ui-bottom, 0px);
     z-index: var(--z-header);
     display: flex;
     align-items: center;

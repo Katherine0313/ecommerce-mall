@@ -9,7 +9,8 @@ const router = createRouter({
       path: '/',
       component: () => import('@/views/layouts/DefaultLayout.vue'),
       children: [
-        { path: '', name: 'home', component: () => import('@/views/Home.vue') },
+        // 首页 hideTabBar：首页自带分类入口和搜索，底部再挂 Tab 栏图标过多，保持简洁
+        { path: '', name: 'home', component: () => import('@/views/Home.vue'), meta: { hideTabBar: true } },
         { path: 'products-list', name: 'products', component: () => import('@/views/products/ProductList.vue'), meta: { hideHeader: true } },
         { path: 'category/:id', name: 'category', component: () => import('@/views/products/ProductList.vue'), meta: { hideHeader: true } },
         { path: 'search', name: 'search', component: () => import('@/views/Search.vue') },

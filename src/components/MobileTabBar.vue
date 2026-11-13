@@ -79,7 +79,7 @@ function go(tab) {
   position: fixed;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: var(--browser-ui-bottom, 0px);
   z-index: var(--z-header);
   display: none;
   height: calc(var(--tabbar-height) + var(--safe-bottom));

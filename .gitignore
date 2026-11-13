@@ -6,6 +6,7 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+dev.err
 
 node_modules
 .DS_Store
@@ -13,6 +14,16 @@ dist
 dist-ssr
 coverage
 *.local
+
+# 本地产物（构建备份 / 验证截图）
+dist-bak-*/
+.verify-shots/
+verify-round*/
+
+# 环境变量（不要提交）
+.env
+.env.*
+!.env.example
 
 # Editor directories and files
 .vscode/*
@@ -37,3 +48,9 @@ __screenshots__/
 
 # Vite
 *.timestamp-*-*.mjs
+
+# AI 工具 / 本地工作区
+.claude/
+.trae-html-share-packages/
+.workbuddy/
+

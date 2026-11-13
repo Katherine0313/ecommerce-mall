@@ -1,1 +1,0 @@
-import{t as e}from"./request-B0b-noVB.js";var t=t=>e.post(`/orders`,t),n=t=>e.get(`/orders/${t}`),r=(t,n)=>e.put(`/orders/${t}/pay`,n),i=t=>e.get(`/orders`,{params:{keyword:t}}),a=t=>e.put(`/orders/${t}/cancel`),o=t=>e.put(`/orders/${t}/finish`),s=t=>e.get(`/orders/${t}/logistics`);export{i as a,n as i,t as n,s as o,o as r,r as s,a as t};

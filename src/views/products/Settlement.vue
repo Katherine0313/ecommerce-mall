@@ -186,10 +186,31 @@ const selectedKeys = ref([])
 // 独立结算页：待结算的商品从路由 query 读（/checkout?ids=s123,p45）
 // ids 是购物车行身份（rowKey：多规格 s{skuId}，单规格 p{productId}），必须保留字符串原样，
 // 不能 Number() 转换 —— 带前缀的 key 会变 NaN 被过滤光，导致空 keys 被弹回购物车
-onMounted(() => {
+onMounted(async () => {
   const raw = typeof route.query.ids === 'string' ? route.query.ids : ''
-  keys.value = raw ? raw.split(',').filter(Boolean) : []
-  selectedKeys.value = [...keys.value]
+  const rawKeys = raw ? raw.split(',').filter(Boolean) : []
+  if (!rawKeys.length) {
+    ElMessage.warning('没有要结算的商品')
+    router.replace('/cart')
+    return
+  }
+
+  // 结算页可能被刷新 / 直接打开（手机上尤其常见），此时 store 里的购物车还没加载，
+  // 只靠购物车页的内存快照会拿到空列表 —— 这里自己拉一次，商品和金额才出得来
+  if (!cartStore.items.length) {
+    await cartStore.load()
+  }
+
+  // 兼容旧链接里直接传 productId 的情况（如详情页立即购买），统一转成行身份 rowKey
+  const resolved = cartStore.items
+    .filter(
+      (item) => rawKeys.includes(itemKey(item)) || rawKeys.includes(String(item.productId))
+    )
+    .map((item) => itemKey(item))
+
+  keys.value = resolved
+  selectedKeys.value = [...resolved]
+
   if (!keys.value.length) {
     ElMessage.warning('没有要结算的商品')
     router.replace('/cart')
@@ -784,7 +805,9 @@ async function handlePay() {
 
   /* 固定底栏会盖住页面末尾，给整页留出对应高度 */
   .settle-page {
-    padding-bottom: calc(var(--buybar-height) + var(--safe-bottom));
+    padding-bottom: calc(
+      var(--buybar-height) + var(--safe-bottom) + var(--browser-ui-bottom, 0px)
+    );
   }
 
   /* 结算卡里的按钮收进固定底栏，避免同一页出现两处提交入口 */
@@ -796,7 +819,7 @@ async function handlePay() {
     position: fixed;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: var(--browser-ui-bottom, 0px);
     z-index: var(--z-header);
     display: flex;
     align-items: center;

@@ -1,5 +1,5 @@
 <script setup>
-import {ref, computed, onMounted} from 'vue'
+import {ref, computed, onMounted, onBeforeUnmount, nextTick} from 'vue'
 import {useRouter} from 'vue-router'
 import {
   Iphone, Monitor, Cellphone, Headset, Watch, Camera, Box, House, Goods,
@@ -14,7 +14,125 @@ const router = useRouter()
 
 // 悬浮 AI 客服入口：仅首页展示，点击进全屏 AI 对话页（未登录由路由守卫带去登录并回跳）
 function goAiChat() {
+  // 如果刚刚完成了一次拖拽，吞掉这次 click（拖动不是点击）
+  if (suppressClick) {
+    suppressClick = false
+    return
+  }
   router.push('/ai-chat')
+}
+
+/* ===== 悬浮按钮拖拽（手机端固定 + 可拖动 + 松手吸附边界） ===== */
+const aiFloatStyle = ref({})       // 动态写入 left/top
+const isDragging = ref(false)
+let dragStartX = 0, dragStartY = 0
+let btnStartLeft = 0, btnStartTop = 0
+let dragMoved = false
+let savedSwipe = ''                // 记录按下前的 touch-action，拖动时禁用
+let suppressClick = false          // 拖动结束后抑制一次 click
+const EDGE_MARGIN = 12             // 吸附距边距离（px）
+const DRAG_THRESHOLD = 5           // 拖动超过多少 px 才算拖动（避免点击误触）
+let btnRect = null
+
+const floatRef = ref(null)
+
+function onDragStart(e) {
+  const evt = e.touches ? e.touches[0] : e
+  dragStartX = evt.clientX
+  dragStartY = evt.clientY
+  isDragging.value = true
+  dragMoved = false
+
+  const btn = floatRef.value
+  if (btn) {
+    btnRect = btn.getBoundingClientRect()
+    btnStartLeft = btnRect.left
+    btnStartTop = btnRect.top
+    savedSwipe = btn.style.touchAction || ''
+    btn.style.touchAction = 'none'
+  }
+
+  window.addEventListener('mousemove', onDragMove)
+  window.addEventListener('mouseup', onDragEnd)
+  window.addEventListener('touchmove', onDragMove, {passive: false})
+  window.addEventListener('touchend', onDragEnd)
+  window.addEventListener('touchcancel', onDragEnd)
+}
+
+function clamp(v, min, max) {
+  return Math.min(Math.max(v, min), max)
+}
+
+function onDragMove(e) {
+  if (!isDragging.value || !btnRect) return
+  if (e.cancelable) e.preventDefault()
+
+  const evt = e.touches ? e.touches[0] : e
+  const dx = evt.clientX - dragStartX
+  const dy = evt.clientY - dragStartY
+
+  if (!dragMoved && Math.abs(dx) < DRAG_THRESHOLD && Math.abs(dy) < DRAG_THRESHOLD) {
+    return
+  }
+  dragMoved = true
+
+  const maxLeft = window.innerWidth - btnRect.width - EDGE_MARGIN
+  const maxTop = window.innerHeight - btnRect.height - EDGE_MARGIN
+
+  const newLeft = clamp(btnStartLeft + dx, EDGE_MARGIN, maxLeft)
+  const newTop = clamp(btnStartTop + dy, EDGE_MARGIN, maxTop)
+
+  aiFloatStyle.value = {
+    left: newLeft + 'px',
+    top: newTop + 'px',
+    right: 'auto',
+    bottom: 'auto',
+  }
+}
+
+function onDragEnd() {
+  if (!isDragging.value) return
+  isDragging.value = false
+
+  const btn = floatRef.value
+  if (btn) btn.style.touchAction = savedSwipe
+
+  window.removeEventListener('mousemove', onDragMove)
+  window.removeEventListener('mouseup', onDragEnd)
+  window.removeEventListener('touchmove', onDragMove)
+  window.removeEventListener('touchend', onDragEnd)
+  window.removeEventListener('touchcancel', onDragEnd)
+
+  // 拖动距离不够：不算拖动，保持当前位置，不抑制 click。
+  // 注意不能清空 aiFloatStyle：手机端按钮靠 right/bottom 固定在右下角，
+  // 清空后会退回 static 位置，手指抬起时按钮已不在原地，合成 click 就点不到它了。
+  if (!dragMoved) {
+    suppressClick = false
+    return
+  }
+
+  // 吸附到最近的左右边界
+  const rect = btn.getBoundingClientRect()
+  const midX = window.innerWidth / 2
+  const snapLeft = rect.left + rect.width / 2 < midX
+      ? EDGE_MARGIN
+      : window.innerWidth - rect.width - EDGE_MARGIN
+
+  const snappedTop = clamp(rect.top, EDGE_MARGIN, window.innerHeight - rect.height - EDGE_MARGIN)
+
+  aiFloatStyle.value = {
+    left: snapLeft + 'px',
+    top: snappedTop + 'px',
+    right: 'auto',
+    bottom: 'auto',
+  }
+
+  // 标记：下一次 click 是拖动的尾巴，吞掉。
+  // 部分手机浏览器拖完不派发 click，定时清掉，避免吞掉下一次正常点击。
+  suppressClick = true
+  setTimeout(() => {
+    suppressClick = false
+  }, 350)
 }
 
 // 首页轮播图：优先用后台配置的 Banner（position=11）；
@@ -147,6 +265,31 @@ onMounted(async () => {
   }
 
   loading.value = false
+
+  // 手机端：初始化悬浮按钮到固定位置（右下角）
+  await nextTick()
+  const btn = floatRef.value
+  if (btn) {
+    const r = btn.getBoundingClientRect()
+    // 仅当当前是手机端（屏幕窄）时才写入固定定位
+    if (window.innerWidth <= 768) {
+      aiFloatStyle.value = {
+        right: EDGE_MARGIN + 'px',
+        bottom: '80px',  // 避开底部 Tab
+        top: 'auto',
+        left: 'auto',
+      }
+    }
+  }
+})
+
+// 离开页面时清理 window 上可能残留的事件监听
+onBeforeUnmount(() => {
+  window.removeEventListener('mousemove', onDragMove)
+  window.removeEventListener('mouseup', onDragEnd)
+  window.removeEventListener('touchmove', onDragMove)
+  window.removeEventListener('touchend', onDragEnd)
+  window.removeEventListener('touchcancel', onDragEnd)
 })
 </script>
 
@@ -245,8 +388,18 @@ onMounted(async () => {
         </div>
         <el-empty v-else description="暂无推荐商品" />
 
-        <!-- 首页专属悬浮 AI 客服入口：其它页面不挂 -->
-        <button type="button" class="ai-float" aria-label="AI 客服" @click="goAiChat">
+        <!-- 首页专属悬浮 AI 客服入口：其它页面不挂；手机端固定+可拖动 -->
+        <button
+            ref="floatRef"
+            type="button"
+            class="ai-float"
+            :class="{'is-dragging': isDragging}"
+            :style="aiFloatStyle"
+            aria-label="AI 客服"
+            @mousedown="onDragStart"
+            @touchstart="onDragStart"
+            @click="goAiChat"
+        >
           <img class="ai-float-avatar" :src="aiAvatar" alt="" />
           <span class="ai-float-text">AI 客服</span>
         </button>
@@ -595,13 +748,19 @@ onMounted(async () => {
 }
 
 @media (max-width: 768px) {
-  /* 悬浮按钮抬到底部 Tab 上方，避免被固定导航遮住 */
+  /* 悬浮按钮固定在视口上，不随页面滚动；可 JS 拖拽覆盖位置 */
   .ai-float {
-    position: absolute;
-    right: 20px;
-    top: -12px;
+    position: fixed !important;
+    z-index: 999;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
   }
 
+  .ai-float.is-dragging {
+    cursor: grabbing;
+    transition: none;
+  }
 
   .ai-float-avatar {
     width: 36px;

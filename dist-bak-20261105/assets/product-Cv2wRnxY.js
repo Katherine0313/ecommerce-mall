@@ -1,1 +1,0 @@
-import{t as e}from"./request-B0b-noVB.js";var t=(t={})=>e.get(`/products`,{params:t}),n=(t={})=>e.get(`/products/page`,{params:t}),r=t=>e.get(`/products/${t}`),i=()=>e.get(`/categories`),a=t=>e.get(`/products/${t}/tags`);export{t as a,a as i,r as n,n as r,i as t};

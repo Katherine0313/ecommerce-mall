@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { Plus, Delete, Promotion, Menu, Headset } from '@element-plus/icons-vue'
 import aiAvatar from '@/assets/ai-avatar.webp'
+import { getProfile } from '@/api/user.js'
 import {
   getAiConversations,
   getAiConversation,
@@ -17,12 +18,28 @@ import { formatPrice } from '@/utils/format'
 
 const router = useRouter()
 
+// ====================== 当前用户头像 ======================
+// 未登录用户或无头像时用站点 logo 兜底
+const defaultUserAvatar = '/image/zongjie.webp'
+const userAvatar = ref(defaultUserAvatar)
+loadUserAvatar()
+
+function loadUserAvatar() {
+  if (!getToken()) return
+  getProfile()
+    .then((profile) => {
+      if (profile?.avatar) userAvatar.value = profile.avatar
+    })
+    .catch(() => { /* 拉取失败用默认头像 */ })
+}
+
 const conversations = ref([])
 const activeId = ref(null)
 // 消息项：{ id?, type: 'user'|'assistant', content, products: [], streaming? }
 const messages = ref([])
 const input = ref('')
 const sending = ref(false)
+const handoffLoading = ref(false) // 点击「联系人工客服」卡片时的 loading
 const listVisible = ref(false) // 窄屏会话抽屉
 const msgListRef = ref(null)
 // 思考中的计时（秒）：首个 token 到达前显示「正在思考 Ns」
@@ -46,12 +63,8 @@ function stopThinkingTimer() {
 
 const QUICK_QUESTIONS = ['有什么热销商品', '怎么退换货', '帮我推荐礼物', '人工客服']
 
-// 触发人工客服卡片的关键词
-const HANDOFF_RE = /(人工客服|转人工|真人客服|找人工)/
-
 // 人工会话状态
 const humanMode = ref(false)
-const handoffLoading = ref(false)
 let humanTimer = null
 
 let abortController = null
@@ -151,21 +164,6 @@ async function send(text) {
     return
   }
 
-  // 命中「人工客服」等关键词：先弹出转人工卡片，点击后再进入人工会话
-  if (HANDOFF_RE.test(content)) {
-    input.value = ''
-    messages.value.push({ type: 'user', content, products: [] })
-    messages.value.push({
-      type: 'assistant',
-      content: '',
-      products: [],
-      handoffCard: true,
-      pendingText: content,
-    })
-    scrollToBottom()
-    return
-  }
-
   input.value = ''
   sending.value = true
   messages.value.push({ type: 'user', content, products: [] })
@@ -229,6 +227,16 @@ async function send(text) {
         }
         if (event.type === 'meta') {
           if (event.conversationId) activeId.value = event.conversationId
+          // 页面刷新/另一标签页已转人工时，后续消息走人工通道并轮询客服回复
+          if (event.humanMode) {
+            humanMode.value = true
+            startHumanPolling()
+          }
+        } else if (event.type === 'handoff_offer') {
+          // 后端识别到转人工诉求：只挂一张确认卡片，点卡片才真正切人工
+          if (event.conversationId) activeId.value = event.conversationId
+          assistant.handoffOffer = true
+          scrollToBottom()
         } else if (event.type === 'token') {
           // 首个 token 到达：结束「正在思考」并记下耗时
           if (assistant.thinking) {
@@ -302,18 +310,21 @@ async function sendHuman(content) {
   }
 }
 
-async function confirmHandoff(text) {
+// 点击卡片确认转人工：只切会话状态，不额外写用户消息
+async function confirmHandoff(msg) {
   if (handoffLoading.value) return
   handoffLoading.value = true
   try {
-    const res = await aiHandoff(activeId.value || undefined, text || '人工客服')
+    const res = await aiHandoff(activeId.value || undefined)
     if (res?.conversationId) activeId.value = res.conversationId
     humanMode.value = true
+    if (msg) msg.handoffOffer = false
     await refreshHuman()
     startHumanPolling()
     loadConversations()
+    ElMessage.success('已为你接入人工客服，请直接留言')
   } catch (e) {
-    ElMessage.error('转人工失败，请稍后重试')
+    ElMessage.error('转接失败，请稍后重试')
   } finally {
     handoffLoading.value = false
   }
@@ -451,23 +462,6 @@ onBeforeUnmount(() => {
             alt="AI 客服"
           />
           <div class="bubble-wrap">
-            <!-- 转人工卡片：点击后进入人工会话 -->
-            <div v-if="msg.handoffCard" class="handoff-card">
-              <div class="handoff-icon"><el-icon><Headset /></el-icon></div>
-              <div class="handoff-body">
-                <p class="handoff-title">需要人工客服协助吗？</p>
-                <p class="handoff-desc">AI 客服解决不了时，可以转接人工客服继续沟通</p>
-                <el-button
-                  type="primary"
-                  size="small"
-                  :loading="handoffLoading"
-                  @click="confirmHandoff(msg.pendingText)"
-                >
-                  联系人工客服
-                </el-button>
-              </div>
-            </div>
-            <template v-else>
             <div v-if="msg.thinkSeconds" class="think-done">已思考 {{ msg.thinkSeconds }} 秒</div>
             <div class="bubble">
               <span v-if="msg.thinking" class="thinking">
@@ -501,8 +495,31 @@ onBeforeUnmount(() => {
                 </div>
               </router-link>
             </div>
-            </template>
+            <!-- 转人工确认卡片：点击后才真正接入人工客服 -->
+            <div v-if="msg.handoffOffer" class="handoff-card">
+              <div class="hc-icon"><el-icon><Headset /></el-icon></div>
+              <div class="hc-main">
+                <p class="hc-title">需要人工客服协助？</p>
+                <p class="hc-desc">点击接入，客服看到留言后会尽快回复</p>
+              </div>
+              <el-button
+                type="primary"
+                size="small"
+                class="hc-btn"
+                :loading="handoffLoading"
+                @click="confirmHandoff(msg)"
+              >
+                联系人工客服
+              </el-button>
+            </div>
           </div>
+          <!-- 用户头像：气泡右侧 -->
+          <img
+            v-if="msg.type === 'user'"
+            class="msg-avatar msg-avatar-user"
+            :src="userAvatar"
+            alt="我"
+          />
         </div>
       </div>
 
@@ -684,50 +701,6 @@ onBeforeUnmount(() => {
   border-bottom: 1px solid var(--border-light);
 }
 
-/* 转人工卡片 */
-.handoff-card {
-  display: flex;
-  gap: var(--space-sm);
-  width: clamp(280px, 100%, 360px);
-  padding: var(--space-md);
-  background: var(--bg-card);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-lg);
-  border-top-left-radius: var(--radius-sm);
-}
-
-.handoff-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: var(--color-primary-bg);
-  color: var(--color-primary);
-  font-size: 20px;
-}
-
-.handoff-body {
-  flex: 1;
-  min-width: 0;
-}
-
-.handoff-title {
-  margin: 0;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.handoff-desc {
-  margin: 4px 0 var(--space-sm);
-  font-size: 12px;
-  line-height: 1.5;
-  color: var(--text-secondary);
-}
-
 .list-toggle {
   display: none;
 }
@@ -810,8 +783,8 @@ onBeforeUnmount(() => {
 
 .msg-avatar {
   display: block;
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   flex-shrink: 0;
   border-radius: 50%;
   object-fit: cover;
@@ -933,6 +906,53 @@ onBeforeUnmount(() => {
   margin-top: var(--space-sm);
 }
 
+/* 转人工确认卡片 */
+.handoff-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-primary-bg);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+}
+
+.hc-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--bg-card);
+  color: var(--color-primary);
+  font-size: 18px;
+}
+
+.hc-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.hc-title {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.hc-desc {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.hc-btn {
+  flex-shrink: 0;
+}
+
 .product-card {
   display: flex;
   gap: var(--space-sm);
@@ -1039,7 +1059,11 @@ onBeforeUnmount(() => {
 @media (max-width: 768px) {
   .ai-chat {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    /* 底部让出手机浏览器自带工具栏，否则输入框会被其遮住 */
+    bottom: var(--browser-ui-bottom, 0px);
     z-index: var(--z-modal);
     height: auto;
     min-height: 0;

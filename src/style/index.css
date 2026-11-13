@@ -1,0 +1,391 @@
+/* =========================================================
+   杰米商城 全局通用样式
+   1. 设计变量  2. 基础重置  3. 通用工具类  4. 响应式
+   ========================================================= */
+
+/* ---------- 1. 设计变量 ---------- */
+:root {
+  /* 主题色（沿用小程序 #FF6700） */
+  --color-primary: #ff6700;
+  --color-primary-dark: #cc5200;
+  --color-primary-light: #ff8a33;
+  --color-primary-bg: #fff4ec;
+
+  /* 文字 */
+  --text-primary: #1f2329;
+  --text-regular: #4e5969;
+  --text-secondary: #86909c;
+  --text-placeholder: #c9cdd4;
+
+  /* 背景与边框 */
+  --bg-page: #f5f5f5;
+  --bg-card: #ffffff;
+  --bg-hover: #f7f8fa;
+  --border-color: #e5e6eb;
+  --border-light: #f0f1f3;
+
+  /* 圆角与阴影 */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.08);
+
+  /* 间距 */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+
+  /* 布局 */
+  --container-width: 1200px;
+  --header-height: 80px;
+
+  /* 安全区（iPhone 刘海屏 / 底部横条） */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+
+  /* 手机浏览器底部工具栏的补偿值，必须固定为 0。
+     position:fixed 本身就贴着当前可视视口（Safari/Chrome 的工具栏在视口之外），
+     不需要再手动上移；一旦用 calc(100vh - 100dvh) 动态计算，
+     滚动时工具栏收起/展开会让这个值在 0~60px 之间跳变，
+     底部固定栏就会跟着上下漂移（看起来像「跟着页面滚动」）。 */
+  --browser-ui-bottom: 0px;
+
+  /* 移动端底部导航高度 */
+  --tabbar-height: 56px;
+
+  /* 移动端底部固定购买栏高度（8 上内边距 + 44 按钮 + 8 下内边距 + 1 边框）
+     布局层要按这个高度给页面留白，否则 footer 会被购买栏压住 */
+  --buybar-height: 61px;
+
+  /* 层级 */
+  --z-header: 100;
+  --z-dropdown: 200;
+  --z-modal: 1000;
+
+  /* Element Plus 主色覆盖 */
+  --el-color-primary: var(--color-primary);
+  --el-color-primary-light-3: var(--color-primary-light);
+  --el-color-primary-light-5: #ffa966;
+  --el-color-primary-light-7: #ffc899;
+  --el-color-primary-light-8: #ffd8b3;
+  --el-color-primary-light-9: var(--color-primary-bg);
+  --el-color-primary-dark-2: var(--color-primary-dark);
+}
+
+/* ---------- 1.1 个人中心专用变量（只追加，不改上面的品牌变量） ---------- */
+:root {
+  /* 语义状态色：订单/售后统一使用 */
+  --status-pay: #ff6700;
+  --status-ship: #3a6ff8;
+  --status-receive: #12a07a;
+  --status-done: #86909c;
+  --status-cancel: #b3bac5;
+  --status-aftersale: #f5222d;
+
+  /* 状态浅底：图标圆底、标签底色 */
+  --status-pay-bg: #fff4ec;
+  --status-ship-bg: #eef3ff;
+  --status-receive-bg: #e8f7f1;
+  --status-done-bg: #f2f3f5;
+  --status-cancel-bg: #f7f8fa;
+  --status-aftersale-bg: #fff1f0;
+
+  /* 个人中心布局与质感 */
+  --user-side-width: 196px;
+  --bg-soft: #fafbfc;
+  --border-strong: #e5e6eb;
+  --radius-card: 10px;
+  --shadow-card: 0 1px 2px rgba(31, 35, 41, 0.04), 0 8px 24px rgba(31, 35, 41, 0.06);
+  --font-num: 'DIN Alternate', 'SF Pro Display', 'Inter', system-ui, sans-serif;
+}
+
+/* ---------- 2. 基础重置 ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-primary);
+  /* 页面底色：全站纯白（原 #f5f5f5 灰底） */
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+/* ---------- 图片放大预览 ---------- */
+/* Element Plus 的图片查看器默认让大图铺满整个屏幕（全局 img 的 max-width:100% 作用在查看器里），
+   这里限制最大宽度 800px 并居中显示，不占满屏幕。
+   放大器是 teleport 到 body 的，所以必须写在全局样式里，scoped 样式管不到。 */
+.el-image-viewer__img {
+  max-width: 800px;
+  max-height: 80vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+::selection {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ---------- 3. 通用工具类 ---------- */
+
+/* 页面容器：PC 最大 1200px，窄屏自动留边 */
+.container {
+  width: min(var(--container-width), calc(100% - 32px));
+  margin: 0 auto;
+}
+
+/* Flex 布局 */
+.flex {
+  display: flex;
+}
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.flex-1 {
+  flex: 1;
+  min-width: 0;
+}
+
+/* 文字 */
+.text-secondary {
+  color: var(--text-secondary);
+}
+.text-muted {
+  color: var(--text-placeholder);
+}
+.text-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.text-ellipsis-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* 价格 */
+.price {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+.price-original {
+  color: var(--text-secondary);
+  font-size: 12px;
+  text-decoration: line-through;
+}
+
+/* 卡片 */
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+}
+
+/* 区块标题 */
+.section-title {
+  margin: var(--space-lg) 0 var(--space-md);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* 商品网格：auto-fill 自适应列数 */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-md);
+}
+
+/* ---------- 4. 响应式 ---------- */
+/* 断点约定：mobile ≤768px / tablet 769~1024px / desktop >1024px
+   新增媒体查询只允许用这三档，档内可再细分（如 480px）但必须是移动档内 */
+
+@media (max-width: 768px) {
+  .container {
+    width: calc(100% - 24px);
+  }
+
+  .section-title {
+    margin: var(--space-md) 0 var(--space-sm);
+    font-size: 18px;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  /* 通用横向滚动容器：比强行换行更省空间，移动端列表标准做法 */
+  .h-scroll {
+    display: flex;
+    gap: var(--space-sm);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .h-scroll > * {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+
+  /* 表单：标签与内容换行，不再并排（解决 label-width 110px 挤压输入框） */
+  .el-form-item {
+    display: block;
+  }
+  .el-form-item__label {
+    width: auto !important;
+    text-align: left;
+    padding-bottom: 4px;
+    line-height: 1.4;
+  }
+  .el-form-item__content {
+    margin-left: 0 !important;
+  }
+
+  /* 弹窗：固定像素宽改为按屏宽百分比 */
+  .el-dialog {
+    width: calc(100% - 24px) !important;
+    margin-top: 10vh !important;
+  }
+  .el-dialog__body {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  /* 抽屉：窄屏全屏升起（汉堡菜单除外，它用面板式宽度） */
+  .el-drawer.rtl,
+  .el-drawer.ltr:not(.menu-drawer-el) {
+    width: 100% !important;
+  }
+
+  /* 触控目标 ≥44px（移动端最小可点区域） */
+  .el-button,
+  .mobile-tabbar .tab-item,
+  .el-input__wrapper,
+  .el-textarea__inner {
+    min-height: 44px;
+  }
+
+  /* 输入框内部的文字垂直居中：min-height 撑高后默认还是偏上 */
+  .el-input__inner {
+    height: auto;
+    line-height: 1.4;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  /* 输入框字号 ≥16px，否则 iOS Safari 自动放大导致布局错乱 */
+  .el-input__inner,
+  .el-textarea__inner,
+  .el-select__wrapper {
+    font-size: 16px;
+  }
+
+  /* 描述列表：窄屏两列挤在一起，把表格改成块级堆叠（标签在上、内容在下） */
+  .el-descriptions__body .el-descriptions__table,
+  .el-descriptions__body tbody,
+  .el-descriptions__body tr,
+  .el-descriptions__body td {
+    display: block;
+    width: 100%;
+  }
+
+  /* 抽屉内容留出安全区 */
+  .el-drawer__body {
+    padding-bottom: calc(16px + var(--safe-bottom));
+  }
+
+  /* 弹窗底部按钮：窄屏竖排堆叠，避免按钮被挤扁 */
+  .el-dialog__footer .el-button {
+    flex: 1;
+    min-width: 0;
+  }
+}

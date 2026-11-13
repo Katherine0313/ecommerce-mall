@@ -497,7 +497,9 @@ onBeforeUnmount(() => clearInterval(timer))
 
   /* 固定底栏会盖住页面末尾，给整页留出对应高度 */
   .pay-page {
-    padding-bottom: calc(var(--buybar-height) + var(--safe-bottom));
+    padding-bottom: calc(
+      var(--buybar-height) + var(--safe-bottom) + var(--browser-ui-bottom, 0px)
+    );
   }
 
   /* 底部操作栏固定：支付倒计时与按钮始终可见 */
@@ -505,7 +507,7 @@ onBeforeUnmount(() => clearInterval(timer))
     position: fixed;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: var(--browser-ui-bottom, 0px);
     z-index: var(--z-header);
     margin: 0;
     padding: 8px calc(12px + var(--safe-right)) calc(8px + var(--safe-bottom))

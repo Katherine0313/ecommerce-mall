@@ -54,6 +54,14 @@ const marketPrice = computed(() => {
   if (sku && sku.marketPrice != null) return Number(sku.marketPrice)
   return Number(product.value?.marketPrice) || 0
 })
+
+// 图片懒加载 + 全宽显示（body 已清成只剩 <img>，不需要剥参数/段落）
+function beautifyBody(html) {
+  if (!html) return html
+  return html
+    .replace(/<img\b/gi, '<img loading="lazy" ')
+    .replace(/style=""/g, 'style="width:100%;display:block;"')
+}
 const currentStock = computed(() => {
   const sku = selectedSku.value
   if (sku && sku.stock != null) return Number(sku.stock)
@@ -203,8 +211,9 @@ async function load(id) {
     loadSubsidy(id)
     // 详情富文本里常嵌多张原图，全量加载会卡住；
     // 给每个 <img> 补 loading="lazy"，浏览器原生懒加载只拉可视区图片
+    // 同时做一层电商风格美化：卖点标题加粗居中、副标题灰色、参数行拆两列
     if (data?.body) {
-      data.body = data.body.replace(/<img\b/gi, '<img loading="lazy" ')
+      data.body = beautifyBody(data.body)
     }
     // 从登录页跳回来的：把登录前记下的加购操作补上
     resumePendingAddCart(id)
@@ -316,7 +325,14 @@ function buyNow() {
   if (!canBuy()) return
   addCurrentToCart()
     .then(() => {
-      router.push({ path: '/checkout', query: { ids: String(product.value.id) } })
+      // 结算页按购物车行身份匹配：多规格 s{skuId}，单规格 p{productId}
+      router.push({
+        path: '/checkout',
+        query: {
+          ids:
+            selectedSku.value?.id != null ? `s${selectedSku.value.id}` : `p${product.value.id}`,
+        },
+      })
     })
     .catch((e) => {
       ElMessage.error(e?.message || '下单失败')
@@ -1134,11 +1150,8 @@ watch(() => route.params.id, load, { immediate: true })
 .detail-body :deep(img) {
   max-width: 100%;
   height: auto;
-}
-
-.detail-body :deep(p) {
-  line-height: 1.8;
-  color: var(--text-regular);
+  display: block;
+  margin: 0 auto;
 }
 
 @media (max-width: 1024px) {
@@ -1283,12 +1296,12 @@ watch(() => route.params.id, load, { immediate: true })
     display: none;
   }
 
-  /* 底部固定购买栏 */
+  /* 底部固定购买栏：bottom 避开手机浏览器自带工具栏，滚动时不被其遮挡 */
   .mobile-buy-bar {
     position: fixed;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: var(--browser-ui-bottom, 0px);
     z-index: var(--z-header);
     display: flex;
     gap: 10px;

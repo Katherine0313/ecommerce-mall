@@ -676,12 +676,16 @@ function searchByKeyword(word) {
      注意必须留给 .layout 而不是 .main —— footer 在 main 之外，
      只给 main 加 padding 的话 footer 会被固定条盖住（备案链接点不到）。 */
   .layout--pad-bottom {
-    padding-bottom: calc(var(--tabbar-height) + var(--safe-bottom));
+    padding-bottom: calc(
+      var(--tabbar-height) + var(--safe-bottom) + var(--browser-ui-bottom, 0px)
+    );
   }
 
   /* 详情页：底部是固定购买栏（比 Tab 高 5px），按购买栏实际高度留白 */
   .layout--pad-buybar {
-    padding-bottom: calc(var(--buybar-height) + var(--safe-bottom));
+    padding-bottom: calc(
+      var(--buybar-height) + var(--safe-bottom) + var(--browser-ui-bottom, 0px)
+    );
   }
 
   /* 顶部工具条与头部避让刘海屏 */

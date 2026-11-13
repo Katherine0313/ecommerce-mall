@@ -1,1 +1,0 @@
-import{O as e,Ot as t}from"./useApi-CUWMwLLw-MM4W1es5.js";import{i as n,n as r,o as i,r as a}from"./index-D_RA5sV8.js";var o=i(`user`,()=>{let i=t(r()||``),o=e(()=>!!i.value);function s(e){i.value=e||``,i.value?n(i.value):a()}function c(){s(``)}return{token:i,isLoggedIn:o,setToken:s,logout:c}});export{o as t};
